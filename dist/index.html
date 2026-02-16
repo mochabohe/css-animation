@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Animation Demo</title>
+    <script type="module" crossorigin src="./assets/index-Bq_0n7C4.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Bg-APxyd.css">
+  </head>
+  <body>
+    <div class="layout-wrapper">
+      <aside class="sidebar" aria-label="控制面板">
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">分类</h3>
+          <div class="filter-bar" role="toolbar" aria-label="动画分类筛选">
+            <button class="filter-btn is-active" type="button" data-filter="all" aria-pressed="true">全部</button>
+            <button class="filter-btn" type="button" data-filter="loading" aria-pressed="false">加载反馈</button>
+            <button class="filter-btn" type="button" data-filter="motion" aria-pressed="false">运动效果</button>
+            <button class="filter-btn" type="button" data-filter="interactive" aria-pressed="false">交互按钮</button>
+            <button class="filter-btn" type="button" data-filter="transform" aria-pressed="false">3D 变换</button>
+            <button class="filter-btn" type="button" data-filter="text" aria-pressed="false">文字特效</button>
+            <button class="filter-btn" type="button" data-filter="background" aria-pressed="false">背景氛围</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">主题色</h3>
+          <div class="theme-selector">
+            <button class="theme-btn is-active" type="button" data-theme="cyan" style="background: #2cb9c5;" aria-label="青色主题"></button>
+            <button class="theme-btn" type="button" data-theme="purple" style="background: #9333ea;" aria-label="紫色主题"></button>
+            <button class="theme-btn" type="button" data-theme="orange" style="background: #f97316;" aria-label="橙色主题"></button>
+            <button class="theme-btn" type="button" data-theme="green" style="background: #10b981;" aria-label="绿色主题"></button>
+            <button class="theme-btn" type="button" data-theme="pink" style="background: #ec4899;" aria-label="粉色主题"></button>
+            <button class="theme-btn" type="button" data-theme="blue" style="background: #3b82f6;" aria-label="蓝色主题"></button>
+            <button class="theme-btn" type="button" data-theme="red" style="background: #ef4444;" aria-label="红色主题"></button>
+            <button class="theme-btn" type="button" data-theme="yellow" style="background: #eab308;" aria-label="黄色主题"></button>
+            <button class="theme-btn" type="button" data-theme="indigo" style="background: #6366f1;" aria-label="靛蓝主题"></button>
+            <label class="custom-color-wrapper" aria-label="自定义颜色">
+              <input type="color" id="customColor" class="custom-color-input" value="#2cb9c5" />
+              <span class="custom-color-btn">自定义</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">搜索</h3>
+          <input id="searchInput" type="search" class="sidebar-search" placeholder="搜索动画..." />
+        </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">选项</h3>
+          <div class="sidebar-toggles">
+            <div class="sidebar-toggle-item">
+              <span>低动效预览</span>
+              <button id="motionToggle" class="toggle-btn" type="button" aria-pressed="false">关闭</button>
+            </div>
+            <div class="sidebar-toggle-item">
+              <span>工程信息</span>
+              <button id="metaToggle" class="toggle-btn" type="button" aria-pressed="true">开启</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="page">
+        <section class="grid" id="animationGrid" aria-live="polite">
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>加载脉冲</h2>
+          <div class="loader" aria-label="加载动画"></div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>跳动圆点</h2>
+          <div class="dots-loader" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>频谱条形</h2>
+          <div class="bars-loader" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>双环旋转</h2>
+          <div class="ring-loader" aria-label="双环加载动画"></div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>骨架屏闪光</h2>
+          <div class="skeleton" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>进度滑条</h2>
+          <div class="progress-loop" aria-hidden="true">
+            <div class="progress-fill"></div>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>弹跳小球</h2>
+          <div class="ball-stage" aria-hidden="true">
+            <div class="ball"></div>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>摆动钟锤</h2>
+          <div class="pendulum" aria-hidden="true">
+            <div class="pendulum-line"></div>
+            <div class="pendulum-bob"></div>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>漂浮气泡</h2>
+          <div class="float-stage" aria-hidden="true">
+            <div class="float-orb"></div>
+          </div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>波浪位移</h2>
+          <div class="wave-track" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>轨道环绕</h2>
+          <div class="orbit" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>心跳脉冲</h2>
+          <div class="heart" aria-hidden="true"></div>
+        </article>
+
+        <article class="card" data-category="interactive">
+          <span class="card-tag">交互按钮</span>
+          <h2>渐变流动</h2>
+          <button class="cta">Hover Me</button>
+        </article>
+
+        <article class="card" data-category="interactive">
+          <span class="card-tag">交互按钮</span>
+          <h2>霓虹发光</h2>
+          <button class="cta cta-glow" type="button">Neon Button</button>
+        </article>
+
+        <article class="card" data-category="interactive">
+          <span class="card-tag">交互按钮</span>
+          <h2>下划线滑入</h2>
+          <button class="link-btn" type="button">悬停查看效果</button>
+        </article>
+
+        <article class="card" data-category="interactive">
+          <span class="card-tag">交互按钮</span>
+          <h2>呼吸图标</h2>
+          <button class="icon-btn" type="button">
+            <span class="icon-dot"></span>
+            通知按钮
+          </button>
+        </article>
+
+        <article class="card" data-category="interactive">
+          <span class="card-tag">交互按钮</span>
+          <h2>波纹点击</h2>
+          <button class="ripple-btn" type="button">点击水波</button>
+        </article>
+
+        <article class="card" data-category="interactive">
+          <span class="card-tag">交互按钮</span>
+          <h2>磁吸悬停</h2>
+          <button class="magnet-btn" type="button">Magnet Hover</button>
+        </article>
+
+        <article class="card" data-category="transform">
+          <span class="card-tag">3D 变换</span>
+          <h2>翻转卡片</h2>
+          <div class="flip-wrap" aria-label="翻转卡片">
+            <div class="flip-card">
+              <div class="face front">前</div>
+              <div class="face back">后</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="transform">
+          <span class="card-tag">3D 变换</span>
+          <h2>旋转立方体</h2>
+          <div class="cube-wrap" aria-hidden="true">
+            <div class="cube">
+              <div class="cube-face cube-front">1</div>
+              <div class="cube-face cube-back">2</div>
+              <div class="cube-face cube-left">3</div>
+              <div class="cube-face cube-right">4</div>
+            </div>
+          </div>
+        </article>
+
+        <article class="card" data-category="transform">
+          <span class="card-tag">3D 变换</span>
+          <h2>倾斜面板</h2>
+          <div class="tilt-panel" aria-hidden="true">3D TILT</div>
+        </article>
+
+        <article class="card" data-category="transform">
+          <span class="card-tag">3D 变换</span>
+          <h2>折页翻开</h2>
+          <div class="fold-wrap" aria-hidden="true">
+            <div class="fold-page"></div>
+          </div>
+        </article>
+
+        <article class="card" data-category="transform">
+          <span class="card-tag">3D 变换</span>
+          <h2>叠层翻牌</h2>
+          <div class="stack-wrap" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="transform">
+          <span class="card-tag">3D 变换</span>
+          <h2>棱柱旋转</h2>
+          <div class="prism" aria-hidden="true"></div>
+        </article>
+
+        <article class="card" data-category="text">
+          <span class="card-tag">文字特效</span>
+          <h2>故障闪烁</h2>
+          <p class="fx-text glitch" data-text="GLITCH">GLITCH</p>
+        </article>
+
+        <article class="card" data-category="text">
+          <span class="card-tag">文字特效</span>
+          <h2>打字机</h2>
+          <p class="fx-text typing">Typewriter Effect</p>
+        </article>
+
+        <article class="card" data-category="text">
+          <span class="card-tag">文字特效</span>
+          <h2>波浪字符</h2>
+          <p class="fx-text wave-text" aria-label="WAVE">
+            <span>W</span><span>A</span><span>V</span><span>E</span>
+          </p>
+        </article>
+
+        <article class="card" data-category="text">
+          <span class="card-tag">文字特效</span>
+          <h2>渐变流光字</h2>
+          <p class="fx-text gradient-text">SHINE TEXT</p>
+        </article>
+
+        <article class="card" data-category="background">
+          <span class="card-tag">背景氛围</span>
+          <h2>极光流动</h2>
+          <div class="bg-panel aurora" aria-hidden="true"></div>
+        </article>
+
+        <article class="card" data-category="background">
+          <span class="card-tag">背景氛围</span>
+          <h2>星点闪烁</h2>
+          <div class="bg-panel stars" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="background">
+          <span class="card-tag">背景氛围</span>
+          <h2>雷达扫描</h2>
+          <div class="bg-panel radar" aria-hidden="true"></div>
+        </article>
+
+        <article class="card" data-category="background">
+          <span class="card-tag">背景氛围</span>
+          <h2>网格扫光</h2>
+          <div class="bg-panel grid-scan" aria-hidden="true"></div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>Token 流式生成</h2>
+          <div class="ai-token-stream" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>向量检索命中</h2>
+          <div class="ai-vector-hit" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>数据管道吞吐</h2>
+          <div class="ai-pipeline" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>模型置信度分布</h2>
+          <div class="ai-confidence" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>异常告警脉冲</h2>
+          <div class="ai-anomaly" aria-hidden="true">
+            <span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="motion">
+          <span class="card-tag">运动效果</span>
+          <h2>集群健康热力</h2>
+          <div class="ai-cluster" aria-hidden="true">
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+            <span></span><span></span><span></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="loading">
+          <span class="card-tag">加载反馈</span>
+          <h2>AI思考-三点轨道</h2>
+          <div class="ai-loading-dots" aria-hidden="true">
+            <span class="ai-dot"></span>
+            <span class="ai-dot"></span>
+            <span class="ai-dot"></span>
+          </div>
+        </article>
+
+        <article class="card" data-category="text">
+          <span class="card-tag">文字特效</span>
+          <h2>AI深思流光字</h2>
+          <p class="fx-text thinking-shimmer">正在深思...</p>
+        </article>
+
+      </section>
+    </main>
+    </div>
+  </body>
+</html>
