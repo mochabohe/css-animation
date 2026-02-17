@@ -24,16 +24,24 @@ export const cssVarFallback = {
 };
 
 export function normalizeCssVariables(cssText) {
+  // 从当前文档获取实际生效的 CSS 变量值（支持主题切换和自定义颜色）
+  const computedStyle = getComputedStyle(document.documentElement);
+  const currentValues = {};
+  for (const [varName, defaultValue] of Object.entries(cssVarFallback)) {
+    const computed = computedStyle.getPropertyValue(varName).trim();
+    currentValues[varName] = computed || defaultValue;
+  }
+
   // 先替换 var(--name) 格式
   let result = cssText.replace(/var\((--[a-z0-9-]+)(?:\s*,\s*([^)]+))?\)/gi, (_, name, fallback) => {
-    if (cssVarFallback[name]) return cssVarFallback[name];
+    if (currentValues[name]) return currentValues[name];
     if (fallback) return fallback.trim();
     return name;
   });
 
   // 再替换裸露的 --name 格式（例如在 rgba() 中直接使用的）
   result = result.replace(/(--[a-z0-9-]+)/gi, (match) => {
-    if (cssVarFallback[match]) return cssVarFallback[match];
+    if (currentValues[match]) return currentValues[match];
     return match;
   });
 

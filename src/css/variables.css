@@ -1,0 +1,47 @@
+:root {
+  color-scheme: dark;
+  --bg: #070b14;
+  --bg-soft: #10182a;
+  --text: #e9f1ff;
+  --muted: #9fb2d3;
+  --accent: #2cb9c5;
+  --accent-2: #1f8f98;
+  --accent-soft: #7be2e8;
+  --accent-deep: #15747c;
+
+  /* RGB values for alpha transparency */
+  --accent-rgb: 44, 185, 197;
+  --accent-2-rgb: 31, 143, 152;
+  --accent-soft-rgb: 123, 226, 232;
+  --accent-deep-rgb: 21, 116, 124;
+
+  /* Speed multiplier (default: 1x) */
+  --speed-multiplier: 1;
+
+  /* Motion tokens (global) */
+  --motion-linear: linear;
+  --motion-ease-standard: ease-in-out;
+  --motion-ease-snappy: cubic-bezier(0.42, 0, 0.58, 1);
+  --motion-ease-out: ease-out;
+
+  --motion-duration-xs: calc(0.9s / var(--speed-multiplier));
+  --motion-duration-sm: calc(1.1s / var(--speed-multiplier));
+  --motion-duration-md: calc(1.4s / var(--speed-multiplier));
+  --motion-duration-lg: calc(2.2s / var(--speed-multiplier));
+  --motion-duration-xl: calc(3.2s / var(--speed-multiplier));
+  --motion-duration-xxl: calc(5s / var(--speed-multiplier));
+
+  /* Category tokens */
+  --motion-loading-duration: var(--motion-duration-sm);
+  --motion-loading-easing: var(--motion-ease-standard);
+  --motion-emphasis-duration: var(--motion-duration-md);
+  --motion-emphasis-easing: var(--motion-ease-standard);
+  --motion-interactive-duration: var(--motion-duration-md);
+  --motion-interactive-easing: var(--motion-ease-out);
+  --motion-transform-duration: var(--motion-duration-lg);
+  --motion-transform-easing: var(--motion-ease-standard);
+  --motion-typography-duration: var(--motion-duration-lg);
+  --motion-typography-easing: var(--motion-ease-standard);
+  --motion-background-duration: var(--motion-duration-xxl);
+  --motion-background-easing: var(--motion-ease-standard);
+}

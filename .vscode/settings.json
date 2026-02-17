@@ -1,0 +1,19 @@
+{
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "始终使用中文。"
+    },
+    {
+      "text": "只输出一行提交标题，不要正文。"
+    },
+    {
+      "text": "控制在 12~20 个汉字内。"
+    },
+    {
+      "text": "使用格式：type: 描述；type 仅可为 feat/fix/refactor/docs/chore。"
+    },
+    {
+      "text": "禁止项目符号、解释、换行。"
+    }
+  ]
+}
