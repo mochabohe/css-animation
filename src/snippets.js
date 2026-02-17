@@ -774,6 +774,9 @@ export const snippetsByTitle = {
 }
 .ai-dot {
   position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
   background-color: var(--accent);
   animation: dotOrbitStep 1.5s infinite ease-in-out;
 }
@@ -903,4 +906,4 @@ export const snippetsByTitle = {
 .data-waveform span:nth-child(9) { height: 38px; animation-delay: 0.8s; }
 .data-waveform span:nth-child(10) { height: 22px; animation-delay: 0.9s; }`,
 };
-
+
