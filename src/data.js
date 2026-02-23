@@ -1,7 +1,7 @@
 export const categoryInsights = {
+  interactive: { scenario: "按钮反馈 / 引导操作", token: "motion.interactive" },
   loading: { scenario: "异步请求 / 首屏加载", token: "motion.loading" },
   motion: { scenario: "状态变化 / 数据强调", token: "motion.emphasis" },
-  interactive: { scenario: "按钮反馈 / 引导操作", token: "motion.interactive" },
   transform: { scenario: "空间过渡 / 卡片转场", token: "motion.transform" },
   text: { scenario: "品牌标题 / 信息强调", token: "motion.typography" },
   background: { scenario: "页面氛围 / 空状态", token: "motion.background" },
@@ -10,6 +10,92 @@ export const categoryInsights = {
 
 // 动画参数配置（支持实时调整）
 export const animationParams = {
+  // ========== 交互按钮类 ==========
+  边框流光: {
+    duration: { label: "流转时长", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "borderRotate" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "borderRotate" },
+  },
+  渐变流动: {
+    duration: { label: "流动时长", type: "range", min: 2, max: 10, step: 0.5, default: 5, unit: "s", target: "gradientShift" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "gradientShift" },
+  },
+  霓虹发光: {
+    gradientDuration: { label: "流动时长", type: "range", min: 2, max: 10, step: 0.5, default: 5, unit: "s", target: "gradientShift" },
+    glowDuration: { label: "发光时长", type: "range", min: 1, max: 5, step: 0.1, default: 1.7, unit: "s", target: "glowPulse" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "glowPulse" },
+  },
+  呼吸图标: {
+    duration: { label: "呼吸时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.4, unit: "s", target: "dotBreath" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "dotBreath" },
+  },
+  波纹点击: {
+    duration: { label: "波纹时长", type: "range", min: 0.5, max: 2, step: 0.1, default: 0.9, unit: "s", target: "rippleWave" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "rippleWave" },
+  },
+  点赞心跳: {
+    duration: { label: "心跳时长", type: "range", min: 0.3, max: 1.5, step: 0.1, default: 0.6, unit: "s", target: "likeHeart" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "likeHeart" },
+  },
+  开关切换: {
+    duration: { label: "切换时长", type: "range", min: 0.1, max: 0.8, step: 0.05, default: 0.3, unit: "s", target: "transition" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "transition" },
+  },
+  淡入淡出: {
+    duration: { label: "动画时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "fadeInOut" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "fadeInOut" },
+  },
+  消息滑入: {
+    duration: { label: "滑入时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "toastSlide" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "toastSlide" },
+  },
+  按钮加载中: {
+    duration: { label: "旋转时长", type: "range", min: 0.4, max: 2, step: 0.1, default: 0.8, unit: "s", target: "buttonSpinner" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "buttonSpinner" },
+  },
+
+  摇晃铃铛: {
+    duration: { label: "摇晃时长", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "bellShake" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "bellShake" },
+  },
+  悬浮光晕卡: {},
+  动态复选框: {},
+  悬浮输入框: {},
+  详细信息折叠: {
+    duration: { label: "展开时长", type: "range", min: 0.1, max: 2, step: 0.1, default: 0.4, unit: "s", target: "slideDown" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "slideDown" },
+  },
+  头像波纹: {
+    duration: { label: "波纹周期", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "pulseRipple" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.42, 0, 0.58, 1)"], default: "cubic-bezier(0.42, 0, 0.58, 1)", target: "pulseRipple" },
+  },
+  霓虹闪烁字: {
+    duration: { label: "闪烁周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "neonFlicker" },
+    timing: { label: "缓动方式", type: "select", options: ["step-start", "step-end", "linear"], default: "step-start", target: "neonFlicker" },
+  },
+
+
+  // ========== 3D 变换类 ==========
+  翻转卡片: {
+    duration: { label: "翻转时长", type: "range", min: 1, max: 6, step: 0.2, default: 3.2, unit: "s", target: "flip" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "flip" },
+  },
+  旋转立方体: {
+    duration: { label: "旋转时长", type: "range", min: 2, max: 8, step: 0.5, default: 4, unit: "s", target: "cubeSpin" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "cubeSpin" },
+  },
+  倾斜面板: {
+    duration: { label: "倾斜时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.8, unit: "s", target: "tiltLoop" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "tiltLoop" },
+  },
+  折页翻开: {
+    duration: { label: "翻开时长", type: "range", min: 0.5, max: 4, step: 0.2, default: 2.2, unit: "s", target: "foldOpen" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "foldOpen" },
+  },
+  轨道卫星: {
+    duration: { label: "公转周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "orbitSpin" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease-in", "ease-out"], default: "linear", target: "orbitSpin" },
+  },
+
   // ========== 加载反馈类 ==========
   加载脉冲: {
     duration: { label: "旋转时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1, unit: "s", target: "spin" },
@@ -58,91 +144,6 @@ export const animationParams = {
   心跳脉冲: {
     duration: { label: "心跳时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.2, unit: "s", target: "heartbeat" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "heartbeat" },
-  },
-
-  // ========== 交互按钮类 ==========
-  渐变流动: {
-    duration: { label: "流动时长", type: "range", min: 2, max: 10, step: 0.5, default: 5, unit: "s", target: "gradientShift" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "gradientShift" },
-  },
-  霓虹发光: {
-    gradientDuration: { label: "流动时长", type: "range", min: 2, max: 10, step: 0.5, default: 5, unit: "s", target: "gradientShift" },
-    glowDuration: { label: "发光时长", type: "range", min: 1, max: 5, step: 0.1, default: 1.7, unit: "s", target: "glowPulse" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "glowPulse" },
-  },
-  呼吸图标: {
-    duration: { label: "呼吸时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.4, unit: "s", target: "dotBreath" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "dotBreath" },
-  },
-  波纹点击: {
-    duration: { label: "波纹时长", type: "range", min: 0.5, max: 2, step: 0.1, default: 0.9, unit: "s", target: "rippleWave" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "rippleWave" },
-  },
-  点赞心跳: {
-    duration: { label: "心跳时长", type: "range", min: 0.3, max: 1.5, step: 0.1, default: 0.6, unit: "s", target: "likeHeart" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "likeHeart" },
-  },
-  开关切换: {
-    duration: { label: "切换时长", type: "range", min: 0.1, max: 0.8, step: 0.05, default: 0.3, unit: "s", target: "transition" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "transition" },
-  },
-  淡入淡出: {
-    duration: { label: "动画时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "fadeInOut" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "fadeInOut" },
-  },
-  消息滑入: {
-    duration: { label: "滑入时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "toastSlide" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "toastSlide" },
-  },
-  按钮加载中: {
-    duration: { label: "旋转时长", type: "range", min: 0.4, max: 2, step: 0.1, default: 0.8, unit: "s", target: "buttonSpinner" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "buttonSpinner" },
-  },
-  边框流光: {
-    duration: { label: "流转时长", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "borderRotate" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "borderRotate" },
-  },
-  摇晃铃铛: {
-    duration: { label: "摇晃时长", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "bellShake" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "bellShake" },
-  },
-  悬浮光晕卡: {},
-  动态复选框: {},
-  悬浮输入框: {},
-  详细信息折叠: {
-    duration: { label: "展开时长", type: "range", min: 0.1, max: 2, step: 0.1, default: 0.4, unit: "s", target: "slideDown" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "slideDown" },
-  },
-  头像波纹: {
-    duration: { label: "波纹周期", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "pulseRipple" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.42, 0, 0.58, 1)"], default: "cubic-bezier(0.42, 0, 0.58, 1)", target: "pulseRipple" },
-  },
-  霓虹闪烁字: {
-    duration: { label: "闪烁周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "neonFlicker" },
-    timing: { label: "缓动方式", type: "select", options: ["step-start", "step-end", "linear"], default: "step-start", target: "neonFlicker" },
-  },
-
-
-  // ========== 3D 变换类 ==========
-  翻转卡片: {
-    duration: { label: "翻转时长", type: "range", min: 1, max: 6, step: 0.2, default: 3.2, unit: "s", target: "flip" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "flip" },
-  },
-  旋转立方体: {
-    duration: { label: "旋转时长", type: "range", min: 2, max: 8, step: 0.5, default: 4, unit: "s", target: "cubeSpin" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "cubeSpin" },
-  },
-  倾斜面板: {
-    duration: { label: "倾斜时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.8, unit: "s", target: "tiltLoop" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "tiltLoop" },
-  },
-  折页翻开: {
-    duration: { label: "翻开时长", type: "range", min: 0.5, max: 4, step: 0.2, default: 2.2, unit: "s", target: "foldOpen" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "foldOpen" },
-  },
-  轨道卫星: {
-    duration: { label: "公转周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "orbitSpin" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease-in", "ease-out"], default: "linear", target: "orbitSpin" },
   },
 
   // ========== 文字特效类 ==========
@@ -253,6 +254,7 @@ export const animationNamesByTitle = {
   漂浮气泡: ["floatUp"],
   波浪位移: ["waveMove"],
   心跳脉冲: ["heartbeat"],
+  边框流光: ["borderRotate"],
   渐变流动: ["gradientShift"],
   霓虹发光: ["gradientShift", "glowPulse"],
   下划线滑入: [],
@@ -289,7 +291,7 @@ export const animationNamesByTitle = {
   淡入淡出: ["fadeInOut"],
   消息滑入: ["toastSlide"],
   按钮加载中: ["buttonSpinner"],
-  边框流光: ["borderRotate"],
+
   摇晃铃铛: ["bellShake"],
   悬浮光晕卡: [],
   动态复选框: [],

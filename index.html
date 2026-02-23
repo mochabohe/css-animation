@@ -33,18 +33,18 @@
             <button
               class="filter-btn"
               type="button"
-              data-filter="loading"
-              aria-pressed="false"
-            >
-              加载反馈
-            </button>
-            <button
-              class="filter-btn"
-              type="button"
               data-filter="interactive"
               aria-pressed="false"
             >
               交互按钮
+            </button>
+            <button
+              class="filter-btn"
+              type="button"
+              data-filter="loading"
+              aria-pressed="false"
+            >
+              加载反馈
             </button>
             <button
               class="filter-btn"
@@ -230,6 +230,170 @@
 
       <main class="page">
         <section class="grid" id="animationGrid" aria-live="polite">
+          <!-- 交互按钮类 -->
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>边框流光</h2>
+            <button class="border-stream-btn" type="button">流光按钮</button>
+          </article>
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>渐变流动</h2>
+            <button class="cta">Hover Me</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>霓虹发光</h2>
+            <button class="cta cta-glow" type="button">Neon Button</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>磁吸悬停</h2>
+            <button class="magnet-btn" type="button">Magnet Hover</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>下划线滑入</h2>
+            <button class="link-btn" type="button">悬停查看效果</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>呼吸图标</h2>
+            <button class="icon-btn" type="button">
+              <span class="icon-dot"></span>
+              通知按钮
+            </button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>波纹点击</h2>
+            <button class="ripple-btn" type="button">点击水波</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>点赞心跳</h2>
+            <button class="like-btn" type="button" aria-label="点赞">
+              <svg
+                class="heart-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                ></path>
+              </svg>
+            </button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>开关切换</h2>
+            <label class="toggle-switch">
+              <input type="checkbox" />
+              <span class="toggle-slider"></span>
+            </label>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>淡入淡出</h2>
+            <div class="fade-demo">
+              <div class="fade-content">内容加载中</div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>消息滑入</h2>
+            <div class="toast-demo">
+              <div class="toast">✓ 操作成功</div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>按钮加载中</h2>
+            <button class="loading-btn" type="button">
+              <span class="loading-spinner"></span>
+              <span class="loading-text">加载中...</span>
+            </button>
+          </article>
+
+
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>摇晃铃铛</h2>
+            <div class="bell-demo">
+              <div class="bell-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="notification-dot"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>悬浮输入框</h2>
+            <div class="input-float-demo">
+              <div class="input-float-group">
+                <input type="text" id="username" required>
+                <label for="username">用户名</label>
+                <span class="input-bar"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>悬浮光晕卡</h2>
+            <div class="hover-glow-card">
+              <span>Hover Me</span>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>详细信息折叠</h2>
+            <details class="glow-accordion">
+              <summary>展开查看更多明细</summary>
+              <div class="content">
+                <p>这里是内部的详情内容，包含着流光过渡以及高度的伸缩渲染。</p>
+              </div>
+            </details>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>动态复选框</h2>
+            <label class="draw-checkbox">
+              <input type="checkbox" />
+              <svg viewBox="0 0 24 24" class="checkbox-box">
+                <rect x="2" y="2" width="20" height="20" rx="4" />
+                <path class="tick" d="M6 12l4 4 8-8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span>记住我</span>
+            </label>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>头像波纹</h2>
+            <div class="avatar-ripple">
+              <div class="avatar-core"></div>
+            </div>
+          </article>
+
           <!-- 加载反馈类 -->
           <article class="card" data-category="loading">
             <span class="card-tag">加载反馈</span>
@@ -339,169 +503,6 @@
                 <circle class="progress-bar" cx="50" cy="50" r="40"></circle>
               </svg>
               <span class="progress-text">75%</span>
-            </div>
-          </article>
-
-          <!-- 交互按钮类 -->
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>渐变流动</h2>
-            <button class="cta">Hover Me</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>霓虹发光</h2>
-            <button class="cta cta-glow" type="button">Neon Button</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>磁吸悬停</h2>
-            <button class="magnet-btn" type="button">Magnet Hover</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>下划线滑入</h2>
-            <button class="link-btn" type="button">悬停查看效果</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>呼吸图标</h2>
-            <button class="icon-btn" type="button">
-              <span class="icon-dot"></span>
-              通知按钮
-            </button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>波纹点击</h2>
-            <button class="ripple-btn" type="button">点击水波</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>点赞心跳</h2>
-            <button class="like-btn" type="button" aria-label="点赞">
-              <svg
-                class="heart-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                ></path>
-              </svg>
-            </button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>开关切换</h2>
-            <label class="toggle-switch">
-              <input type="checkbox" />
-              <span class="toggle-slider"></span>
-            </label>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>淡入淡出</h2>
-            <div class="fade-demo">
-              <div class="fade-content">内容加载中</div>
-            </div>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>消息滑入</h2>
-            <div class="toast-demo">
-              <div class="toast">✓ 操作成功</div>
-            </div>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>按钮加载中</h2>
-            <button class="loading-btn" type="button">
-              <span class="loading-spinner"></span>
-              <span class="loading-text">加载中...</span>
-            </button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>边框流光</h2>
-            <button class="border-stream-btn" type="button">流光按钮</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>摇晃铃铛</h2>
-            <div class="bell-demo">
-              <div class="bell-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-                <span class="notification-dot"></span>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>悬浮输入框</h2>
-            <div class="input-float-demo">
-              <div class="input-float-group">
-                <input type="text" id="username" required>
-                <label for="username">用户名</label>
-                <span class="input-bar"></span>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>悬浮光晕卡</h2>
-            <div class="hover-glow-card">
-              <span>Hover Me</span>
-            </div>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>详细信息折叠</h2>
-            <details class="glow-accordion">
-              <summary>展开查看更多明细</summary>
-              <div class="content">
-                <p>这里是内部的详情内容，包含着流光过渡以及高度的伸缩渲染。</p>
-              </div>
-            </details>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>动态复选框</h2>
-            <label class="draw-checkbox">
-              <input type="checkbox" />
-              <svg viewBox="0 0 24 24" class="checkbox-box">
-                <rect x="2" y="2" width="20" height="20" rx="4" />
-                <path class="tick" d="M6 12l4 4 8-8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span>记住我</span>
-            </label>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>头像波纹</h2>
-            <div class="avatar-ripple">
-              <div class="avatar-core"></div>
             </div>
           </article>
 
