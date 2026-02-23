@@ -50,3 +50,4 @@ attachSnippetPanels(animationCards);
 renderCards();
 
 document.body.classList.add("show-meta");
+

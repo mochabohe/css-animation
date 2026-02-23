@@ -117,6 +117,11 @@ export const animationParams = {
     duration: { label: "波纹周期", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "pulseRipple" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.42, 0, 0.58, 1)"], default: "cubic-bezier(0.42, 0, 0.58, 1)", target: "pulseRipple" },
   },
+  霓虹闪烁字: {
+    duration: { label: "闪烁周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "neonFlicker" },
+    timing: { label: "缓动方式", type: "select", options: ["step-start", "step-end", "linear"], default: "step-start", target: "neonFlicker" },
+  },
+
 
   // ========== 3D 变换类 ==========
   翻转卡片: {
@@ -132,11 +137,19 @@ export const animationParams = {
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "tiltLoop" },
   },
   折页翻开: {
-    duration: { label: "翻开时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.2, unit: "s", target: "foldOpen" },
+    duration: { label: "翻开时长", type: "range", min: 0.5, max: 4, step: 0.2, default: 2.2, unit: "s", target: "foldOpen" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "foldOpen" },
+  },
+  轨道卫星: {
+    duration: { label: "公转周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "orbitSpin" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease-in", "ease-out"], default: "linear", target: "orbitSpin" },
   },
 
   // ========== 文字特效类 ==========
+  文字翻转入场: {
+    duration: { label: "入场周期", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "flip3dIn" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in-out"], default: "ease-in-out", target: "flip3dIn" },
+  },
   故障闪烁: {
     duration: { label: "闪烁时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.4, unit: "s", target: "glitchSkew" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "steps(2, end)", "steps(3, end)", "steps(4, end)"], default: "steps(2, end)", target: "glitchSkew" },
@@ -283,4 +296,11 @@ export const animationNamesByTitle = {
   悬浮输入框: [],
   详细信息折叠: ["slideDown"],
   头像波纹: ["pulseRipple"],
+  霓虹闪烁字: ["neonFlicker"],
+
+  粒子流动: ["particleFloat"],
+  海浪起伏: ["waveMoveLeft", "waveMoveRight"],
+  轨道卫星: ["orbitSpin"],
+
+  文字翻转入场: ["flip3dIn"],
 };

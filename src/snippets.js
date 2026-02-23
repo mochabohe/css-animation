@@ -1175,5 +1175,128 @@ export const snippetsByTitle = {
 .avatar-ripple::after {
   animation-delay: 1.25s;
 }`,
+  霓虹闪烁字: `.fx-text {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.neon-flicker {
+  color: var(--accent-soft);
+  text-shadow:
+    0 0 6px var(--accent),
+    0 0 16px var(--accent),
+    0 0 32px var(--accent-soft);
+  animation: neonFlicker 3s step-start infinite;
+}`,
+
+  \u7c92\u5b50\u6d41\u52a8: `.particle-bg {
+  background: #0d1730;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 86px;
+  border-radius: 12px;
+}
+.particle-bg span {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+  animation: particleFloat 6s ease-in-out infinite;
+}`,
+  \u6d77\u6d6a\u8d77\u4f0f: `.wave-bg {
+  background: linear-gradient(180deg, #071020 0%, #0c1a30 55%, #0f2240 100%);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 86px;
+  border-radius: 12px;
+}
+.wave-bg::before,
+.wave-bg::after,
+.wave-layer3 {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 200%;
+  background-repeat: repeat-x;
+  transform-origin: bottom;
+}
+.wave-bg::before {
+  height: 60%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 300 20, 600 60 T 1200 60 V 120 H 0 Z' fill='rgba(44,185,197,0.15)'/%3E%3C/svg%3E");
+  background-size: 50% 100%;
+  animation: waveMoveLeft 8s linear infinite;
+  z-index: 1;
+}
+.wave-bg::after {
+  height: 65%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 150 25, 300 60 T 600 60 T 900 60 T 1200 60 V 120 H 0 Z' fill='rgba(123,226,232,0.15)'/%3E%3C/svg%3E");
+  background-size: 50% 100%;
+  animation: waveMoveRight 6s linear infinite;
+  z-index: 2;
+  bottom: -2px;
+}
+.wave-layer3 {
+  height: 75%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 100 40, 200 60 T 400 60 T 600 60 T 800 60 T 1000 60 T 1200 60 V 120 H 0 Z' fill='rgba(255,255,255,0.06)'/%3E%3C/svg%3E");
+  background-size: 50% 100%;
+  animation: waveMoveLeft 4s linear infinite;
+  z-index: 3;
+  bottom: -5px;
+}
+@keyframes waveMoveLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes waveMoveRight {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}`,
+  \u8f68\u9053\u536b\u661f: `.orbit {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(var(--accent-rgb), 0.4);
+  animation: orbitSpin 3s linear infinite;
+}
+.orbit-dot {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  box-shadow: 0 0 8px var(--accent);
+}
+.orbit-core {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
+}`,
+  \u6587\u5b57\u7ffb\u8f6c\u5165\u573a: `.text-flip-3d {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--accent);
+  perspective: 400px;
+  animation: flip3dIn 3s ease-in-out infinite;
+  margin: 0;
+  text-shadow: 0 2px 6px rgba(var(--accent-rgb), 0.4);
+}`,
 };
 
