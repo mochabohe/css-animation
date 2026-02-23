@@ -98,6 +98,10 @@ export const animationParams = {
     duration: { label: "旋转时长", type: "range", min: 0.4, max: 2, step: 0.1, default: 0.8, unit: "s", target: "buttonSpinner" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "buttonSpinner" },
   },
+  边框流光: {
+    duration: { label: "流转时长", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "borderRotate" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "borderRotate" },
+  },
 
   // ========== 3D 变换类 ==========
   翻转卡片: {
@@ -257,4 +261,5 @@ export const animationNamesByTitle = {
   淡入淡出: ["fadeInOut"],
   消息滑入: ["toastSlide"],
   按钮加载中: ["buttonSpinner"],
+  边框流光: ["borderRotate"],
 };

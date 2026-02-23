@@ -29,7 +29,8 @@
 .card-front > .ai-confidence,
 .card-front > .ai-anomaly,
 .card-front > .ai-cluster,
-.card-front > .ai-loading-dots {
+.card-front > .ai-loading-dots,
+.card-front > .border-stream-btn {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -58,8 +59,7 @@
   border-radius: 50%;
   border: 5px solid rgba(var(--accent-rgb), 0.25);
   border-top-color: var(--accent);
-  animation: spin var(--fx-duration-fast) var(--motion-linear) infinite,
-    pulse var(--fx-duration) var(--fx-easing) infinite;
+  animation: spin 1s linear infinite, pulse 1.4s ease-in-out infinite;
 }
 
 .dots-loader {
@@ -73,7 +73,7 @@
   height: 10px;
   border-radius: 50%;
   background: linear-gradient(130deg, var(--accent-soft), var(--accent));
-  animation: dotsBounce var(--motion-duration-xs) var(--fx-easing) infinite;
+  animation: dotsBounce 0.9s ease-in-out infinite;
 }
 
 .dots-loader span:nth-child(2) {
@@ -95,7 +95,7 @@
   width: 8px;
   border-radius: 99px;
   background: linear-gradient(180deg, var(--accent-soft), var(--accent));
-  animation: barsScale var(--fx-duration-fast) var(--fx-easing) infinite;
+  animation: barsScale 1.1s ease-in-out infinite;
 }
 
 .bars-loader span:nth-child(1) {
@@ -121,7 +121,7 @@
   border: 4px solid rgba(var(--accent-rgb), 0.25);
   border-top-color: var(--accent);
   position: relative;
-  animation: spin var(--motion-duration-sm) var(--motion-linear) infinite;
+  animation: spin 1.1s linear infinite;
 }
 
 .ring-loader::after {
@@ -131,7 +131,7 @@
   border-radius: 50%;
   border: 4px solid rgba(var(--accent-rgb), 0.2);
   border-bottom-color: var(--accent-soft);
-  animation: spinReverse var(--motion-duration-xs) var(--motion-linear) infinite;
+  animation: spinReverse 0.9s linear infinite;
 }
 
 .skeleton {
@@ -145,7 +145,7 @@
   border-radius: 999px;
   background: linear-gradient(100deg, rgba(77, 95, 133, 0.35) 20%, rgba(143, 176, 235, 0.6) 38%, rgba(77, 95, 133, 0.35) 55%);
   background-size: 180% 100%;
-  animation: shimmer var(--fx-duration) var(--motion-linear) infinite;
+  animation: shimmer 1.4s linear infinite;
 }
 
 .skeleton span:nth-child(2) {
@@ -169,7 +169,7 @@
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-  animation: progressLoop var(--motion-duration-md) var(--fx-easing) infinite;
+  animation: progressLoop 1.5s ease-in-out infinite;
 }
 
 .ball-stage {
@@ -190,7 +190,7 @@
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.38);
   filter: blur(2px);
-  animation: shadow var(--fx-duration-fast) var(--fx-easing) infinite;
+  animation: shadow 1.1s ease-in-out infinite;
 }
 
 .ball {
@@ -198,7 +198,7 @@
   height: 42px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  animation: bounce var(--fx-duration-fast) var(--motion-ease-snappy) infinite;
+  animation: bounce 1s cubic-bezier(0.42, 0, 0.58, 1) infinite;
 }
 
 .pendulum {
@@ -213,7 +213,7 @@
   height: 56px;
   background: rgba(223, 237, 255, 0.7);
   transform-origin: top center;
-  animation: pendulum var(--fx-duration) var(--fx-easing) infinite;
+  animation: pendulum 1.2s ease-in-out infinite;
 }
 
 .pendulum-bob {
@@ -223,7 +223,7 @@
   margin-top: -3px;
   background: linear-gradient(130deg, var(--accent-soft), var(--accent));
   transform-origin: top center;
-  animation: pendulum var(--fx-duration) var(--fx-easing) infinite;
+  animation: pendulum 1.4s ease-in-out infinite;
 }
 
 .float-stage {
@@ -238,7 +238,7 @@
   height: 38px;
   border-radius: 50%;
   background: radial-gradient(circle at 28% 25%, #dcf5ff 0, var(--accent-soft) 42%, var(--accent-deep) 100%);
-  animation: floatUp var(--fx-duration-slow) var(--fx-easing) infinite;
+  animation: floatUp 2.3s ease-in-out infinite;
 }
 
 .wave-track {
@@ -255,7 +255,7 @@
   height: 16px;
   border-radius: 50%;
   background: linear-gradient(130deg, var(--accent-soft), var(--accent));
-  animation: waveMove var(--fx-duration) var(--fx-easing) infinite;
+  animation: waveMove 1.4s ease-in-out infinite;
 }
 
 .wave-track span:nth-child(2) {
@@ -272,7 +272,7 @@
   position: relative;
   transform: rotate(-45deg);
   background: linear-gradient(145deg, var(--accent), var(--accent-deep));
-  animation: heartbeat var(--fx-duration) var(--fx-easing) infinite;
+  animation: heartbeat 1.2s ease-in-out infinite;
 }
 
 .heart::before,
@@ -306,7 +306,7 @@
   background-size: 220% 220%;
   cursor: pointer;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  animation: gradientShift var(--motion-duration-xxl) var(--motion-linear) infinite;
+  animation: gradientShift 5s linear infinite;
 }
 
 .cta:hover {
@@ -315,8 +315,7 @@
 }
 
 .cta-glow {
-  animation: gradientShift var(--motion-duration-xxl) var(--motion-linear) infinite,
-    glowPulse var(--fx-duration) var(--fx-easing) infinite;
+  animation: gradientShift 5s linear infinite, glowPulse 1.7s ease-in-out infinite;
 }
 
 .link-btn {
@@ -366,7 +365,7 @@
   border-radius: 50%;
   background: var(--accent-soft);
   box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.55);
-  animation: dotBreath var(--fx-duration) var(--fx-easing) infinite;
+  animation: dotBreath 1.4s ease-in-out infinite;
 }
 
 .ripple-btn {
@@ -394,7 +393,7 @@
 }
 
 .ripple-btn:hover::after {
-  animation: rippleWave var(--motion-duration-xs) var(--motion-ease-out);
+  animation: rippleWave 0.9s ease-out;
 }
 
 .magnet-btn {
@@ -405,8 +404,8 @@
   height: 44px;
   padding: 0 18px;
   cursor: pointer;
-  transition: transform 0.25s var(--motion-ease-standard),
-    box-shadow 0.25s var(--motion-ease-standard);
+  transition: transform 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out;
 }
 
 .magnet-btn:hover {
@@ -425,7 +424,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s var(--motion-ease-standard);
+  transition: all 0.3s ease-in-out;
 }
 
 .like-btn:hover {
@@ -434,7 +433,7 @@
 }
 
 .like-btn.animating .heart-icon {
-  animation: likeHeart 0.6s var(--motion-ease-standard);
+  animation: likeHeart 0.6s ease-in-out;
 }
 
 .heart-icon {
@@ -450,7 +449,7 @@
 }
 
 .like-btn.unliking .heart-icon {
-  animation: unlikeHeart 0.3s var(--motion-ease-standard);
+  animation: unlikeHeart 0.3s ease-in-out;
 }
 
 .toggle-switch {
@@ -473,7 +472,7 @@
   border-radius: 999px;
   background: rgba(145, 177, 240, 0.2);
   border: 2px solid rgba(145, 177, 240, 0.35);
-  transition: all 0.3s var(--motion-ease-standard);
+  transition: all 0.3s ease-in-out;
 }
 
 .toggle-slider::before {
@@ -487,7 +486,7 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s var(--motion-ease-standard);
+  transition: all 0.3s ease-in-out;
 }
 
 .toggle-switch input:checked + .toggle-slider {
@@ -537,7 +536,7 @@
   font-size: 14px;
   font-weight: 500;
   box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
-  animation: toastSlide 3s var(--motion-ease-standard) infinite;
+  animation: toastSlide 3s ease-in-out infinite;
 }
 
 .loading-btn {
@@ -571,6 +570,44 @@
   font-weight: 500;
 }
 
+.border-stream-btn {
+  position: relative;
+  padding: 12px 24px;
+  background: rgba(15, 27, 47, 0.85);
+  color: #f5f8ff;
+  border-radius: 8px;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.border-stream-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(transparent, var(--accent), transparent 30%);
+  animation: borderRotate 3s linear infinite;
+  z-index: -2;
+}
+
+.border-stream-btn::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: rgba(15, 27, 47, 0.95);
+  border-radius: 6px;
+  z-index: -1;
+  transition: background 0.3s ease;
+}
+
+.border-stream-btn:hover::after {
+  background: rgba(20, 35, 60, 0.95);
+}
+
 .flip-wrap {
   perspective: 800px;
   width: 110px;
@@ -582,7 +619,7 @@
   width: 100%;
   height: 100%;
   transform-style: preserve-3d;
-  animation: flip var(--motion-duration-xl) var(--fx-easing) infinite;
+  animation: flip 3.2s ease-in-out infinite;
 }
 
 .face {
@@ -616,7 +653,7 @@
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
-  animation: cubeSpin 4s var(--motion-linear) infinite;
+  animation: cubeSpin 4s linear infinite;
 }
 
 .cube-face {
@@ -658,7 +695,7 @@
   color: #f4f8ff;
   background: linear-gradient(135deg, var(--accent-deep), var(--accent));
   transform-style: preserve-3d;
-  animation: tiltLoop 2.8s var(--fx-easing) infinite;
+  animation: tiltLoop 2.8s ease-in-out infinite;
 }
 
 .fold-wrap {
@@ -673,7 +710,7 @@
   border-radius: 12px;
   background: linear-gradient(120deg, var(--accent-deep), var(--accent-soft));
   transform-origin: left center;
-  animation: foldOpen var(--fx-duration-slow) var(--fx-easing) infinite;
+  animation: foldOpen 2.2s ease-in-out infinite;
 }
 
 .stack-wrap {
@@ -689,7 +726,7 @@
   border-radius: 12px;
   background: linear-gradient(125deg, var(--accent-deep), var(--accent));
   border: 1px solid rgba(220, 233, 255, 0.3);
-  animation: stackFlip var(--fx-duration-slow) var(--fx-easing) infinite;
+  animation: stackFlip 2.2s ease-in-out infinite;
 }
 
 .stack-wrap span:nth-child(2) {
@@ -714,7 +751,7 @@
 .glitch {
   position: relative;
   color: var(--accent-soft);
-  animation: glitchSkew var(--fx-duration) steps(2, end) infinite;
+  animation: glitchSkew 1.4s steps(2, end) infinite;
 }
 
 .glitch::before,
@@ -742,8 +779,8 @@
   overflow: hidden;
   border-right: 2px solid var(--accent-soft);
   color: var(--accent);
-  animation: typing var(--motion-duration-xl) steps(18) infinite,
-    caret var(--motion-duration-xs) step-end infinite;
+  animation: typing 3.2s steps(18) infinite,
+    caret 0.9s step-end infinite;
 }
 
 .wave-text {
@@ -752,7 +789,7 @@
 
 .wave-text span {
   display: inline-block;
-  animation: waveLetter var(--fx-duration-fast) var(--fx-easing) infinite;
+  animation: waveLetter 1.1s ease-in-out infinite;
 }
 
 .wave-text span:nth-child(2) {
@@ -773,7 +810,7 @@
   color: transparent;
   background-clip: text;
   -webkit-background-clip: text;
-  animation: textShine 2.8s var(--motion-linear) infinite;
+  animation: textShine 2.8s linear infinite;
 }
 
 .bg-panel {
@@ -796,7 +833,7 @@
   height: 12px;
   border-radius: 4px;
   background: linear-gradient(145deg, var(--accent-soft), var(--accent));
-  animation: tokenFlow 1.1s var(--fx-easing) infinite;
+  animation: tokenFlow 1.1s ease-in-out infinite;
 }
 
 .ai-token-stream span:nth-child(2) { animation-delay: 0.1s; }
@@ -819,7 +856,7 @@
   height: 10px;
   border-radius: 50%;
   background: var(--accent-soft);
-  animation: hitPulse 1.6s var(--fx-easing) infinite;
+  animation: hitPulse 1.6s ease-in-out infinite;
 }
 
 .ai-vector-hit span:nth-child(1) { top: 8px; left: 18px; }
@@ -861,7 +898,7 @@
   width: 10px;
   border-radius: 999px;
   background: linear-gradient(180deg, var(--accent-soft), var(--accent-deep));
-  animation: confidenceRise 1.3s var(--fx-easing) infinite;
+  animation: confidenceRise 1.3s ease-in-out infinite;
 }
 
 .ai-confidence span:nth-child(1) { height: 24px; }
@@ -886,7 +923,7 @@
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.45);
-  animation: anomalyPulse 1.4s var(--fx-easing) infinite;
+  animation: anomalyPulse 1.4s ease-in-out infinite;
 }
 
 .ai-cluster {
@@ -900,7 +937,7 @@
 .ai-cluster span {
   border-radius: 6px;
   background: rgba(var(--accent-rgb), 0.22);
-  animation: clusterBlink 1.8s var(--fx-easing) infinite;
+  animation: clusterBlink 1.8s ease-in-out infinite;
 }
 
 .ai-cluster span:nth-child(2) { animation-delay: 0.1s; }
@@ -916,7 +953,7 @@
   background: radial-gradient(circle at 25% 20%, rgba(var(--accent-rgb), 0.55), transparent 50%),
     radial-gradient(circle at 70% 70%, rgba(var(--accent-2-rgb), 0.55), transparent 45%),
     #0f1930;
-  animation: auroraFlow 6s var(--fx-easing) infinite;
+  animation: auroraFlow 6s ease-in-out infinite;
 }
 
 .stars {
@@ -929,7 +966,7 @@
   height: 4px;
   border-radius: 50%;
   background: var(--accent-soft);
-  animation: twinkle var(--fx-duration) var(--fx-easing) infinite;
+  animation: twinkle 1.4s ease-in-out infinite;
 }
 
 .stars span:nth-child(1) {
@@ -975,7 +1012,7 @@
   position: absolute;
   inset: -20%;
   background: conic-gradient(from 20deg, rgba(var(--accent-soft-rgb), 0.45), rgba(var(--accent-soft-rgb), 0));
-  animation: spin 2s var(--motion-linear) infinite;
+  animation: spin 2s linear infinite;
 }
 
 .grid-scan {
@@ -991,7 +1028,7 @@
   inset: 0;
   background: linear-gradient(180deg, rgba(var(--accent-soft-rgb), 0) 0%, rgba(var(--accent-soft-rgb), 0.36) 50%, rgba(var(--accent-soft-rgb), 0) 100%);
   transform: translateY(-100%);
-  animation: scanLine 2.8s var(--fx-easing) infinite;
+  animation: scanLine 2.8s ease-in-out infinite;
 }
 
 
@@ -1824,5 +1861,11 @@
   100% {
     opacity: 0;
     transform: translateY(-8px);
+  }
+}
+
+@keyframes borderRotate {
+  100% {
+    transform: rotate(1turn);
   }
 }

@@ -905,5 +905,39 @@ export const snippetsByTitle = {
 .data-waveform span:nth-child(8) { height: 28px; animation-delay: 0.7s; }
 .data-waveform span:nth-child(9) { height: 38px; animation-delay: 0.8s; }
 .data-waveform span:nth-child(10) { height: 22px; animation-delay: 0.9s; }`,
+  边框流光: `.border-stream-btn {
+  position: relative;
+  padding: 12px 24px;
+  background: rgba(15, 27, 47, 0.85);
+  color: #f5f8ff;
+  border-radius: 8px;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  z-index: 1;
+}
+.border-stream-btn::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(transparent, var(--accent), transparent 30%);
+  animation: borderRotate 3s linear infinite;
+  z-index: -2;
+}
+.border-stream-btn::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: rgba(15, 27, 47, 0.95);
+  border-radius: 6px;
+  z-index: -1;
+  transition: background 0.3s ease;
+}
+.border-stream-btn:hover::after {
+  background: rgba(20, 35, 60, 0.95);
+}`,
 };
 
