@@ -756,8 +756,6 @@
 .card-front > .data-waveform,
 .card-front > .like-btn,
 .card-front > .toggle-switch,
-.card-front > .fade-demo,
-.card-front > .toast-demo,
 .card-front > .loading-btn {
   margin-left: auto;
   margin-right: auto;

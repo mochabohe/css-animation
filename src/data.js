@@ -15,11 +15,7 @@ export const animationParams = {
     duration: { label: "流转时长", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "borderRotate" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "borderRotate" },
   },
-  渐变流动: {
-    duration: { label: "流动时长", type: "range", min: 2, max: 10, step: 0.5, default: 5, unit: "s", target: "gradientShift" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "gradientShift" },
-  },
-  霓虹发光: {
+  霓虹流光: {
     gradientDuration: { label: "流动时长", type: "range", min: 2, max: 10, step: 0.5, default: 5, unit: "s", target: "gradientShift" },
     glowDuration: { label: "发光时长", type: "range", min: 1, max: 5, step: 0.1, default: 1.7, unit: "s", target: "glowPulse" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "glowPulse" },
@@ -40,14 +36,7 @@ export const animationParams = {
     duration: { label: "切换时长", type: "range", min: 0.1, max: 0.8, step: 0.05, default: 0.3, unit: "s", target: "transition" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "transition" },
   },
-  淡入淡出: {
-    duration: { label: "动画时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "fadeInOut" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "fadeInOut" },
-  },
-  消息滑入: {
-    duration: { label: "滑入时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "toastSlide" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "toastSlide" },
-  },
+
   按钮加载中: {
     duration: { label: "旋转时长", type: "range", min: 0.4, max: 2, step: 0.1, default: 0.8, unit: "s", target: "buttonSpinner" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "buttonSpinner" },
@@ -123,6 +112,14 @@ export const animationParams = {
     duration: { label: "循环时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.5, unit: "s", target: "progressLoop" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "progressLoop" },
   },
+  菊花旋转: {
+    duration: { label: "旋转时长", type: "range", min: 0.4, max: 2, step: 0.1, default: 1, unit: "s", target: "spinnerRotate" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "spinnerRotate" },
+  },
+  WiFi信号: {
+    duration: { label: "律动时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.4, unit: "s", target: "wifiRise" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "wifiRise" },
+  },
 
   // ========== 运动效果类 ==========
   弹跳小球: {
@@ -144,6 +141,10 @@ export const animationParams = {
   心跳脉冲: {
     duration: { label: "心跳时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.2, unit: "s", target: "heartbeat" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "heartbeat" },
+  },
+  悬浮卡片: {
+    duration: { label: "漂浮时长", type: "range", min: 1, max: 6, step: 0.2, default: 3, unit: "s", target: "cardFloat" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "cardFloat" },
   },
 
   // ========== 文字特效类 ==========
@@ -167,6 +168,10 @@ export const animationParams = {
     duration: { label: "流光时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.8, unit: "s", target: "textShine" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "textShine" },
   },
+  模糊浮现: {
+    duration: { label: "浮现时长", type: "range", min: 1, max: 6, step: 0.2, default: 3, unit: "s", target: "blurFadeIn" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "blurFadeIn" },
+  },
 
   // ========== 背景氛围类 ==========
   极光流动: {
@@ -184,6 +189,10 @@ export const animationParams = {
   网格扫光: {
     duration: { label: "扫光时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.8, unit: "s", target: "scanLine" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "scanLine" },
+  },
+  墨迹呼吸: {
+    duration: { label: "变形时长", type: "range", min: 2, max: 10, step: 0.5, default: 5, unit: "s", target: "blobMorph" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "blobMorph" },
   },
 
   // ========== AI 数据可视化类 ==========
@@ -255,8 +264,7 @@ export const animationNamesByTitle = {
   波浪位移: ["waveMove"],
   心跳脉冲: ["heartbeat"],
   边框流光: ["borderRotate"],
-  渐变流动: ["gradientShift"],
-  霓虹发光: ["gradientShift", "glowPulse"],
+  霓虹流光: ["gradientShift", "glowPulse"],
   下划线滑入: [],
   呼吸图标: ["dotBreath"],
   波纹点击: ["rippleWave"],
@@ -288,8 +296,7 @@ export const animationNamesByTitle = {
   数据波形: ["waveformBounce"],
   点赞心跳: ["likeHeart"],
   开关切换: [],
-  淡入淡出: ["fadeInOut"],
-  消息滑入: ["toastSlide"],
+
   按钮加载中: ["buttonSpinner"],
 
   摇晃铃铛: ["bellShake"],
@@ -305,4 +312,9 @@ export const animationNamesByTitle = {
   轨道卫星: ["orbitSpin"],
 
   文字翻转入场: ["flip3dIn"],
+  菊花旋转: ["spinnerRotate"],
+  WiFi信号: ["wifiRise"],
+  模糊浮现: ["blurFadeIn"],
+  悬浮卡片: ["cardFloat", "cardShadow"],
+  墨迹呼吸: ["blobMorph"],
 };
