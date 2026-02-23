@@ -130,10 +130,7 @@ export const animationParams = {
     duration: { label: "弹跳时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.2, unit: "s", target: "bounce" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.68, -0.55, 0.27, 1.55)"], default: "cubic-bezier(0.42, 0, 0.58, 1)", target: "bounce" },
   },
-  摆动钟锤: {
-    duration: { label: "摆动时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.2, unit: "s", target: "pendulum" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "pendulum" },
-  },
+
   漂浮气泡: {
     duration: { label: "漂浮时长", type: "range", min: 1, max: 5, step: 0.1, default: 2.3, unit: "s", target: "floatUp" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "floatUp" },
@@ -263,7 +260,7 @@ export const animationNamesByTitle = {
   骨架屏闪光: ["shimmer"],
   进度滑条: ["progressLoop"],
   弹跳小球: ["bounce", "shadow"],
-  摆动钟锤: ["pendulum"],
+
   漂浮气泡: ["floatUp"],
   波浪位移: ["waveMove"],
   心跳脉冲: ["heartbeat"],

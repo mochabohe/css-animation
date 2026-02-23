@@ -6,7 +6,6 @@
 .card-front > .skeleton,
 .card-front > .progress-loop,
 .card-front > .ball-stage,
-.card-front > .pendulum,
 .card-front > .float-stage,
 .card-front > .wave-track,
 .card-front > .orbit,
@@ -213,31 +212,6 @@
   border-radius: 50%;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   animation: bounce 1s cubic-bezier(0.42, 0, 0.58, 1) infinite;
-}
-
-.pendulum {
-  width: 90px;
-  height: 86px;
-  display: grid;
-  justify-items: center;
-}
-
-.pendulum-line {
-  width: 2px;
-  height: 56px;
-  background: rgba(223, 237, 255, 0.7);
-  transform-origin: top center;
-  animation: pendulum 1.2s ease-in-out infinite;
-}
-
-.pendulum-bob {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  margin-top: -3px;
-  background: linear-gradient(130deg, var(--accent-soft), var(--accent));
-  transform-origin: top center;
-  animation: pendulum 1.4s ease-in-out infinite;
 }
 
 .float-stage {
@@ -1348,15 +1322,6 @@
   }
 }
 
-@keyframes pendulum {
-  0%,
-  100% {
-    transform: rotate(20deg);
-  }
-  50% {
-    transform: rotate(-20deg);
-  }
-}
 
 @keyframes floatUp {
   0%,

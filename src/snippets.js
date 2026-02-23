@@ -90,11 +90,7 @@ export const snippetsByTitle = {
   弹跳小球: `.ball {
   animation: bounce 1s cubic-bezier(0.42, 0, 0.58, 1) infinite;
 }`,
-  摆动钟锤: `.pendulum-line,
-.pendulum-bob {
-  transform-origin: top center;
-  animation: pendulum 1.2s ease-in-out infinite;
-}`,
+
   漂浮气泡: `.float-orb {
   animation: floatUp 2.3s ease-in-out infinite;
 }`,
