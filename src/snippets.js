@@ -1348,6 +1348,29 @@ export const snippetsByTitle = {
   animation: blobMorph 5s ease-in-out infinite;
   animation-delay: -2.5s;
 }`,
+  呼吸光晕: `.breath-orb {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, var(--accent-soft), var(--accent-deep));
+  animation: breathGlow var(--fx-duration, 4.5s) var(--fx-easing, ease-in-out) infinite;
+}
+@keyframes breathGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 0 0 rgba(var(--accent-rgb), 0.5),
+      0 0 16px 4px rgba(var(--accent-rgb), 0.2);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.22);
+    box-shadow:
+      0 0 0 12px rgba(var(--accent-rgb), 0),
+      0 0 36px 14px rgba(var(--accent-rgb), 0.45);
+    opacity: 1;
+  }
+}`,
 };
 
 

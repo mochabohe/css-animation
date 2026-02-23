@@ -61,6 +61,10 @@ export const animationParams = {
     duration: { label: "闪烁周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "neonFlicker" },
     timing: { label: "缓动方式", type: "select", options: ["step-start", "step-end", "linear"], default: "step-start", target: "neonFlicker" },
   },
+  呼吸光晕: {
+    duration: { label: "呼吸周期", type: "range", min: 1, max: 6, step: 0.5, default: 4.5, unit: "s", target: "breathGlow" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "breathGlow" },
+  },
 
 
   // ========== 3D 变换类 ==========
@@ -317,4 +321,5 @@ export const animationNamesByTitle = {
   模糊浮现: ["blurFadeIn"],
   悬浮卡片: ["cardFloat", "cardShadow"],
   墨迹呼吸: ["blobMorph"],
+  呼吸光晕: ["breathGlow"],
 };
