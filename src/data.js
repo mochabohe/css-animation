@@ -102,6 +102,21 @@ export const animationParams = {
     duration: { label: "流转时长", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "borderRotate" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "borderRotate" },
   },
+  摇晃铃铛: {
+    duration: { label: "摇晃时长", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "bellShake" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "bellShake" },
+  },
+  悬浮光晕卡: {},
+  动态复选框: {},
+  悬浮输入框: {},
+  详细信息折叠: {
+    duration: { label: "展开时长", type: "range", min: 0.1, max: 2, step: 0.1, default: 0.4, unit: "s", target: "slideDown" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "slideDown" },
+  },
+  头像波纹: {
+    duration: { label: "波纹周期", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "pulseRipple" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.42, 0, 0.58, 1)"], default: "cubic-bezier(0.42, 0, 0.58, 1)", target: "pulseRipple" },
+  },
 
   // ========== 3D 变换类 ==========
   翻转卡片: {
@@ -262,4 +277,10 @@ export const animationNamesByTitle = {
   消息滑入: ["toastSlide"],
   按钮加载中: ["buttonSpinner"],
   边框流光: ["borderRotate"],
+  摇晃铃铛: ["bellShake"],
+  悬浮光晕卡: [],
+  动态复选框: [],
+  悬浮输入框: [],
+  详细信息折叠: ["slideDown"],
+  头像波纹: ["pulseRipple"],
 };
