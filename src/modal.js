@@ -117,10 +117,20 @@ export function createCodeModal({
   const modalActions = document.createElement("div");
   modalActions.className = "modal-actions";
 
+  const copyHtmlBtn = document.createElement("button");
+  copyHtmlBtn.className = "modal-btn";
+  copyHtmlBtn.type = "button";
+  copyHtmlBtn.textContent = "复制HTML";
+
+  const copyCssBtn = document.createElement("button");
+  copyCssBtn.className = "modal-btn";
+  copyCssBtn.type = "button";
+  copyCssBtn.textContent = "复制CSS";
+
   const copyBtn = document.createElement("button");
   copyBtn.className = "modal-btn";
   copyBtn.type = "button";
-  copyBtn.textContent = "复制全部";
+  copyBtn.textContent = "复制HTML+CSS代码";
 
   const resetBtn = document.createElement("button");
   resetBtn.className = "modal-btn";
@@ -132,7 +142,7 @@ export function createCodeModal({
   closeModalBtn.type = "button";
   closeModalBtn.textContent = "✕ 关闭";
 
-  modalActions.append(copyBtn, resetBtn, closeModalBtn);
+  modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, resetBtn, closeModalBtn);
   modalHeader.append(modalTitle, modalActions);
 
   const editorContainer = document.createElement("div");
@@ -280,34 +290,33 @@ export function createCodeModal({
     styleTag.textContent = cssTextarea.value;
   });
 
+  copyHtmlBtn.addEventListener("click", async () => {
+    try {
+      await copyToClipboard(htmlTextarea.value);
+      markButtonState(copyHtmlBtn, "✓ 已复制", "复制HTML");
+    } catch {
+      copyHtmlBtn.textContent = "复制失败";
+    }
+  });
+
+  copyCssBtn.addEventListener("click", async () => {
+    try {
+      await copyToClipboard(cssTextarea.value);
+      markButtonState(copyCssBtn, "✓ 已复制", "复制CSS");
+    } catch {
+      copyCssBtn.textContent = "复制失败";
+    }
+  });
+
   copyBtn.addEventListener("click", async () => {
     try {
       if (typeof onTrackCopy === "function") {
         onTrackCopy(title);
       }
 
-      const fullTemplate = `<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title} - CSS Animation</title>
-  <style>
-${cssTextarea.value
-  .split("\n")
-  .map((line) => `    ${line}`)
-  .join("\n")}
-  </style>
-</head>
-<body>
-${htmlTextarea.value
-  .split("\n")
-  .map((line) => `  ${line}`)
-  .join("\n")}
-</body>
-</html>`;
-      await copyToClipboard(fullTemplate);
-      markButtonState(copyBtn, "✓ 已复制", "复制全部");
+      const combined = `<style>\n${cssTextarea.value}\n</style>\n\n${htmlTextarea.value}`;
+      await copyToClipboard(combined);
+      markButtonState(copyBtn, "✓ 已复制", "复制HTML+CSS代码");
     } catch {
       copyBtn.textContent = "复制失败";
     }
