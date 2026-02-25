@@ -8,9 +8,9 @@
   height: 36px;
   width: 100%;
   border-radius: 10px;
-  border: 1px solid rgba(145, 177, 240, 0.3);
-  background: rgba(17, 25, 42, 0.9);
-  color: #dbe8ff;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-element);
+  color: var(--text);
   padding: 0 10px;
   font-size: 12px;
   cursor: pointer;
@@ -37,9 +37,9 @@
   min-width: 64px;
   padding: 0 12px;
   border-radius: 8px;
-  border: 1px solid rgba(145, 177, 240, 0.3);
-  background: rgba(18, 29, 50, 0.92);
-  color: #dceaff;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-overlay);
+  color: var(--text);
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s var(--motion-ease-standard);
@@ -158,10 +158,10 @@
 .color-text-input {
   width: 100%;
   padding: 10px 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--bg-input);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text);
   font-size: 13px;
   font-family: 'SF Mono', 'Monaco', 'Menlo', monospace;
   transition: all 0.2s var(--motion-ease-standard);
@@ -169,17 +169,17 @@
 }
 
 .color-text-input::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--muted);
 }
 
 .color-text-input:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-strong);
+  background: var(--bg-element);
 }
 
 .color-text-input:focus {
   border-color: var(--accent);
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--bg-input);
   box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.2);
 }
 
@@ -255,13 +255,19 @@
 .card-face {
   position: absolute;
   inset: 0;
-  background: linear-gradient(145deg, rgba(25, 35, 58, 0.95), rgba(15, 21, 37, 0.95));
-  border: 1px solid rgba(145, 177, 240, 0.2);
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-card-alt));
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* 亮色模式下卡片边框稍强 */
+[data-color-mode="light"] .card-face {
+  box-shadow: 0 2px 16px rgba(var(--accent-rgb), 0.06);
 }
 
 .card-tag {
@@ -269,15 +275,15 @@
   border-radius: 999px;
   padding: 4px 10px;
   font-size: 12px;
-  color: #b8ceff;
-  background: rgba(79, 118, 200, 0.24);
-  border: 1px solid rgba(145, 177, 240, 0.3);
+  color: var(--muted);
+  background: rgba(var(--accent-rgb), 0.12);
+  border: 1px solid var(--border-strong);
 }
 
 .card h2 {
   margin: 0;
   font-size: 16px;
-  color: #dce9ff;
+  color: var(--text-heading);
 }
 
 .meta-row {
@@ -295,23 +301,24 @@
   border-radius: 999px;
   padding: 2px 8px;
   font-size: 11px;
-  color: #9db4da;
-  background: rgba(41, 58, 95, 0.42);
-  border: 1px solid rgba(145, 177, 240, 0.2);
+  color: var(--muted);
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid var(--border);
 }
 
 .snippet-toggle {
   position: absolute;
   top: 12px;
   right: 12px;
-  border: 1px solid rgba(145, 177, 240, 0.34);
+  border: 1px solid var(--border-strong);
   border-radius: 999px;
-  background: rgba(19, 30, 50, 0.95);
-  color: #dbe9ff;
+  background: var(--bg-overlay);
+  color: var(--text);
   height: 26px;
   padding: 0 10px;
   font-size: 12px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .snippet-toggle-inline {
@@ -328,7 +335,7 @@
 
 .snippet-title {
   margin: 0;
-  color: #cfe3ff;
+  color: var(--text-heading);
   font-size: 14px;
 }
 
@@ -339,10 +346,10 @@
 }
 
 .copy-btn {
-  border: 1px solid rgba(145, 177, 240, 0.34);
+  border: 1px solid var(--border-strong);
   border-radius: 8px;
-  background: rgba(19, 30, 50, 0.95);
-  color: #dbe9ff;
+  background: var(--bg-overlay);
+  color: var(--text);
   height: 28px;
   min-width: 92px;
   padding: 0 10px;
@@ -368,14 +375,14 @@
   overflow-x: hidden;
   font-size: 11px;
   line-height: 1.6;
-  color: #c8defe;
+  color: var(--text);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   white-space: pre-wrap;
   word-wrap: break-word;
   word-break: break-all;
-  background: rgba(10, 15, 30, 0.6);
+  background: var(--bg-code);
   border-radius: 8px;
-  border: 1px solid rgba(145, 177, 240, 0.15);
+  border: 1px solid var(--border-muted);
 }
 
 .snippet-code::-webkit-scrollbar {
@@ -404,7 +411,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
@@ -422,15 +429,15 @@
 }
 
 .modal-content {
-  background: linear-gradient(145deg, rgba(20, 30, 52, 0.98), rgba(15, 21, 37, 0.98));
-  border: 1px solid rgba(145, 177, 240, 0.3);
+  background: linear-gradient(145deg, var(--bg-modal), var(--bg-card-alt));
+  border: 1px solid var(--border-strong);
   border-radius: 16px;
   width: 100%;
   max-width: 1400px;
   max-height: 95vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 20px 60px var(--shadow-card);
   transform: scale(0.9);
   transition: transform 0.3s ease;
 }
@@ -453,7 +460,7 @@
   padding-left: 0;
   font-size: 20px;
   font-weight: 600;
-  color: #e6f0ff;
+  color: var(--text-heading);
   flex: 1;
   text-align: left;
 }
@@ -467,9 +474,9 @@
   height: 36px;
   padding: 0 16px;
   border-radius: 8px;
-  border: 1px solid rgba(145, 177, 240, 0.3);
-  background: rgba(18, 29, 50, 0.92);
-  color: #dceaff;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-overlay);
+  color: var(--text);
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -521,8 +528,8 @@
   flex-direction: row;
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(10, 15, 30, 0.7);
-  border: 1px solid rgba(145, 177, 240, 0.2);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
 }
 
 .modal-code-panel {
@@ -560,9 +567,9 @@
   padding: 16px 8px;
   font-size: 12px;
   font-weight: 600;
-  color: #b8ceff;
-  background: rgba(20, 30, 50, 0.9);
-  border-right: 1px solid rgba(145, 177, 240, 0.15);
+  color: var(--text-muted-strong);
+  background: var(--bg-element);
+  border-right: 1px solid var(--border-muted);
   letter-spacing: 0.5px;
   white-space: nowrap;
   flex-shrink: 0;
@@ -578,7 +585,7 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #c8defe;
+  color: var(--text);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 14px;
   line-height: 1.6;
@@ -629,8 +636,8 @@
   flex-direction: row;
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(10, 15, 30, 0.7);
-  border: 1px solid rgba(145, 177, 240, 0.2);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
   flex: 0 0 auto;
 }
 
@@ -652,7 +659,7 @@
 
 .param-label {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-muted-strong);
   font-weight: 500;
   min-width: 80px;
   flex-shrink: 0;
@@ -721,10 +728,10 @@
 .param-select {
   flex: 1;
   padding: 8px 12px;
-  background: rgba(20, 30, 50, 0.8);
-  border: 1px solid rgba(145, 177, 240, 0.2);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
   border-radius: 6px;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--text);
   font-size: 13px;
   font-family: ui-monospace, monospace;
   outline: none;
@@ -733,8 +740,8 @@
 }
 
 .param-select:hover {
-  border-color: rgba(145, 177, 240, 0.4);
-  background: rgba(20, 30, 50, 0.95);
+  border-color: var(--border-strong);
+  background: var(--bg-element);
 }
 
 .param-select:focus {
@@ -743,8 +750,8 @@
 }
 
 .param-select option {
-  background: rgba(15, 21, 37, 0.98);
-  color: rgba(255, 255, 255, 0.9);
+  background: var(--bg-card);
+  color: var(--text);
   padding: 8px;
 }
 

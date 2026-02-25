@@ -255,3 +255,78 @@ export function generateColorVariants(baseColor) {
     hexColor: `#${rgb.r.toString(16).padStart(2, '0')}${rgb.g.toString(16).padStart(2, '0')}${rgb.b.toString(16).padStart(2, '0')}`,
   };
 }
+
+/**
+ * 从主文档已加载的样式表中提取所有亮色模式覆盖规则。
+ * 用于在 Shadow DOM 预览中注入，确保亮色模式下动画样式正确显示。
+ */
+export function extractLightModeRules() {
+  const rules = [];
+  for (const sheet of document.styleSheets) {
+    let cssRules;
+    try {
+      cssRules = sheet.cssRules;
+    } catch {
+      continue;
+    }
+    if (!cssRules) continue;
+    for (const rule of cssRules) {
+      const text = rule.cssText || '';
+      if (text.includes('[data-color-mode="light"]')) {
+        rules.push(text);
+      }
+    }
+  }
+  return rules.join('\n');
+}
+
+/**
+ * 从原始 animations.css 字符串中，提取与指定 class 名相关的亮色模式覆盖规则。
+ * 用于在亮色模式下为 CSS 编辑区补充对应的亮色覆盖代码，让复制出的代码支持双主题。
+ * @param {string} cssText - animations.css 的原始字符串
+ * @param {string[]} classNames - 需要匹配的 class 名列表
+ * @returns {string} 匹配到的亮色规则 CSS 字符串
+ */
+export function extractLightModeRulesForClasses(cssText, classNames) {
+  const result = [];
+  const lines = cssText.split('\n');
+  let inRule = false;
+  let depth = 0;
+  let current = '';
+  let relevant = false;
+
+  for (const line of lines) {
+    if (!inRule) {
+      if (line.includes('[data-color-mode') && line.includes('light')) {
+        const isRelevant = classNames.some((cls) => line.includes('.' + cls));
+        if (isRelevant) {
+          inRule = true;
+          relevant = true;
+          current = line;
+          depth = (line.match(/\{/g) || []).length - (line.match(/\}/g) || []).length;
+          if (depth <= 0) {
+            let cleanRule = current.trim().replace(/\[data-color-mode=(["'])light\1\]\s*/g, '');
+            result.push(cleanRule);
+            inRule = false;
+            current = '';
+          }
+        }
+      }
+    } else {
+      current += '\n' + line;
+      depth += (line.match(/\{/g) || []).length;
+      depth -= (line.match(/\}/g) || []).length;
+      if (depth <= 0) {
+        if (relevant) {
+          let cleanRule = current.trim().replace(/\[data-color-mode=(["'])light\1\]\s*/g, '');
+          result.push(cleanRule);
+        }
+        inRule = false;
+        current = '';
+        relevant = false;
+      }
+    }
+  }
+  return result.join('\n\n');
+}
+

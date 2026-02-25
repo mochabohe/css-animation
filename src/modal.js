@@ -1,4 +1,5 @@
-import { normalizeCssVariables, copyToClipboard } from "./utils.js";
+import { normalizeCssVariables, copyToClipboard, extractLightModeRulesForClasses } from "./utils.js";
+import animationsCss from "./css/animations.css?raw";
 
 function markButtonState(button, text, originalText) {
   button.textContent = text;
@@ -169,9 +170,20 @@ export function createCodeModal({
   cssLabel.className = "modal-editor-label";
   cssLabel.textContent = "🎨 CSS 样式";
 
+  // 构建 CSS 编辑区内容：亮色模式下自动追加对应的亮色覆盖规则
+  const buildInitialCss = () => {
+    const base = normalizeCssVariables(fullCss);
+    const colorMode = document.documentElement.getAttribute("data-color-mode") || "dark";
+    if (colorMode !== "light") return base;
+    // 提取当前动画片段里所有类名
+    const classNames = [...new Set([...base.matchAll(/\.([a-zA-Z][a-zA-Z0-9-_]*)\b/g)].map((m) => m[1]))];
+    const lightRules = extractLightModeRulesForClasses(animationsCss, classNames);
+    return lightRules ? `${base}\n\n/* 亮色模式补充样式 (已剥离限制，即插即用) */\n${normalizeCssVariables(lightRules)}` : base;
+  };
+
   const cssTextarea = document.createElement("textarea");
   cssTextarea.className = "modal-code-editor css-editor";
-  cssTextarea.value = normalizeCssVariables(fullCss);
+  cssTextarea.value = buildInitialCss();
   cssTextarea.spellcheck = false;
 
   cssPanel.append(cssLabel, cssTextarea);
@@ -187,6 +199,10 @@ export function createCodeModal({
   previewBox.className = "modal-preview-box";
   const shadowRoot = previewBox.attachShadow({ mode: "open" });
 
+  // 注入完整 animations.css（包含亮色模式覆盖规则），确保主题正确
+  const animationsStyle = document.createElement("style");
+  animationsStyle.textContent = animationsCss;
+
   const styleTag = document.createElement("style");
   styleTag.textContent = cssTextarea.value;
 
@@ -194,8 +210,12 @@ export function createCodeModal({
   shadowContainer.innerHTML = demoHtml;
   shadowContainer.style.cssText =
     "display:flex;align-items:center;justify-content:center;width:100%;height:100%;";
+  shadowContainer.setAttribute(
+    "data-color-mode",
+    document.documentElement.getAttribute("data-color-mode") || "dark",
+  );
 
-  shadowRoot.append(styleTag, shadowContainer);
+  shadowRoot.append(animationsStyle, styleTag, shadowContainer);
   previewPanel.append(previewLabel, previewBox);
 
   const paramValues = {};
@@ -324,7 +344,7 @@ export function createCodeModal({
 
   resetBtn.addEventListener("click", () => {
     htmlTextarea.value = demoHtml;
-    cssTextarea.value = normalizeCssVariables(fullCss);
+    cssTextarea.value = buildInitialCss();
 
     if (currentParams && paramsPanel) {
       Object.entries(currentParams).forEach(([key, config]) => {

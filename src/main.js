@@ -36,7 +36,7 @@ bindFiltering({
   renderCards,
 });
 
-bindToggles({ motionToggle, metaToggle });
+bindToggles({ motionToggle, metaToggle, colorModeToggle: document.querySelector("#colorModeToggle") });
 
 bindThemeControls({
   themeButtons,

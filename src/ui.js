@@ -55,7 +55,7 @@ export function bindFiltering({ filterButtons, searchInput, viewState, renderCar
   });
 }
 
-export function bindToggles({ motionToggle, metaToggle }) {
+export function bindToggles({ motionToggle, metaToggle, colorModeToggle }) {
   if (motionToggle) {
     motionToggle.addEventListener("click", () => {
       const enabled = document.body.classList.toggle("reduced-preview");
@@ -70,6 +70,38 @@ export function bindToggles({ motionToggle, metaToggle }) {
       metaToggle.setAttribute("aria-pressed", String(enabled));
       metaToggle.textContent = enabled ? "开启" : "关闭";
     });
+  }
+
+  if (colorModeToggle) {
+    // 系统偏好检测
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+    // 读取 localStorage 或跟随系统
+    const stored = localStorage.getItem("color-mode");
+    const initialMode = stored || (prefersDark.matches ? "dark" : "light");
+    applyColorMode(initialMode, colorModeToggle);
+
+    colorModeToggle.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-color-mode") || "dark";
+      const next = current === "dark" ? "light" : "dark";
+      applyColorMode(next, colorModeToggle);
+      localStorage.setItem("color-mode", next);
+    });
+
+    // 系统主题变化时，若用户未手动设置则跟随
+    prefersDark.addEventListener("change", (e) => {
+      if (!localStorage.getItem("color-mode")) {
+        applyColorMode(e.matches ? "dark" : "light", colorModeToggle);
+      }
+    });
+  }
+}
+
+function applyColorMode(mode, button) {
+  document.documentElement.setAttribute("data-color-mode", mode);
+  if (button) {
+    button.textContent = mode === "dark" ? "亮色模式" : "暗色模式";
+    button.setAttribute("aria-pressed", String(mode === "light"));
   }
 }
 

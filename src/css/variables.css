@@ -1,15 +1,9 @@
 :root {
-  color-scheme: dark;
-  --bg: #070b14;
-  --bg-soft: #10182a;
-  --text: #e9f1ff;
-  --muted: #9fb2d3;
+  /* ===== 强调色系（主题色切换只改这部分） ===== */
   --accent: #2cb9c5;
   --accent-2: #1f8f98;
   --accent-soft: #7be2e8;
   --accent-deep: #15747c;
-
-  /* RGB values for alpha transparency */
   --accent-rgb: 44, 185, 197;
   --accent-2-rgb: 31, 143, 152;
   --accent-soft-rgb: 123, 226, 232;
@@ -44,4 +38,93 @@
   --motion-typography-easing: var(--motion-ease-standard);
   --motion-background-duration: var(--motion-duration-xxl);
   --motion-background-easing: var(--motion-ease-standard);
+}
+
+/* ===== 暗色主题（默认） ===== */
+:root,
+:root[data-color-mode="dark"] {
+  color-scheme: dark;
+  --bg: #070b14;
+  --bg-soft: #10182a;
+  --bg-card: rgba(25, 35, 58, 0.95);
+  --bg-card-alt: rgba(15, 21, 37, 0.95);
+  --bg-sidebar: rgba(11, 19, 34, 0.85);
+  --bg-input: rgba(9, 16, 28, 0.85);
+  --bg-element: rgba(17, 25, 42, 0.9);
+  --bg-overlay: rgba(18, 29, 50, 0.92);
+  --bg-panel: rgba(10, 15, 30, 0.7);
+  --bg-code: rgba(10, 15, 30, 0.6);
+  --bg-modal: rgba(20, 30, 52, 0.98);
+  --text: #e9f1ff;
+  --text-heading: #dce9ff;
+  --text-muted-strong: #b7c8e5;
+  --muted: #9fb2d3;
+  --text-dim: #7f95bb;
+  --border: rgba(145, 177, 240, 0.2);
+  --border-muted: rgba(145, 177, 240, 0.15);
+  --border-strong: rgba(145, 177, 240, 0.3);
+  --border-sidebar: rgba(145, 177, 240, 0.18);
+  --icon-color: rgba(145, 177, 240, 0.6);
+  --shadow-card: rgba(0, 0, 0, 0.5);
+  --mode-icon: "☀️";
+  --mode-label: "亮色模式";
+}
+
+/* ===== 亮色主题 ===== */
+@media (prefers-color-scheme: light) {
+  :root:not([data-color-mode]) {
+    color-scheme: light;
+    --bg: #f0f4fc;
+    --bg-soft: #e4ecf8;
+    --bg-card: rgba(255, 255, 255, 0.95);
+    --bg-card-alt: rgba(240, 246, 255, 0.95);
+    --bg-sidebar: rgba(236, 243, 255, 0.92);
+    --bg-input: rgba(255, 255, 255, 0.9);
+    --bg-element: rgba(220, 232, 255, 0.7);
+    --bg-overlay: rgba(240, 246, 255, 0.95);
+    --bg-panel: rgba(245, 249, 255, 0.9);
+    --bg-code: rgba(235, 242, 255, 0.8);
+    --bg-modal: rgba(250, 253, 255, 0.99);
+    --text: #1a2740;
+    --text-heading: #1a2a48;
+    --text-muted-strong: #3a5480;
+    --muted: #5a7aaa;
+    --text-dim: #7a9ac0;
+    --border: rgba(80, 120, 200, 0.18);
+    --border-muted: rgba(80, 120, 200, 0.12);
+    --border-strong: rgba(80, 120, 200, 0.28);
+    --border-sidebar: rgba(80, 120, 200, 0.16);
+    --icon-color: rgba(80, 120, 200, 0.5);
+    --shadow-card: rgba(30, 60, 120, 0.12);
+    --mode-icon: "🌙";
+    --mode-label: "暗色模式";
+  }
+}
+
+:root[data-color-mode="light"] {
+  color-scheme: light;
+  --bg: #f0f4fc;
+  --bg-soft: #e4ecf8;
+  --bg-card: rgba(255, 255, 255, 0.95);
+  --bg-card-alt: rgba(240, 246, 255, 0.95);
+  --bg-sidebar: rgba(236, 243, 255, 0.92);
+  --bg-input: rgba(255, 255, 255, 0.9);
+  --bg-element: rgba(220, 232, 255, 0.7);
+  --bg-overlay: rgba(240, 246, 255, 0.95);
+  --bg-panel: rgba(245, 249, 255, 0.9);
+  --bg-code: rgba(235, 242, 255, 0.8);
+  --bg-modal: rgba(250, 253, 255, 0.99);
+  --text: #1a2740;
+  --text-heading: #1a2a48;
+  --text-muted-strong: #3a5480;
+  --muted: #5a7aaa;
+  --text-dim: #7a9ac0;
+  --border: rgba(80, 120, 200, 0.18);
+  --border-muted: rgba(80, 120, 200, 0.12);
+  --border-strong: rgba(80, 120, 200, 0.28);
+  --border-sidebar: rgba(80, 120, 200, 0.16);
+  --icon-color: rgba(80, 120, 200, 0.5);
+  --shadow-card: rgba(30, 60, 120, 0.12);
+  --mode-icon: "🌙";
+  --mode-label: "暗色模式";
 }
