@@ -78,14 +78,6 @@
             >
               运动效果
             </button>
-            <button
-              class="filter-btn"
-              type="button"
-              data-filter="transform"
-              aria-pressed="false"
-            >
-              3D 变换
-            </button>
           </div>
         </div>
 
@@ -203,6 +195,17 @@
           <h3 class="sidebar-title">选项</h3>
           <div class="sidebar-toggles">
             <div class="sidebar-toggle-item">
+              <span>外观主题</span>
+              <button
+                id="colorModeToggle"
+                class="toggle-btn"
+                type="button"
+                aria-label="切换外观主题"
+              >
+                亮色模式
+              </button>
+            </div>
+            <div class="sidebar-toggle-item">
               <span>低动效预览</span>
               <button
                 id="motionToggle"
@@ -222,17 +225,6 @@
                 aria-pressed="true"
               >
                 开启
-              </button>
-            </div>
-            <div class="sidebar-toggle-item">
-              <span>外观主题</span>
-              <button
-                id="colorModeToggle"
-                class="toggle-btn"
-                type="button"
-                aria-label="切换外观主题"
-              >
-                亮色模式
               </button>
             </div>
           </div>
@@ -398,12 +390,6 @@
 
           <article class="card" data-category="loading">
             <span class="card-tag">加载反馈</span>
-            <h2>双环旋转</h2>
-            <div class="ring-loader" aria-label="双环加载动画"></div>
-          </article>
-
-          <article class="card" data-category="loading">
-            <span class="card-tag">加载反馈</span>
             <h2>雷达扫描</h2>
             <div class="bg-panel radar" aria-hidden="true"></div>
           </article>
@@ -501,14 +487,6 @@
             </div>
           </article>
 
-          <article class="card" data-category="loading">
-            <span class="card-tag">加载反馈</span>
-            <h2>WiFi信号</h2>
-            <div class="wifi-loader" aria-hidden="true">
-              <span></span><span></span><span></span><span></span>
-            </div>
-          </article>
-
           <!-- 文字特效类 -->
           <article class="card" data-category="text">
             <span class="card-tag">文字特效</span>
@@ -552,12 +530,6 @@
             <span class="card-tag">文字特效</span>
             <h2>文字翻转入场</h2>
             <p class="text-flip-3d">HELLO</p>
-          </article>
-
-          <article class="card" data-category="text">
-            <span class="card-tag">文字特效</span>
-            <h2>模糊浮现</h2>
-            <p class="fx-text blur-appear" aria-label="模糊浮现效果">CSS Animation</p>
           </article>
 
           <!-- 背景氛围类 -->
@@ -681,16 +653,14 @@
 
           <article class="card" data-category="motion">
             <span class="card-tag">运动效果</span>
-            <h2>心跳脉冲</h2>
-            <div class="heart" aria-hidden="true"></div>
+            <h2>呼吸光晕</h2>
+            <div class="breath-orb" aria-label="呼吸光晕动画"></div>
           </article>
 
           <article class="card" data-category="motion">
             <span class="card-tag">运动效果</span>
-            <h2>异常告警脉冲</h2>
-            <div class="ai-anomaly" aria-hidden="true">
-              <span></span>
-            </div>
+            <h2>心跳脉冲</h2>
+            <div class="heart" aria-hidden="true"></div>
           </article>
 
           <article class="card" data-category="motion">
@@ -715,6 +685,14 @@
             <div class="signal-ripple" aria-hidden="true">
               <span></span>
               <span></span>
+              <span></span>
+            </div>
+          </article>
+
+          <article class="card" data-category="motion">
+            <span class="card-tag">运动效果</span>
+            <h2>异常告警脉冲</h2>
+            <div class="ai-anomaly" aria-hidden="true">
               <span></span>
             </div>
           </article>
@@ -748,49 +726,6 @@
             </div>
           </article>
 
-          <article class="card" data-category="motion">
-            <span class="card-tag">运动效果</span>
-            <h2>呼吸光晕</h2>
-            <div class="breath-orb" aria-label="呼吸光晕动画"></div>
-          </article>
-          <!-- 3D 变换类 -->
-          <article class="card" data-category="transform">
-            <span class="card-tag">3D 变换</span>
-            <h2>翻转卡片</h2>
-            <div class="flip-wrap" aria-label="翻转卡片">
-              <div class="flip-card">
-                <div class="face front">前</div>
-                <div class="face back">后</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="transform">
-            <span class="card-tag">3D 变换</span>
-            <h2>旋转立方体</h2>
-            <div class="cube-wrap" aria-hidden="true">
-              <div class="cube">
-                <div class="cube-face cube-front">1</div>
-                <div class="cube-face cube-back">2</div>
-                <div class="cube-face cube-left">3</div>
-                <div class="cube-face cube-right">4</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="transform">
-            <span class="card-tag">3D 变换</span>
-            <h2>倾斜面板</h2>
-            <div class="tilt-panel" aria-hidden="true">3D TILT</div>
-          </article>
-
-          <article class="card" data-category="transform">
-            <span class="card-tag">3D 变换</span>
-            <h2>折页翻开</h2>
-            <div class="fold-wrap" aria-hidden="true">
-              <div class="fold-page"></div>
-            </div>
-          </article>
         </section>
 
         <footer class="page-footer">

@@ -75,23 +75,6 @@ export const animationParams = {
   },
 
 
-  // ========== 3D 变换类 ==========
-  翻转卡片: {
-    duration: { label: "翻转时长", type: "range", min: 1, max: 6, step: 0.2, default: 3.2, unit: "s", target: "flip" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "flip" },
-  },
-  旋转立方体: {
-    duration: { label: "旋转时长", type: "range", min: 2, max: 8, step: 0.5, default: 4, unit: "s", target: "cubeSpin" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "cubeSpin" },
-  },
-  倾斜面板: {
-    duration: { label: "倾斜时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.8, unit: "s", target: "tiltLoop" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "tiltLoop" },
-  },
-  折页翻开: {
-    duration: { label: "翻开时长", type: "range", min: 0.5, max: 4, step: 0.2, default: 2.2, unit: "s", target: "foldOpen" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "foldOpen" },
-  },
   轨道卫星: {
     duration: { label: "公转周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "orbitSpin" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease-in", "ease-out"], default: "linear", target: "orbitSpin" },
@@ -111,11 +94,6 @@ export const animationParams = {
     duration: { label: "律动时长", type: "range", min: 0.5, max: 2, step: 0.1, default: 1, unit: "s", target: "barsScale" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "barsScale" },
   },
-  双环旋转: {
-    duration: { label: "外环时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.1, unit: "s", target: "spin" },
-    innerDuration: { label: "内环时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 0.9, unit: "s", target: "spinReverse" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "spin" },
-  },
   骨架屏闪光: {
     duration: { label: "闪光时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.3, unit: "s", target: "shimmer" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "shimmer" },
@@ -127,10 +105,6 @@ export const animationParams = {
   菊花旋转: {
     duration: { label: "旋转时长", type: "range", min: 0.4, max: 2, step: 0.1, default: 1, unit: "s", target: "spinnerRotate" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "spinnerRotate" },
-  },
-  WiFi信号: {
-    duration: { label: "律动时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.4, unit: "s", target: "wifiRise" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "wifiRise" },
   },
 
   // ========== 运动效果类 ==========
@@ -177,11 +151,6 @@ export const animationParams = {
     duration: { label: "流光时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.8, unit: "s", target: "textShine" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "textShine" },
   },
-  模糊浮现: {
-    duration: { label: "浮现时长", type: "range", min: 1, max: 6, step: 0.2, default: 3, unit: "s", target: "blurFadeIn" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "blurFadeIn" },
-  },
-
   // ========== 背景氛围类 ==========
   极光流动: {
     duration: { label: "流动时长", type: "range", min: 3, max: 12, step: 0.5, default: 6, unit: "s", target: "auroraFlow" },
@@ -264,7 +233,6 @@ export const animationNamesByTitle = {
   加载脉冲: ["spin", "pulse"],
   跳动圆点: ["dotsBounce"],
   频谱条形: ["barsScale"],
-  双环旋转: ["spin", "spinReverse"],
   骨架屏闪光: ["shimmer"],
   进度滑条: ["progressLoop"],
   弹跳小球: ["bounce", "shadow"],
@@ -278,10 +246,6 @@ export const animationNamesByTitle = {
   呼吸图标: ["dotBreath"],
   波纹点击: ["rippleWave"],
   磁吸悬停: [],
-  翻转卡片: ["flip"],
-  旋转立方体: ["cubeSpin"],
-  倾斜面板: ["tiltLoop"],
-  折页翻开: ["foldOpen"],
   故障闪烁: ["glitchSkew"],
   打字机: ["typing", "caret"],
   波浪字符: ["waveLetter"],
@@ -322,8 +286,6 @@ export const animationNamesByTitle = {
 
   文字翻转入场: ["flip3dIn"],
   菊花旋转: ["spinnerRotate"],
-  WiFi信号: ["wifiRise"],
-  模糊浮现: ["blurFadeIn"],
   悬浮卡片: ["cardFloat", "cardShadow"],
   墨迹呼吸: ["blobMorph"],
   呼吸光晕: ["breathGlow"],

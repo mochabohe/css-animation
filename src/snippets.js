@@ -37,24 +37,6 @@ export const snippetsByTitle = {
 .bars-loader span:nth-child(2) { animation-delay: 0.12s; }
 .bars-loader span:nth-child(3) { animation-delay: 0.24s; }
 .bars-loader span:nth-child(4) { animation-delay: 0.36s; }`,
-  双环旋转: `.ring-loader {
-  width: 54px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  border: 4px solid rgba(var(--accent-rgb), 0.25);
-  border-top-color: var(--accent);
-  position: relative;
-  animation: spin 1.1s linear infinite;
-}
-.ring-loader::after {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  border-radius: 50%;
-  border: 4px solid rgba(var(--accent-rgb), 0.2);
-  border-bottom-color: var(--accent-soft);
-  animation: spinReverse 0.9s linear infinite;
-}`,
   骨架屏闪光: `.skeleton {
   width: 100%;
   display: grid;
@@ -241,9 +223,8 @@ export const snippetsByTitle = {
   点赞心跳: `.like-btn {
   width: 56px;
   height: 56px;
-  border-radius: 50%;
-  border: 2px solid rgba(145, 177, 240, 0.35);
-  background: rgba(15, 27, 47, 0.85);
+  background: none;
+  border: none;
   color: var(--accent);
   display: flex;
   align-items: center;
@@ -252,8 +233,7 @@ export const snippetsByTitle = {
   transition: all 0.3s ease-in-out;
 }
 .like-btn:hover {
-  border-color: var(--accent);
-  background: rgba(var(--accent-rgb), 0.15);
+  transform: scale(1.15);
 }
 .like-btn:active .heart-icon {
   animation: likeHeart 0.6s ease-in-out;
@@ -333,96 +313,6 @@ export const snippetsByTitle = {
   border-top-color: #ffffff;
   border-radius: 50%;
   animation: buttonSpinner 0.8s linear infinite;
-}`,
-  翻转卡片: `.flip-wrap {
-  perspective: 800px;
-  width: 110px;
-  height: 78px;
-}
-.flip-card {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  animation: flip 3.2s ease-in-out infinite;
-}
-.face {
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-size: 20px;
-  font-weight: 700;
-  backface-visibility: hidden;
-}
-.front {
-  background: linear-gradient(130deg, var(--accent-deep), var(--accent));
-}
-.back {
-  background: linear-gradient(130deg, var(--accent), var(--accent-soft));
-  transform: rotateY(180deg);
-}`,
-  旋转立方体: `.cube-wrap {
-  width: 88px;
-  height: 88px;
-  perspective: 650px;
-}
-.cube {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  animation: cubeSpin 4s linear infinite;
-}
-.cube-face {
-  position: absolute;
-  inset: 0;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  color: #eaf2ff;
-  border: 1px solid rgba(221, 233, 255, 0.28);
-  background: linear-gradient(130deg, rgba(var(--accent-2-rgb), 0.82), rgba(var(--accent-rgb), 0.82));
-}
-.cube-front {
-  transform: translateZ(26px);
-}
-.cube-back {
-  transform: rotateY(180deg) translateZ(26px);
-}
-.cube-left {
-  transform: rotateY(-90deg) translateZ(26px);
-}
-.cube-right {
-  transform: rotateY(90deg) translateZ(26px);
-}`,
-  倾斜面板: `.tilt-panel {
-  width: 120px;
-  height: 72px;
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-size: 13px;
-  letter-spacing: 1px;
-  color: #f4f8ff;
-  background: linear-gradient(135deg, var(--accent-deep), var(--accent));
-  transform-style: preserve-3d;
-  animation: tiltLoop 2.8s ease-in-out infinite;
-}`,
-  折页翻开: `.fold-wrap {
-  width: 120px;
-  height: 78px;
-  perspective: 850px;
-}
-.fold-page {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-  background: linear-gradient(120deg, var(--accent-deep), var(--accent-soft));
-  transform-origin: left center;
-  animation: foldOpen 2.2s ease-in-out infinite;
 }`,
   故障闪烁: `.fx-text {
   margin: 0;
@@ -1257,7 +1147,7 @@ export const snippetsByTitle = {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: var(--accent);
+  background: transparent;
   box-shadow:
     0 -22px 0 rgba(var(--accent-rgb), 1),
     15px -15px 0 rgba(var(--accent-rgb), 0.85),
@@ -1269,23 +1159,6 @@ export const snippetsByTitle = {
     -15px -15px 0 rgba(var(--accent-rgb), 0.05);
   animation: spinnerRotate 1s linear infinite;
 }`,
-  WiFi\u4fe1\u53f7: `.wifi-loader {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 5px;
-  height: 50px;
-}
-.wifi-loader span {
-  width: 9px;
-  border-radius: 3px 3px 0 0;
-  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
-  animation: wifiRise 1.4s ease-in-out infinite;
-}
-.wifi-loader span:nth-child(1) { height: 12px; animation-delay: 0s; }
-.wifi-loader span:nth-child(2) { height: 22px; animation-delay: 0.15s; }
-.wifi-loader span:nth-child(3) { height: 34px; animation-delay: 0.3s; }
-.wifi-loader span:nth-child(4) { height: 46px; animation-delay: 0.45s; }`,
   \u6a21\u7cca\u6d6e\u73b0: `.blur-appear {
   animation: blurFadeIn 3s ease-in-out infinite;
   font-size: 18px;
