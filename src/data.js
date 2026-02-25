@@ -46,9 +46,17 @@ export const animationParams = {
     duration: { label: "摇晃时长", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "bellShake" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "bellShake" },
   },
-  悬浮光晕卡: {},
-  动态复选框: {},
-  悬浮输入框: {},
+  悬浮光晕卡: {
+    duration: { label: "卡片过渡时长", type: "range", min: 0.1, max: 1, step: 0.05, default: 0.3, unit: "s", target: "transform" },
+    glowDuration: { label: "光晕过渡时长", type: "range", min: 0.2, max: 1.5, step: 0.05, default: 0.6, unit: "s", target: "opacity" },
+  },
+  动态复选框: {
+    duration: { label: "勾绘制时长", type: "range", min: 0.1, max: 1, step: 0.05, default: 0.4, unit: "s", target: "stroke-dashoffset" },
+    colorDuration: { label: "颜色变化时长", type: "range", min: 0.1, max: 1, step: 0.05, default: 0.3, unit: "s", target: "fill" },
+  },
+  悬浮输入框: {
+    duration: { label: "浮动时长", type: "range", min: 0.1, max: 1, step: 0.05, default: 0.3, unit: "s", target: "all" },
+  },
   详细信息折叠: {
     duration: { label: "展开时长", type: "range", min: 0.1, max: 2, step: 0.1, default: 0.4, unit: "s", target: "slideDown" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "slideDown" },

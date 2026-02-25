@@ -943,7 +943,7 @@ export const snippetsByTitle = {
   color: var(--muted);
   font-size: 15px;
   pointer-events: none;
-  transition: 0.3s ease all;
+  transition: all 0.3s ease;
 }
 .input-float-group .input-bar {
   position: absolute;
@@ -952,7 +952,7 @@ export const snippetsByTitle = {
   width: 0;
   height: 2px;
   background: var(--accent);
-  transition: 0.3s ease all;
+  transition: all 0.3s ease;
 }
 .input-float-group input:focus ~ .input-bar,
 .input-float-group input:valid ~ .input-bar {
@@ -979,7 +979,7 @@ export const snippetsByTitle = {
   cursor: pointer;
   overflow: hidden;
   border: 1px solid rgba(145, 177, 240, 0.2);
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease;
 }
 .hover-glow-card::before {
   content: "";
@@ -993,7 +993,7 @@ export const snippetsByTitle = {
   transform: translate(-50%, -50%);
   filter: blur(28px);
   opacity: 0;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), width 0.6s cubic-bezier(0.23, 1, 0.32, 1), height 0.6s cubic-bezier(0.23, 1, 0.32, 1);
   z-index: -1;
 }
 .hover-glow-card:hover::before {
@@ -1154,7 +1154,13 @@ export const snippetsByTitle = {
   background: var(--accent);
   opacity: 0.7;
   animation: particleFloat 6s ease-in-out infinite;
-}`,
+}
+.particle-bg span:nth-child(1) { width: 8px; height: 8px; left: 15%; top: 65%; animation-delay: 0s; }
+.particle-bg span:nth-child(2) { width: 5px; height: 5px; left: 40%; top: 80%; animation-delay: 1s; }
+.particle-bg span:nth-child(3) { width: 10px; height: 10px; left: 65%; top: 70%; animation-delay: 2s; }
+.particle-bg span:nth-child(4) { width: 4px; height: 4px; left: 25%; top: 50%; animation-delay: 0.5s; }
+.particle-bg span:nth-child(5) { width: 7px; height: 7px; left: 75%; top: 50%; animation-delay: 1.5s; }
+.particle-bg span:nth-child(6) { width: 6px; height: 6px; left: 88%; top: 75%; animation-delay: 2.5s; }`,
   \u6d77\u6d6a\u8d77\u4f0f: `.wave-bg {
   background: linear-gradient(180deg, #071020 0%, #0c1a30 55%, #0f2240 100%);
   position: relative;
