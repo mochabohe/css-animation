@@ -98,28 +98,29 @@ export const snippetsByTitle = {
   animation-delay: 0.36s;
 }`,
   心跳脉冲: `.heart {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   position: relative;
   transform: rotate(-45deg);
-  background: linear-gradient(145deg, var(--accent), var(--accent-deep));
+  background: var(--accent);
+  filter: drop-shadow(0 4px 10px rgba(var(--accent-rgb), 0.45));
   animation: heartbeat 1.2s ease-in-out infinite;
 }
 .heart::before,
 .heart::after {
   content: "";
   position: absolute;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: inherit;
+  background: var(--accent);
 }
 .heart::before {
-  top: -22px;
+  top: -20px;
   left: 0;
 }
 .heart::after {
-  left: 22px;
+  left: 20px;
   top: 0;
 }`,
   霓虹流光: `.cta {
@@ -649,39 +650,7 @@ export const snippetsByTitle = {
 .data-stream span:nth-child(2) { animation-delay: 0.2s; }
 .data-stream span:nth-child(3) { animation-delay: 0.4s; }
 .data-stream span:nth-child(4) { animation-delay: 0.6s; }`,
-  环形进度: `.circle-progress {
-  width: 90px;
-  height: 90px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.circle-progress svg {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
-}
-.circle-progress .progress-bg {
-  fill: none;
-  stroke: rgba(var(--accent-rgb), 0.2);
-  stroke-width: 8;
-}
-.circle-progress .progress-bar {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 8;
-  stroke-linecap: round;
-  stroke-dasharray: 251.2;
-  stroke-dashoffset: 62.8;
-  animation: progressGrow 2s ease-in-out infinite;
-}
-.progress-text {
-  position: absolute;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--accent-soft);
-}`,
+
   信号波纹: `.signal-ripple {
   width: 80px;
   height: 80px;
@@ -1134,15 +1103,39 @@ export const snippetsByTitle = {
   background: linear-gradient(135deg, var(--accent), var(--accent-deep));
   box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
 }`,
-  \u6587\u5b57\u7ffb\u8f6c\u5165\u573a: `.text-flip-3d {
-  font-size: 30px;
+  词语轮播: `.word-rotate-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 22px;
   font-weight: 700;
+}
+.word-rotate-label {
+  color: var(--text);
+  white-space: nowrap;
+}
+.word-rotate-track {
+  position: relative;
+  height: 1.4em;
+  min-width: 3em;
+  overflow: hidden;
+  display: inline-block;
+}
+.word-rotate-item {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--accent);
-  perspective: 400px;
-  animation: flip3dIn 3s ease-in-out infinite;
-  margin: 0;
-  text-shadow: 0 2px 6px rgba(var(--accent-rgb), 0.4);
-}`,
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(60%);
+  animation: wordSlideIn 3.6s ease-in-out infinite;
+}
+.word-rotate-item:nth-child(1) { animation-delay: 0s; }
+.word-rotate-item:nth-child(2) { animation-delay: 1.2s; }
+.word-rotate-item:nth-child(3) { animation-delay: 2.4s; }`,
   \u83ca\u82b1\u65cb\u8f6c: `.spinner-dots {
   width: 10px;
   height: 10px;

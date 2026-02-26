@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//tmp/**)",
+      "Bash(powershell -Command \":*)",
+      "Bash(curl -s -F \"reqtype=fileupload\" -F \"fileToUpload=@1.jpg\" https://catbox.moe/user/api.php)",
+      "Bash(curl -s --max-time 30 -F \"smfile=@1.jpg\" -H \"Authorization: api-key\" https://sm.ms/api/v2/upload)",
+      "Bash(curl -s --max-time 20 -F \"smfile=@1.jpg\" https://sm.ms/api/v2/upload)",
+      "Bash(curl -v --max-time 20 -F \"smfile=@1.jpg\" https://sm.ms/api/v2/upload)",
+      "Bash(curl -s --max-time 20 -L -F \"smfile=@1.jpg\" https://sm.ms/api/v2/upload)",
+      "Bash(curl -s --max-time 20 -F \"file=@1.jpg\" https://telegra.ph/upload)",
+      "Bash(node -e \":*)",
+      "Bash(node fix-snippets.cjs)"
+    ]
+  }
+}

@@ -131,9 +131,9 @@ export const animationParams = {
   },
 
   // ========== 文字特效类 ==========
-  文字翻转入场: {
-    duration: { label: "入场周期", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "flip3dIn" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in-out"], default: "ease-in-out", target: "flip3dIn" },
+  词语轮播: {
+    duration: { label: "轮播时长", type: "range", min: 1.5, max: 6, step: 0.3, default: 3.6, unit: "s", target: "wordSlideIn" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "wordSlideIn" },
   },
   故障闪烁: {
     duration: { label: "闪烁时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.4, unit: "s", target: "glitchSkew" },
@@ -211,10 +211,7 @@ export const animationParams = {
     duration: { label: "流动时长", type: "range", min: 1, max: 5, step: 0.5, default: 2, unit: "s", target: "dataFlow" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "dataFlow" },
   },
-  环形进度: {
-    duration: { label: "进度时长", type: "range", min: 1, max: 5, step: 0.5, default: 2, unit: "s", target: "progressGrow" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "progressGrow" },
-  },
+
   信号波纹: {
     duration: { label: "波纹时长", type: "range", min: 1, max: 5, step: 0.5, default: 2, unit: "s", target: "rippleExpand" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "rippleExpand" },
@@ -263,7 +260,7 @@ export const animationNamesByTitle = {
   三点轨道: ["dotOrbitStep"],
   镜面扫光: ["textShimmer"],
   数据流线: ["dataFlow"],
-  环形进度: ["progressGrow"],
+
   信号波纹: ["rippleExpand"],
   能量脉冲条: ["energyPulse"],
   数据波形: ["waveformBounce"],
@@ -284,7 +281,7 @@ export const animationNamesByTitle = {
   海浪起伏: ["waveMoveLeft", "waveMoveRight"],
   轨道卫星: ["orbitSpin"],
 
-  文字翻转入场: ["flip3dIn"],
+  词语轮播: ["wordSlideIn"],
   菊花旋转: ["spinnerRotate"],
   悬浮卡片: ["cardFloat", "cardShadow"],
   墨迹呼吸: ["blobMorph"],
