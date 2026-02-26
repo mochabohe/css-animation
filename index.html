@@ -78,6 +78,14 @@
             >
               运动效果
             </button>
+            <button
+              class="filter-btn"
+              type="button"
+              data-filter="bigdata"
+              aria-pressed="false"
+            >
+              大数据
+            </button>
           </div>
         </div>
 
@@ -386,12 +394,6 @@
             <span class="card-tag">加载反馈</span>
             <h2>加载脉冲</h2>
             <div class="loader" aria-label="加载动画"></div>
-          </article>
-
-          <article class="card" data-category="loading">
-            <span class="card-tag">加载反馈</span>
-            <h2>雷达扫描</h2>
-            <div class="bg-panel radar" aria-hidden="true"></div>
           </article>
 
           <article class="card" data-category="loading">
@@ -714,6 +716,60 @@
               <div class="hover-float-card">悬浮卡片</div>
             </div>
           </article>
+
+          <!-- 大数据类 -->
+          <article class="card" data-category="bigdata">
+            <span class="card-tag">大数据</span>
+            <h2>雷达扫描</h2>
+            <div class="bg-panel radar" aria-hidden="true"></div>
+          </article>
+
+          <article class="card" data-category="bigdata">
+            <span class="card-tag">大数据</span>
+            <h2>柱状图生长</h2>
+            <div class="bd-bar-chart" aria-hidden="true">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </article>
+
+          <article class="card" data-category="bigdata">
+            <span class="card-tag">大数据</span>
+            <h2>环形占比</h2>
+            <div class="bd-donut" aria-hidden="true">
+              <svg viewBox="0 0 80 80" class="donut-svg">
+                <circle class="donut-track" cx="40" cy="40" r="32" />
+                <circle class="donut-fill" cx="40" cy="40" r="32" />
+              </svg>
+              <span class="donut-label">73%</span>
+            </div>
+          </article>
+
+          <article class="card" data-category="bigdata">
+            <span class="card-tag">大数据</span>
+            <h2>数据表骨架</h2>
+            <div class="bd-table-skeleton" aria-hidden="true">
+              <div class="skel-row skel-header"><span></span><span></span><span></span></div>
+              <div class="skel-row"><span></span><span></span><span></span></div>
+              <div class="skel-row"><span></span><span></span><span></span></div>
+              <div class="skel-row"><span></span><span></span><span></span></div>
+            </div>
+          </article>
+
+          <article class="card" data-category="bigdata">
+            <span class="card-tag">大数据</span>
+            <h2>指标趋势折线</h2>
+            <div class="bd-trend-line" aria-hidden="true">
+              <svg viewBox="0 0 200 60" class="trend-svg">
+                <polyline class="trend-path" points="0,50 28,35 56,42 84,18 112,28 140,12 168,22 200,8" />
+                <circle class="trend-dot" cx="200" cy="8" r="3" />
+              </svg>
+            </div>
+          </article>
+
 
         </section>
 

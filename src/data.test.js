@@ -9,6 +9,6 @@ describe("animation data integrity", () => {
 
   it("keeps keyframe name mapping for major demos", () => {
     expect(animationNamesByTitle["加载脉冲"]).toContain("spin");
-    expect(animationNamesByTitle["环形进度"]).toContain("progressGrow");
+    expect(animationNamesByTitle["柱状图生长"]).toContain("barGrow");
   });
 });

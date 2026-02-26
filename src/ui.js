@@ -7,6 +7,7 @@ const categoryNames = {
   text: "文字特效",
   background: "背景氛围",
   wave: "声波条纹",
+  bigdata: "大数据",
 };
 
 export function createCardRenderer(cards, filterButtons, viewState) {

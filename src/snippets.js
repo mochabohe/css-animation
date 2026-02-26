@@ -1225,6 +1225,130 @@ export const snippetsByTitle = {
     opacity: 1;
   }
 }`,
+  柱状图生长: `.bd-bar-chart {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+}
+.bd-bar-chart span {
+  flex: 1;
+  max-width: 22px;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
+  transform-origin: bottom;
+  animation: barGrow 2s ease-in-out infinite;
+}
+.bd-bar-chart span:nth-child(1) { height: 45%; }
+.bd-bar-chart span:nth-child(2) { height: 75%; animation-delay: 0.1s; }
+.bd-bar-chart span:nth-child(3) { height: 55%; animation-delay: 0.2s; }
+.bd-bar-chart span:nth-child(4) { height: 90%; animation-delay: 0.3s; }
+.bd-bar-chart span:nth-child(5) { height: 65%; animation-delay: 0.4s; }
+@keyframes barGrow {
+  0% { transform: scaleY(0); opacity: 0.3; }
+  40% { transform: scaleY(1); opacity: 1; }
+  80% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(0); opacity: 0.3; }
+}`,
+  环形占比: `.bd-donut {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.donut-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.donut-track {
+  fill: none;
+  stroke: rgba(var(--accent-rgb), 0.12);
+  stroke-width: 7;
+}
+.donut-fill {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 201;
+  stroke-dashoffset: 201;
+  animation: donutGrow 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px rgba(var(--accent-rgb), 0.4));
+}
+.donut-label {
+  position: absolute;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+}
+@keyframes donutGrow {
+  0% { stroke-dashoffset: 201; opacity: 0.4; }
+  50% { stroke-dashoffset: 54; opacity: 1; }
+  80% { stroke-dashoffset: 54; opacity: 1; }
+  100% { stroke-dashoffset: 54; opacity: 0.4; }
+}`,
+  数据表骨架: `.bd-table-skeleton {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.skel-row {
+  display: flex;
+  gap: 8px;
+}
+.skel-row span {
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(100deg, rgba(var(--accent-rgb), 0.1) 30%, rgba(var(--accent-rgb), 0.25) 50%, rgba(var(--accent-rgb), 0.1) 70%);
+  background-size: 200% 100%;
+  animation: skelShimmer 1.5s linear infinite;
+}
+.skel-row span:nth-child(1) { flex: 2; }
+.skel-row span:nth-child(2) { flex: 3; }
+.skel-row span:nth-child(3) { flex: 1.5; }
+.skel-header span { height: 10px; }
+.skel-row:nth-child(2) span { animation-delay: 0.15s; }
+.skel-row:nth-child(3) span { animation-delay: 0.3s; }
+.skel-row:nth-child(4) span { animation-delay: 0.45s; }
+@keyframes skelShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}`,
+  指标趋势折线: `.bd-trend-line {
+  width: 100%;
+  height: 70px;
+  padding: 4px 8px;
+  box-sizing: border-box;
+  background:
+    repeating-linear-gradient(90deg, rgba(var(--accent-rgb), 0.06) 0 1px, transparent 1px 25%),
+    repeating-linear-gradient(0deg, rgba(var(--accent-rgb), 0.06) 0 1px, transparent 1px 33%);
+}
+.trend-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.trend-path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 320;
+  stroke-dashoffset: 320;
+  animation: trendDraw 2.5s ease-in-out infinite;
+}
+@keyframes trendDraw {
+  0% { stroke-dashoffset: 320; opacity: 0; }
+  60% { stroke-dashoffset: 0; opacity: 1; }
+  80% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}`,
 };
 
 

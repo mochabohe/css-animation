@@ -10,7 +10,10 @@
       "Bash(curl -s --max-time 20 -L -F \"smfile=@1.jpg\" https://sm.ms/api/v2/upload)",
       "Bash(curl -s --max-time 20 -F \"file=@1.jpg\" https://telegra.ph/upload)",
       "Bash(node -e \":*)",
-      "Bash(node fix-snippets.cjs)"
+      "Bash(node fix-snippets.cjs)",
+      "Bash(ls -la /c/Users/25198/Desktop/DC-Project/css-animation/src/*.js)",
+      "Bash(npm run lint)",
+      "Bash(npm run test)"
     ]
   }
 }

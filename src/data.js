@@ -6,6 +6,7 @@ export const categoryInsights = {
   text: { scenario: "品牌标题 / 信息强调", token: "motion.typography" },
   background: { scenario: "页面氛围 / 空状态", token: "motion.background" },
   wave: { scenario: "音频可视化 / 声波反馈", token: "motion.wave" },
+  bigdata: { scenario: "数据大屏 / 实时监控", token: "motion.bigdata" },
 };
 
 // 动画参数配置（支持实时调整）
@@ -220,6 +221,24 @@ export const animationParams = {
     duration: { label: "波动时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.2, unit: "s", target: "waveformBounce" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "waveformBounce" },
   },
+
+  // ========== 大数据类 ==========
+  柱状图生长: {
+    duration: { label: "生长时长", type: "range", min: 1, max: 5, step: 0.2, default: 2, unit: "s", target: "barGrow" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "barGrow" },
+  },
+  环形占比: {
+    duration: { label: "填充时长", type: "range", min: 1, max: 5, step: 0.2, default: 2, unit: "s", target: "donutGrow" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "donutGrow" },
+  },
+  数据表骨架: {
+    duration: { label: "扫光时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.5, unit: "s", target: "skelShimmer" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "skelShimmer" },
+  },
+  指标趋势折线: {
+    duration: { label: "绘制时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.5, unit: "s", target: "trendDraw" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "trendDraw" },
+  },
 };
 
 export const animationNamesByTitle = {
@@ -281,4 +300,9 @@ export const animationNamesByTitle = {
   悬浮卡片: ["cardFloat", "cardShadow"],
   墨迹呼吸: ["blobMorph"],
   呼吸光晕: ["breathGlow"],
+
+  柱状图生长: ["barGrow"],
+  环形占比: ["donutGrow"],
+  数据表骨架: ["skelShimmer"],
+  指标趋势折线: ["trendDraw"],
 };
