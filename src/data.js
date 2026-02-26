@@ -98,10 +98,6 @@ export const animationParams = {
     duration: { label: "闪光时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.3, unit: "s", target: "shimmer" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "shimmer" },
   },
-  进度滑条: {
-    duration: { label: "循环时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.5, unit: "s", target: "progressLoop" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "progressLoop" },
-  },
   菊花旋转: {
     duration: { label: "旋转时长", type: "range", min: 0.4, max: 2, step: 0.1, default: 1, unit: "s", target: "spinnerRotate" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "spinnerRotate" },
@@ -231,7 +227,6 @@ export const animationNamesByTitle = {
   跳动圆点: ["dotsBounce"],
   频谱条形: ["barsScale"],
   骨架屏闪光: ["shimmer"],
-  进度滑条: ["progressLoop"],
   弹跳小球: ["bounce", "shadow"],
 
   漂浮气泡: ["floatUp"],

@@ -3,7 +3,6 @@
 .card-front > .dots-loader,
 .card-front > .bars-loader,
 .card-front > .skeleton,
-.card-front > .progress-loop,
 .card-front > .ball-stage,
 .card-front > .float-stage,
 .card-front > .wave-track,
@@ -142,22 +141,6 @@
 
 .skeleton span:nth-child(3) {
   width: 62%;
-}
-
-.progress-loop {
-  width: 100%;
-  height: 10px;
-  border-radius: 99px;
-  background: rgba(95, 120, 170, 0.28);
-  overflow: hidden;
-}
-
-.progress-fill {
-  width: 36%;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-  animation: progressLoop 1.5s ease-in-out infinite;
 }
 
 .ball-stage {
@@ -1152,17 +1135,6 @@
   }
 }
 
-@keyframes progressLoop {
-  0% {
-    transform: translateX(-110%);
-  }
-  50% {
-    transform: translateX(160%);
-  }
-  100% {
-    transform: translateX(160%);
-  }
-}
 
 
 @keyframes bounce {
@@ -2225,11 +2197,6 @@
     rgba(var(--accent-rgb), 0.15) 55%
   );
   background-size: 180% 100%;
-}
-
-/* 进度轨道 */
-[data-color-mode="light"] .progress-loop {
-  background: rgba(80, 120, 200, 0.12);
 }
 
 /* 悬浮输入框：边框颜色适配 */

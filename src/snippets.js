@@ -55,20 +55,6 @@ export const snippetsByTitle = {
 .skeleton span:nth-child(3) {
   width: 62%;
 }`,
-  进度滑条: `.progress-loop {
-  width: 100%;
-  height: 10px;
-  border-radius: 99px;
-  background: rgba(95, 120, 170, 0.28);
-  overflow: hidden;
-}
-.progress-fill {
-  width: 36%;
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
-  animation: progressLoop 1.5s ease-in-out infinite;
-}`,
   弹跳小球: `.ball {
   animation: bounce 1s cubic-bezier(0.42, 0, 0.58, 1) infinite;
 }`,
