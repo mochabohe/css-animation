@@ -1628,4 +1628,48 @@ export const snippetsByTitle = {
   60% { opacity: 1; transform: translateY(-2px); }
   80%, 100% { opacity: 1; transform: translateY(0); }
 }`,
+  涟漪扩散: `.ripple-bg {
+  background: radial-gradient(ellipse at center,
+    rgba(var(--accent-rgb), 0.08) 0%,
+    transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ripple-anchor {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ripple-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(var(--accent-rgb), 0.6);
+  animation: rippleOut 2.4s ease-out infinite;
+  opacity: 0;
+}
+.ripple-ring:nth-child(1) { animation-delay: 0s; }
+.ripple-ring:nth-child(2) { animation-delay: 0.8s; }
+.ripple-ring:nth-child(3) { animation-delay: 1.6s; }
+.ripple-core {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px 4px rgba(var(--accent-rgb), 0.4);
+  animation: rippleCorePulse 2.4s ease-in-out infinite;
+}
+@keyframes rippleOut {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+@keyframes rippleCorePulse {
+  0%, 100% { box-shadow: 0 0 10px 3px rgba(var(--accent-rgb), 0.4); }
+  50%       { box-shadow: 0 0 20px 8px rgba(var(--accent-rgb), 0.7); }
+}`,
 };

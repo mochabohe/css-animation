@@ -1,4 +1,4 @@
-export const categoryInsights = {
+﻿export const categoryInsights = {
   interactive: { scenario: "按钮反馈 / 引导操作", token: "motion.interactive" },
   loading: { scenario: "异步请求 / 首屏加载", token: "motion.loading" },
   motion: { scenario: "状态变化 / 数据强调", token: "motion.emphasis" },
@@ -274,6 +274,10 @@ export const animationParams = {
     duration: { label: "入场时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.6, unit: "s", target: "fadeInUp" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "fadeInUp" },
   },
+  涟漪扩散: {
+    duration: { label: "扩散时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.4, unit: "s", target: "rippleOut" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "rippleOut" },
+  },
 };
 
 export const animationNamesByTitle = {
@@ -349,4 +353,5 @@ export const animationNamesByTitle = {
   标签页指示器: ["tabSlide"],
   消息气泡弹入: ["bubblePop"],
   渐入上移: ["fadeInUp"],
+  涟漪扩散: ["rippleOut", "rippleCorePulse"],
 };

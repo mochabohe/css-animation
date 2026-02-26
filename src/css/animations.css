@@ -48,7 +48,8 @@
 .card-front > .list-skeleton,
 .card-front > .tab-indicator-wrap,
 .card-front > .bubble-stage,
-.card-front > .fade-up-stage {
+.card-front > .fade-up-stage,
+.card-front > .ripple-bg {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -1476,7 +1477,7 @@
   }
 }
 
-/* ===== AI深思文字流光效果 ===== */
+/* ===== AI深思文字流光效�?===== */
 .thinking-shimmer {
   background: linear-gradient(90deg,
     var(--accent-deep) 0%,
@@ -1644,7 +1645,7 @@
   transition: none;
 }
 
-/* ===== 数据可视化动画 ===== */
+/* ===== 数据可视化动�?===== */
 .data-stream {
   width: 100%;
   height: 60px;
@@ -1906,7 +1907,7 @@
   }
 }
 
-/* ========== 霓虹闪烁字 ========== */
+/* ========== 霓虹闪烁�?========== */
 .neon-flicker {
   color: var(--accent-soft);
   text-shadow:
@@ -1972,7 +1973,7 @@
   transform-origin: bottom;
 }
 
-/* 第一层：底浪（缓慢平滑，波长极长）- 1个大周期 */
+/* 第一层：底浪（缓慢平滑，波长极长�? 1个大周期 */
 .wave-bg::before {
   height: 60%;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 300 20, 600 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
@@ -1986,7 +1987,7 @@
   z-index: 1;
 }
 
-/* 第二层：前浪（中等速度，中波长）- 2个中等周期 */
+/* 第二层：前浪（中等速度，中波长�? 2个中等周�?*/
 .wave-bg::after {
   height: 65%;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 150 25, 300 60 T 600 60 T 900 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
@@ -2001,7 +2002,7 @@
   bottom: -2px;
 }
 
-/* 第三层：前高光浪（最快，超短波长，形成细碎浪花错觉）- 3个紧凑周期 */
+/* 第三层：前高光浪（最快，超短波长，形成细碎浪花错觉）- 3个紧凑周�?*/
 .wave-layer3 {
   height: 75%;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 100 40, 200 60 T 400 60 T 600 60 T 800 60 T 1000 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
@@ -2141,7 +2142,7 @@
 
 /* ========== 大数据类 ========== */
 
-/* 柱状图生长 */
+/* 柱状图生�?*/
 .bd-bar-chart {
   width: 100%;
   height: 70px;
@@ -2234,7 +2235,7 @@
   }
 }
 
-/* 数据表骨架 */
+/* 数据表骨�?*/
 .bd-table-skeleton {
   width: 100%;
   padding: 0 10px;
@@ -2418,7 +2419,7 @@
   100%     { --count: 0;  opacity: 0;   }
 }
 
-/* 弹性入场 */
+/* 弹性入�?*/
 .spring-wrap {
   width: 100%;
   height: 80px;
@@ -2445,7 +2446,7 @@
   100%    { transform: scale(0) rotate(12deg);   opacity: 0; }
 }
 
-/* 流星雨 */
+/* 流星�?*/
 .meteor-shower {
   background:
     radial-gradient(ellipse at 60% 30%, rgba(var(--accent-rgb), 0.06), transparent 60%),
@@ -2479,7 +2480,7 @@
    亮色模式 (Light Mode) 动画适配
    ===================================================== */
 
-/* card-face color 继承，使 currentColor SVG 在亮色下为深色 */
+/* card-face color 继承，使 currentColor SVG 在亮色下为深�?*/
 [data-color-mode="light"] .card-face {
   color: var(--text);
 }
@@ -2503,7 +2504,7 @@
   background: rgba(218, 234, 255, 0.97);
 }
 
-/* 悬浮光晕卡：深色背景改浅色 */
+/* 悬浮光晕卡：深色背景改浅�?*/
 [data-color-mode="light"] .hover-glow-card {
   background: rgba(235, 243, 255, 0.85);
   color: #1a2a48;
@@ -2527,7 +2528,7 @@
   color: #3a5480;
 }
 
-/* 动态复选框：浅色文字改深色，复选框外框改浅色 */
+/* 动态复选框：浅色文字改深色，复选框外框改浅�?*/
 [data-color-mode="light"] .draw-checkbox {
   color: #1a2a48;
 }
@@ -2556,14 +2557,14 @@
   color: var(--muted);
 }
 
-/* 下划线滑入按钮 */
+/* 下划线滑入按�?*/
 [data-color-mode="light"] .link-btn {
   color: var(--text);
 }
 
-/* 背景类（极光/星点/网格扫光/雷达）：亮色模式下改为浅色背景 */
+/* 背景类（极光/星点/网格扫光/雷达）：亮色模式下改为浅色背�?*/
 
-/* 星点闪烁 → 浅蓝天空背景，点改为主题色深调 */
+/* 星点闪烁 �?浅蓝天空背景，点改为主题色深�?*/
 [data-color-mode="light"] .stars {
   background: linear-gradient(135deg, #e8f3ff 0%, #dceeff 60%, #eef5ff 100%);
   box-shadow: none;
@@ -2576,7 +2577,7 @@
   box-shadow: 0 0 4px rgba(var(--accent-rgb), 0.5);
 }
 
-/* 极光流动 → 浅色极光，使用低饱和度渐变 */
+/* 极光流动 �?浅色极光，使用低饱和度渐�?*/
 [data-color-mode="light"] .aurora {
   background:
     radial-gradient(circle at 25% 20%, rgba(var(--accent-rgb), 0.3), transparent 55%),
@@ -2585,7 +2586,7 @@
   box-shadow: none;
 }
 
-/* 网格扫光 → 浅色底 + 细线网格 */
+/* 网格扫光 �?浅色�?+ 细线网格 */
 [data-color-mode="light"] .grid-scan {
   background:
     linear-gradient(transparent 94%, rgba(var(--accent-rgb), 0.18) 94%),
@@ -2595,7 +2596,7 @@
   box-shadow: none;
 }
 
-/* 雷达扫描 → 浅色底 */
+/* 雷达扫描 �?浅色�?*/
 [data-color-mode="light"] .radar {
   background: radial-gradient(circle, rgba(var(--accent-soft-rgb), 0.25), rgba(var(--accent-rgb), 0.08) 64%);
   box-shadow: none;
@@ -2608,7 +2609,7 @@
   border-color: rgba(80, 120, 200, 0.18);
 }
 
-/* 海浪起伏：深色海洋背景 → 浅蓝天空 */
+/* 海浪起伏：深色海洋背�?�?浅蓝天空 */
 [data-color-mode="light"] .wave-bg {
   background: linear-gradient(180deg, #eaf4ff 0%, #d6eaff 55%, #c8e2ff 100%);
 }
@@ -2616,14 +2617,14 @@
   background-color: rgba(var(--accent-rgb), 0.1);
 }
 
-/* 呼吸图标按钮：深色背景 → 亮色 */
+/* 呼吸图标按钮：深色背�?�?亮色 */
 [data-color-mode="light"] .icon-btn {
   background: rgba(230, 241, 255, 0.9);
   border-color: rgba(80, 120, 200, 0.3);
   color: #1a2a48;
 }
 
-/* 波纹点击按钮：深色背景 → 亮色 */
+/* 波纹点击按钮：深色背�?�?亮色 */
 [data-color-mode="light"] .ripple-btn {
   background: rgba(230, 241, 255, 0.9);
   border-color: rgba(80, 120, 200, 0.3);
@@ -2631,7 +2632,7 @@
 }
 
 
-/* 粒子流动背景：深色背景 → 使用亮色基调 */
+/* 粒子流动背景：深色背�?�?使用亮色基调 */
 [data-color-mode="light"] .particle-bg {
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.08), rgba(var(--accent-rgb), 0.03));
 }
@@ -2640,7 +2641,7 @@
   opacity: 0.45;
 }
 
-/* 墨迹呼吸背景：深色背景 → 亮色 */
+/* 墨迹呼吸背景：深色背�?�?亮色 */
 [data-color-mode="light"] .blob-bg {
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.07), rgba(var(--accent-2-rgb), 0.04));
 }
@@ -2678,7 +2679,7 @@
   background: rgba(80, 120, 200, 0.15);
 }
 
-/* 弹窗模态弹窗 header 背景适配 */
+/* 弹窗模态弹�?header 背景适配 */
 [data-color-mode="light"] .modal-header {
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.08), rgba(var(--accent-rgb), 0.04));
   border-bottom-color: var(--border);
@@ -2689,13 +2690,13 @@
   color: var(--text);
 }
 
-/* 悬浮卡片文字（.hover-float-card）：深色文字 */
+/* 悬浮卡片文字�?hover-float-card）：深色文字 */
 [data-color-mode="light"] .hover-float-card {
   color: var(--accent);
 }
 
 /* =====================================================
-   页脚联系区文字揭幕
+   页脚联系区文字揭�?
    ===================================================== */
 .contact-text,
 .contact-name {
@@ -2906,4 +2907,52 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* =====================================================
+   涡漓扩散背景
+   ===================================================== */
+.ripple-bg {
+  background: radial-gradient(ellipse at center,
+    rgba(var(--accent-rgb), 0.08) 0%,
+    transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ripple-anchor {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ripple-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1.5px solid rgba(var(--accent-rgb), 0.6);
+  animation: rippleOut 2.4s ease-out infinite;
+  opacity: 0;
+}
+.ripple-ring:nth-child(1) { animation-delay: 0s; }
+.ripple-ring:nth-child(2) { animation-delay: 0.8s; }
+.ripple-ring:nth-child(3) { animation-delay: 1.6s; }
+.ripple-core {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px 4px rgba(var(--accent-rgb), 0.4);
+  animation: rippleCorePulse 2.4s ease-in-out infinite;
+}
+@keyframes rippleOut {
+  0%   { transform: scale(1);   opacity: 0.7; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+@keyframes rippleCorePulse {
+  0%, 100% { box-shadow: 0 0 10px 3px rgba(var(--accent-rgb), 0.4); }
+  50%       { box-shadow: 0 0 20px 8px rgba(var(--accent-rgb), 0.7); }
 }
