@@ -133,6 +133,11 @@ export function createCodeModal({
   copyBtn.type = "button";
   copyBtn.textContent = "复制HTML+CSS代码";
 
+  const shareBtn = document.createElement("button");
+  shareBtn.className = "modal-btn";
+  shareBtn.type = "button";
+  shareBtn.textContent = "分享链接";
+
   const resetBtn = document.createElement("button");
   resetBtn.className = "modal-btn";
   resetBtn.type = "button";
@@ -143,7 +148,7 @@ export function createCodeModal({
   closeModalBtn.type = "button";
   closeModalBtn.textContent = "✕ 关闭";
 
-  modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, resetBtn, closeModalBtn);
+  modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, closeModalBtn);
   modalHeader.append(modalTitle, modalActions);
 
   const editorContainer = document.createElement("div");
@@ -362,6 +367,18 @@ export function createCodeModal({
       markButtonState(copyBtn, "✓ 已复制", "复制HTML+CSS代码");
     } catch {
       copyBtn.textContent = "复制失败";
+    }
+  });
+
+  shareBtn.addEventListener("click", async () => {
+    try {
+      // 构造当前窗口的 URI 并附加 open 参数用于直达
+      const url = new URL(window.location.href);
+      url.searchParams.set("open", title);
+      await copyToClipboard(url.toString());
+      markButtonState(shareBtn, "✓ 已复制链接", "分享链接");
+    } catch {
+      shareBtn.textContent = "复制失败";
     }
   });
 
