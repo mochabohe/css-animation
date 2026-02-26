@@ -1530,5 +1530,102 @@ export const snippetsByTitle = {
   from { background-position: 200% center; }
   to   { background-position: -200% center; }
 }`,
-
+  标签页指示器: `.tab-indicator-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.tab-bar {
+  position: relative;
+  display: flex;
+  gap: 0;
+  background: rgba(var(--accent-rgb), 0.08);
+  border-radius: 8px;
+  padding: 4px;
+}
+.tab-item {
+  position: relative;
+  z-index: 1;
+  padding: 6px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.3s ease;
+  user-select: none;
+}
+.tab-item.is-active {
+  color: var(--text);
+}
+.tab-ink {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: calc(33.333% - 2.67px);
+  height: calc(100% - 8px);
+  background: rgba(var(--accent-rgb), 0.2);
+  border-radius: 6px;
+  animation: tabSlide 3s ease-in-out infinite;
+}
+@keyframes tabSlide {
+  0%, 20%  { transform: translateX(0); }
+  30%, 50% { transform: translateX(100%); }
+  60%, 80% { transform: translateX(200%); }
+  90%, 100% { transform: translateX(0); }
+}`,
+  消息气泡弹入: `.bubble-stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chat-bubble {
+  max-width: 75%;
+  padding: 8px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text);
+  animation: bubblePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+}
+.bubble-left {
+  align-self: flex-start;
+  background: rgba(var(--accent-rgb), 0.15);
+  border-bottom-left-radius: 4px;
+}
+.bubble-right {
+  align-self: flex-end;
+  background: rgba(var(--accent-rgb), 0.3);
+  border-bottom-right-radius: 4px;
+  animation-delay: 0.3s;
+}
+@keyframes bubblePop {
+  0% { opacity: 0; transform: scale(0.3) translateY(20px); }
+  40% { opacity: 1; transform: scale(1.05) translateY(-2px); }
+  60% { transform: scale(0.97) translateY(1px); }
+  75%, 100% { opacity: 1; transform: scale(1) translateY(0); }
+}`,
+  渐入上移: `.fade-up-stage {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.fade-up-item {
+  padding: 8px 14px;
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.15);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--text);
+  animation: fadeInUp 0.6s ease-out both;
+}
+.fade-up-item:nth-child(1) { animation-delay: 0s; }
+.fade-up-item:nth-child(2) { animation-delay: 0.2s; }
+.fade-up-item:nth-child(3) { animation-delay: 0.4s; }
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(24px); }
+  60% { opacity: 1; transform: translateY(-2px); }
+  80%, 100% { opacity: 1; transform: translateY(0); }
+}`,
 };

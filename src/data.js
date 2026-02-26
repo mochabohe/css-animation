@@ -261,7 +261,19 @@ export const animationParams = {
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "trendDraw" },
   },
 
-
+  // ========== 新增实用动画 ==========
+  标签页指示器: {
+    duration: { label: "滑动时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "tabSlide" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "tabSlide" },
+  },
+  消息气泡弹入: {
+    duration: { label: "弹入时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.5, unit: "s", target: "bubblePop" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "bubblePop" },
+  },
+  渐入上移: {
+    duration: { label: "入场时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.6, unit: "s", target: "fadeInUp" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "fadeInUp" },
+  },
 };
 
 export const animationNamesByTitle = {
@@ -333,4 +345,8 @@ export const animationNamesByTitle = {
   环形占比: ["donutGrow"],
   数据表骨架: ["skelShimmer"],
   指标趋势折线: ["trendDraw"],
+
+  标签页指示器: ["tabSlide"],
+  消息气泡弹入: ["bubblePop"],
+  渐入上移: ["fadeInUp"],
 };
