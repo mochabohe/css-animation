@@ -43,7 +43,9 @@
 .card-front > .bd-trend-line,
 .card-front > .text-reveal-wrap,
 .card-front > .count-up-demo,
-.card-front > .spring-demo {
+.card-front > .spring-demo,
+.card-front > .elastic-dots,
+.card-front > .list-skeleton-demo {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -2700,4 +2702,72 @@
 .contact-name {
   animation-delay: 0.3s;
 }
+
+/* ===== 弹力圆点 ===== */
+.elastic-dots {
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  height: 36px;
+}
+
+.elastic-dots span {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-soft), var(--accent));
+  animation: elasticDot 1.1s ease-in-out infinite;
+}
+
+.elastic-dots span:nth-child(2) { animation-delay: 0.15s; }
+.elastic-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes elasticDot {
+  0%, 100% { transform: translateY(0) scaleX(1) scaleY(1); }
+  30%       { transform: translateY(-18px) scaleX(0.85) scaleY(1.15); }
+  50%       { transform: translateY(0) scaleX(1.25) scaleY(0.75); }
+  65%       { transform: translateY(-6px) scaleX(0.95) scaleY(1.05); }
+  80%       { transform: translateY(0) scaleX(1.05) scaleY(0.95); }
+}
+
+/* ===== 列表骨架 ===== */
+.list-skeleton-demo {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.skel-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 20px;
+}
+
+.skel-icon-sq {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  flex-shrink: 0;
+  background: linear-gradient(100deg, rgba(var(--accent-rgb), 0.1) 30%, rgba(var(--accent-rgb), 0.28) 50%, rgba(var(--accent-rgb), 0.1) 70%);
+  background-size: 200% 100%;
+  animation: skelShimmer 1.5s linear infinite;
+}
+
+.skel-text-bar {
+  flex: 1;
+  height: 9px;
+  border-radius: 5px;
+  background: linear-gradient(100deg, rgba(var(--accent-rgb), 0.1) 30%, rgba(var(--accent-rgb), 0.28) 50%, rgba(var(--accent-rgb), 0.1) 70%);
+  background-size: 200% 100%;
+  animation: skelShimmer 1.5s linear infinite;
+  animation-delay: 0.08s;
+}
+
+.skel-list-item:nth-child(2) .skel-icon-sq,
+.skel-list-item:nth-child(2) .skel-text-bar { animation-delay: 0.2s; }
+
+.skel-list-item:nth-child(3) .skel-icon-sq,
+.skel-list-item:nth-child(3) .skel-text-bar { animation-delay: 0.35s; }
 

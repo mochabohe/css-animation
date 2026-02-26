@@ -103,6 +103,14 @@ export const animationParams = {
     duration: { label: "旋转时长", type: "range", min: 0.4, max: 2, step: 0.1, default: 1, unit: "s", target: "spinnerRotate" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "spinnerRotate" },
   },
+  弹力圆点: {
+    duration: { label: "弹跳时长", type: "range", min: 0.5, max: 2, step: 0.1, default: 1.1, unit: "s", target: "elasticDot" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "elasticDot" },
+  },
+  列表骨架: {
+    duration: { label: "扫光时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.5, unit: "s", target: "skelShimmer" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "skelShimmer" },
+  },
 
   // ========== 运动效果类 ==========
   弹跳小球: {
@@ -309,6 +317,8 @@ export const animationNamesByTitle = {
 
   词语轮播: ["wordSlideIn"],
   菊花旋转: ["spinnerRotate"],
+  弹力圆点: ["elasticDot"],
+  列表骨架: ["skelShimmer"],
   悬浮卡片: ["cardFloat", "cardShadow"],
   墨迹呼吸: ["blobMorph"],
   呼吸光晕: ["breathGlow"],
