@@ -1225,6 +1225,121 @@ export const snippetsByTitle = {
     opacity: 1;
   }
 }`,
+  文字揭幕: `.text-reveal-wrap {
+  text-align: center;
+  line-height: 1.6;
+}
+.reveal-text {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  animation: textReveal 3.5s ease-in-out infinite;
+  white-space: nowrap;
+}
+.reveal-text-2 {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent-soft);
+  animation-delay: 0.12s;
+}
+@keyframes textReveal {
+  0%, 5%   { clip-path: inset(0 100% 0 0); opacity: 1; }
+  32%, 68% { clip-path: inset(0 0% 0 0);   opacity: 1; }
+  90%      { clip-path: inset(0 0% 0 0);   opacity: 0; }
+  100%     { clip-path: inset(0 100% 0 0); opacity: 0; }
+}`,
+  数字增长: `@property --count {
+  syntax: '<integer>';
+  initial-value: 0;
+  inherits: false;
+}
+.count-up-demo {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px;
+}
+.count-number {
+  --count: 0;
+  counter-reset: count var(--count);
+  margin: 0;
+  font-size: 44px;
+  font-weight: 800;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  animation: countUp 3s ease-out infinite;
+}
+.count-number::after {
+  content: counter(count);
+}
+.count-suffix {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--accent-soft);
+}
+@keyframes countUp {
+  0%, 5%   { --count: 0;  opacity: 0.3; }
+  65%, 80% { --count: 87; opacity: 1;   }
+  95%      { --count: 87; opacity: 0;   }
+  100%     { --count: 0;  opacity: 0;   }
+}`,
+  弹性入场: `.spring-demo {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.spring-card {
+  width: 80px;
+  height: 50px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.35);
+  animation: springIn 2.5s ease-in-out infinite;
+}
+@keyframes springIn {
+  0%, 12% { transform: scale(0) rotate(-12deg); opacity: 0; }
+  38%     { transform: scale(1.2) rotate(3deg);  opacity: 1; }
+  50%     { transform: scale(0.94) rotate(-1deg); }
+  60%     { transform: scale(1.05) rotate(0.5deg); }
+  68%, 82% { transform: scale(1) rotate(0deg);   opacity: 1; }
+  100%    { transform: scale(0) rotate(12deg);    opacity: 0; }
+}`,
+  流星雨: `.bg-panel {
+  width: 100%;
+  height: 86px;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(145, 177, 240, 0.3);
+}
+.meteor-shower {
+  background:
+    radial-gradient(ellipse at 60% 30%, rgba(var(--accent-rgb), 0.06), transparent 60%),
+    #071020;
+}
+.meteor-shower span {
+  position: absolute;
+  width: 2px;
+  height: 70px;
+  background: linear-gradient(to bottom, transparent, var(--accent-soft), transparent);
+  border-radius: 999px;
+  animation: meteorFall linear infinite;
+  opacity: 0;
+}
+.meteor-shower span:nth-child(1) { left: 15%; animation-duration: 1.4s; animation-delay: 0s;   }
+.meteor-shower span:nth-child(2) { left: 38%; animation-duration: 2s;   animation-delay: 0.5s; }
+.meteor-shower span:nth-child(3) { left: 62%; animation-duration: 1.6s; animation-delay: 1s;   }
+.meteor-shower span:nth-child(4) { left: 82%; animation-duration: 1.9s; animation-delay: 0.3s; }
+.meteor-shower span:nth-child(5) { left: 50%; animation-duration: 2.2s; animation-delay: 1.6s; }
+@keyframes meteorFall {
+  0%   { transform: rotate(18deg) translateY(-100px); opacity: 0; }
+  12%  { opacity: 1; }
+  80%  { opacity: 0.4; }
+  100% { transform: rotate(18deg) translateY(200px);  opacity: 0; }
+}`,
   柱状图生长: `.bd-bar-chart {
   width: 100%;
   height: 70px;

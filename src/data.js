@@ -126,6 +126,9 @@ export const animationParams = {
     duration: { label: "漂浮时长", type: "range", min: 1, max: 6, step: 0.2, default: 3, unit: "s", target: "cardFloat" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "cardFloat" },
   },
+  弹性入场: {
+    duration: { label: "弹入时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.5, unit: "s", target: "springIn" },
+  },
 
   // ========== 文字特效类 ==========
   词语轮播: {
@@ -148,6 +151,13 @@ export const animationParams = {
     duration: { label: "流光时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.8, unit: "s", target: "textShine" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "textShine" },
   },
+  文字揭幕: {
+    duration: { label: "揭幕时长", type: "range", min: 1.5, max: 6, step: 0.2, default: 3.5, unit: "s", target: "textReveal" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "textReveal" },
+  },
+  数字增长: {
+    duration: { label: "计数时长", type: "range", min: 1, max: 6, step: 0.2, default: 3, unit: "s", target: "countUp" },
+  },
   // ========== 背景氛围类 ==========
   极光流动: {
     duration: { label: "流动时长", type: "range", min: 3, max: 12, step: 0.5, default: 6, unit: "s", target: "auroraFlow" },
@@ -169,7 +179,9 @@ export const animationParams = {
     duration: { label: "变形时长", type: "range", min: 2, max: 10, step: 0.5, default: 5, unit: "s", target: "blobMorph" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "blobMorph" },
   },
-
+  流星雨: {
+    duration: { label: "下落时长", type: "range", min: 0.8, max: 4, step: 0.2, default: 1.8, unit: "s", target: "meteorFall" },
+  },
   // ========== AI 数据可视化类 ==========
   逐字加载: {
     duration: { label: "动画时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.1, unit: "s", target: "tokenFlow" },
@@ -300,7 +312,10 @@ export const animationNamesByTitle = {
   悬浮卡片: ["cardFloat", "cardShadow"],
   墨迹呼吸: ["blobMorph"],
   呼吸光晕: ["breathGlow"],
-
+  弹性入场: ["springIn"],
+  文字揭幕: ["textReveal"],
+  数字增长: ["countUp"],
+  流星雨: ["meteorFall"],
   柱状图生长: ["barGrow"],
   环形占比: ["donutGrow"],
   数据表骨架: ["skelShimmer"],
