@@ -224,30 +224,53 @@ export function createCodeModal({
     styleTag.textContent = cssTextarea.value;
   };
 
+  /**
+   * 通过 CSS 变量将参数实时注入 Shadow DOM。
+   * 櫳子选择器和参数变更时仅修改 shadow 内容器的 style，
+   * 无需重写整块 CSS 字符串，避免正则脱脆性问题。
+   * 认频居类名寻贪卵: --anim-{key}-dur 和 --anim-{key}-timing
+   */
   const updatePreviewWithParams = () => {
     if (!currentParams) return;
 
+    Object.entries(currentParams).forEach(([key, config]) => {
+      const value = paramValues[key];
+      const cssVarName = `--anim-param-${key}`;
+      if (config.type === 'range') {
+        shadowContainer.style.setProperty(cssVarName, `${value}${config.unit}`);
+      } else if (config.type === 'select') {
+        shadowContainer.style.setProperty(cssVarName, value);
+      }
+    });
+
+    // 同时将当前参数导出到 CSS 编辑器（供复制使用）
+    exportParamsToCssEditor();
+  };
+
+  /**
+   * 将当前参数銟入到 CSS 编辑器（供复制导出）。
+   * 使用正则替换进行，但仅影响展示层，不干扰 shadow 内实时预览。
+   */
+  const exportParamsToCssEditor = () => {
+    if (!currentParams) return;
     let updatedCss = normalizeCssVariables(fullCss);
     Object.entries(currentParams).forEach(([key, config]) => {
       const value = paramValues[key];
       const target = config.target;
-
-      if (config.type === "range") {
-        const durationRegex = new RegExp(`(${target}\\s+)(\\d+\\.?\\d*)(s)`, "g");
+      if (config.type === 'range') {
+        const durationRegex = new RegExp(`(${target}\\s+)(\\d+\\.?\\d*)(s)`, 'g');
         updatedCss = updatedCss.replace(durationRegex, (_match, prefix, _oldDuration, unit) => {
           return `${prefix}${value}${unit}`;
         });
       }
-
-      if (config.type === "select" && key === "timing") {
+      if (config.type === 'select' && key === 'timing') {
         const timingRegex = new RegExp(
           `(${target}\\s+\\d+\\.?\\d*s\\s+)(linear|ease(?:-in)?(?:-out)?|ease-in-out|cubic-bezier\\([^)]+\\))`,
-          "g",
+          'g'
         );
         updatedCss = updatedCss.replace(timingRegex, (_match, prefix) => `${prefix}${value}`);
       }
     });
-
     cssTextarea.value = updatedCss;
     styleTag.textContent = updatedCss;
   };
@@ -349,6 +372,8 @@ export function createCodeModal({
     if (currentParams && paramsPanel) {
       Object.entries(currentParams).forEach(([key, config]) => {
         paramValues[key] = config.default;
+        // 清除注入到 Shadow DOM 的 CSS 变量，让预览回到 CSS 默认值
+        shadowContainer.style.removeProperty(`--anim-param-${key}`);
       });
 
       const controls = paramsPanel.querySelectorAll("input, select");

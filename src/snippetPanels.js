@@ -59,9 +59,10 @@ export function attachSnippetPanels(cards) {
     const openBtn = document.createElement("button");
     openBtn.className = "snippet-toggle";
     openBtn.type = "button";
+    openBtn.setAttribute("aria-label", `打开 ${title} 代码实验室`);
     openBtn.textContent = "代码实验室";
 
-    openBtn.addEventListener("click", () => {
+    const openModal = () => {
       const previousActiveElement = document.activeElement;
       const modal = createCodeModal({
         title,
@@ -84,6 +85,15 @@ export function attachSnippetPanels(cards) {
           firstFocusable.focus();
         }
       });
+    };
+
+    openBtn.addEventListener("click", openModal);
+    // 键盘无障碍：Enter 和 Space 也可触发
+    openBtn.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openModal();
+      }
     });
 
     front.append(metaRow, openBtn);

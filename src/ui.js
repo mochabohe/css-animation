@@ -49,9 +49,13 @@ export function bindFiltering({ filterButtons, searchInput, viewState, renderCar
   });
 
   if (!searchInput) return;
+  let searchDebounceTimer = null;
   searchInput.addEventListener("input", (event) => {
-    viewState.keyword = event.target.value || "";
-    renderCards();
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(() => {
+      viewState.keyword = event.target.value || "";
+      renderCards();
+    }, 100);
   });
 }
 
@@ -236,4 +240,56 @@ export function bindLikeButtons(buttons) {
       }
     });
   });
+}
+
+/**
+ * 使用 IntersectionObserver 对卡片内的动画元素按需暂停/恢复。
+ * 当卡片离开视口时，将其内部所有带动画的元素设为 paused，
+ * 重新进入视口时恢复 running，大幅降低 CPU/GPU 占用。
+ * @param {NodeList|Element[]} cards - 所有动画卡片
+ */
+export function bindIntersectionPause(cards) {
+  if (!('IntersectionObserver' in window)) return;
+
+  const ANIMATED_SELECTOR = [
+    '.bg-panel', '.ball', '.float-orb', '.heart', '.orbit',
+    '.bars-loader span', '.ai-confidence span', '.energy-bars span',
+    '.data-waveform span', '.spinner-dots', '.loader', '.elastic-dots span',
+    '.dots-loader span', '.wave-track span', '.ai-loading-dots .ai-dot',
+    '.ai-token-stream span', '.skeleton span', '.skel-icon-sq', '.skel-text-bar',
+    '.ai-pipeline span', '.data-stream span',
+    '.thinking-shimmer', '.gradient-text', '.typing', '.glitch', '.wave-text span',
+    '.neon-flicker', '.reveal-text', '.count-number',
+    '.word-rotate-item',
+    '.signal-ripple span', '.ai-anomaly span', '.ai-cluster span',
+    '.ai-vector-hit span', '.breath-orb', '.border-stream-btn',
+    '.cta', '.icon-dot', '.bell-icon', '.avatar-ripple',
+    '.bd-bar-chart span', '.bd-donut', '.radar',
+    '.hover-float-card', '.spring-card',
+  ].join(', ');
+
+  const setPlayState = (card, state) => {
+    const els = card.querySelectorAll(ANIMATED_SELECTOR);
+    els.forEach((el) => {
+      el.style.animationPlayState = state;
+    });
+    // 卡片自身如有动画
+    if (card.style.animationName !== '') {
+      card.style.animationPlayState = state;
+    }
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        setPlayState(entry.target, entry.isIntersecting ? 'running' : 'paused');
+      });
+    },
+    {
+      rootMargin: '80px 0px',  // 提前 80px 恢复，避免动画首帧跳变
+      threshold: 0,
+    }
+  );
+
+  cards.forEach((card) => observer.observe(card));
 }

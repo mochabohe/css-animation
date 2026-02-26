@@ -12,6 +12,7 @@ import {
   bindToggles,
   bindThemeControls,
   bindLikeButtons,
+  bindIntersectionPause,
 } from "./ui.js";
 
 const filterButtons = document.querySelectorAll(".filter-btn");
@@ -22,12 +23,21 @@ const metaToggle = document.querySelector("#metaToggle");
 const themeButtons = document.querySelectorAll(".theme-btn");
 const likeButtons = document.querySelectorAll(".like-btn");
 
-const viewState = {
-  filter: "all",
-  keyword: "",
-};
+// 使用 Proxy 实现自动响应式状态：任何属性变更自动触发渲染
+let renderCards;
+const viewState = new Proxy(
+  { filter: "all", keyword: "" },
+  {
+    set(target, prop, value) {
+      target[prop] = value;
+      // renderCards 在初始化后赋值，Proxy set 触发时已存在
+      if (typeof renderCards === "function") renderCards();
+      return true;
+    },
+  }
+);
 
-const renderCards = createCardRenderer(animationCards, filterButtons, viewState);
+renderCards = createCardRenderer(animationCards, filterButtons, viewState);
 
 bindFiltering({
   filterButtons,
@@ -50,4 +60,7 @@ attachSnippetPanels(animationCards);
 renderCards();
 
 document.body.classList.add("show-meta");
+
+// 按需暂停：只有滚动进视口的卡片才运行动画
+bindIntersectionPause(animationCards);
 
