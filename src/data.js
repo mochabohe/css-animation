@@ -9,6 +9,7 @@ export const categoryInsights = {
   bigdata: { scenario: "数据大屏 / 实时监控", token: "motion.bigdata" },
 };
 
+
 // 动画参数配置（支持实时调整）
 export const animationParams = {
   // ========== 交互按钮类 ==========
@@ -259,6 +260,8 @@ export const animationParams = {
     duration: { label: "绘制时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.5, unit: "s", target: "trendDraw" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "trendDraw" },
   },
+
+
 };
 
 export const animationNamesByTitle = {

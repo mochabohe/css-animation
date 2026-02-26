@@ -733,7 +733,7 @@ export const snippetsByTitle = {
 .border-stream-btn:hover::after {
   background: rgba(20, 35, 60, 0.95);
 }`,
-  摇晃铃铛: `.bell-demo {
+  摇晃铃铛: `.bell-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -761,7 +761,7 @@ export const snippetsByTitle = {
   border-radius: 50%;
   border: 2px solid #0f1b2f;
 }`,
-  悬浮输入框: `.input-float-demo {
+  悬浮输入框: `.input-float-wrap {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -1254,7 +1254,7 @@ export const snippetsByTitle = {
   initial-value: 0;
   inherits: false;
 }
-.count-up-demo {
+.count-up-wrap {
   display: flex;
   align-items: baseline;
   justify-content: center;
@@ -1284,7 +1284,7 @@ export const snippetsByTitle = {
   95%      { --count: 87; opacity: 0;   }
   100%     { --count: 0;  opacity: 0;   }
 }`,
-  弹性入场: `.spring-demo {
+  弹性入场: `.spring-wrap {
   width: 100%;
   height: 80px;
   display: flex;
@@ -1486,7 +1486,7 @@ export const snippetsByTitle = {
   65%       { transform: translateY(-6px) scaleX(0.95) scaleY(1.05); }
   80%       { transform: translateY(0) scaleX(1.05) scaleY(0.95); }
 }`,
-  列表骨架: `.list-skeleton-demo {
+  列表骨架: `.list-skeleton {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -1530,6 +1530,5 @@ export const snippetsByTitle = {
   from { background-position: 200% center; }
   to   { background-position: -200% center; }
 }`,
+
 };
-
-

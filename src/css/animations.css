@@ -1,4 +1,4 @@
-/* Animation Demos */
+/* Animations */
 .card-front > .loader,
 .card-front > .dots-loader,
 .card-front > .bars-loader,
@@ -23,15 +23,15 @@
 .card-front > .ai-cluster,
 .card-front > .ai-loading-dots,
 .card-front > .border-stream-btn,
-.card-front > .bell-demo,
-.card-front > .input-float-demo,
+.card-front > .bell-wrap,
+.card-front > .input-float-wrap,
 .card-front > .hover-glow-card,
 .card-front > .glow-accordion,
 .card-front > .draw-checkbox,
 .card-front > .avatar-ripple,
 .card-front > .counter-wrap,
 .card-front > .orbit,
-.card-front > .spring-demo,
+.card-front > .spring-wrap,
 .card-front > .parallax-card,
 .card-front > .word-rotate-wrap,
 .card-front > .spinner-dots,
@@ -42,10 +42,10 @@
 .card-front > .bd-table-skeleton,
 .card-front > .bd-trend-line,
 .card-front > .text-reveal-wrap,
-.card-front > .count-up-demo,
-.card-front > .spring-demo,
+.card-front > .count-up-wrap,
+.card-front > .spring-wrap,
 .card-front > .elastic-dots,
-.card-front > .list-skeleton-demo {
+.card-front > .list-skeleton {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -519,7 +519,7 @@
   background: rgba(20, 35, 60, 0.95);
 }
 
-.bell-demo {
+.bell-wrap {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -554,7 +554,7 @@
   20%, 40%, 60%, 80% { transform: rotate(-10deg); }
 }
 
-.input-float-demo {
+.input-float-wrap {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -2380,7 +2380,7 @@
   inherits: false;
 }
 
-.count-up-demo {
+.count-up-wrap {
   display: flex;
   align-items: baseline;
   justify-content: center;
@@ -2416,7 +2416,7 @@
 }
 
 /* 弹性入场 */
-.spring-demo {
+.spring-wrap {
   width: 100%;
   height: 80px;
   display: flex;
@@ -2731,7 +2731,7 @@
 }
 
 /* ===== 列表骨架 ===== */
-.list-skeleton-demo {
+.list-skeleton {
   width: 100%;
   display: flex;
   flex-direction: column;
