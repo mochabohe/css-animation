@@ -262,49 +262,22 @@ export function bindLikeButtons(buttons) {
 }
 
 /**
- * 使用 IntersectionObserver 对卡片内的动画元素按需暂停/恢复。
- * 当卡片离开视口时，将其内部所有带动画的元素设为 paused，
- * 重新进入视口时恢复 running，大幅降低 CPU/GPU 占用。
+ * 使用 IntersectionObserver 对卡片按需暂停/恢复动画。
+ * 当卡片离开视口时，给卡片加 data-paused 属性，CSS 负责暂停其内所有动画；
+ * 重新进入视口时移除属性，动画自动恢复，大幅降低 CPU/GPU 占用。
  * @param {NodeList|Element[]} cards - 所有动画卡片
  */
 export function bindIntersectionPause(cards) {
   if (!('IntersectionObserver' in window)) return;
 
-  const ANIMATED_SELECTOR = [
-    '.bg-panel', '.ball', '.float-orb', '.heart', '.orbit',
-    '.bars-loader span', '.ai-confidence span', '.energy-bars span',
-    '.data-waveform span', '.spinner-dots', '.loader', '.elastic-dots span',
-    '.dots-loader span', '.wave-track span', '.ai-loading-dots .ai-dot',
-    '.ai-token-stream span', '.skeleton span', '.skel-icon-sq', '.skel-text-bar',
-    '.ai-pipeline span', '.data-stream span',
-    '.thinking-shimmer', '.gradient-text', '.typing', '.glitch', '.wave-text span',
-    '.neon-flicker', '.reveal-text', '.count-number',
-    '.word-rotate-item',
-    '.signal-ripple span', '.ai-anomaly span', '.ai-cluster span',
-    '.ai-vector-hit span', '.breath-orb', '.border-stream-btn',
-    '.cta', '.icon-dot', '.bell-icon', '.avatar-ripple',
-    '.bd-bar-chart span', '.bd-donut', '.radar',
-    '.hover-float-card', '.spring-card',
-    '.empty-search', '.search-cross',
-    '.zchart-body span', '.eq-ring', '.eq-mark',
-    '.hg-top', '.hg-bot', '.planet-404', '.signal-arc', '.planet-star',
-  ].join(', ');
-
-  const setPlayState = (card, state) => {
-    const els = card.querySelectorAll(ANIMATED_SELECTOR);
-    els.forEach((el) => {
-      el.style.animationPlayState = state;
-    });
-    // 卡片自身如有动画
-    if (card.style.animationName !== '') {
-      card.style.animationPlayState = state;
-    }
-  };
-
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        setPlayState(entry.target, entry.isIntersecting ? 'running' : 'paused');
+        if (entry.isIntersecting) {
+          delete entry.target.dataset.paused;
+        } else {
+          entry.target.dataset.paused = '';
+        }
       });
     },
     {

@@ -43,6 +43,12 @@
   --motion-background-easing: var(--motion-ease-standard);
   --motion-empty-duration: var(--motion-duration-xl);
   --motion-empty-easing: var(--motion-ease-standard);
+
+  /* Card-scoped motion token defaults (also available in Shadow DOM) */
+  --fx-duration: var(--motion-duration-md);
+  --fx-easing: var(--motion-ease-standard);
+  --fx-duration-slow: var(--motion-duration-lg);
+  --fx-duration-fast: var(--motion-duration-sm);
 }
 
 /* ===== 暗色主题（默认） ===== */

@@ -216,12 +216,6 @@
   perspective: 1100px;
   min-height: var(--card-height);
   height: 100%;
-
-  /* default card-scoped motion token */
-  --fx-duration: var(--motion-duration-md);
-  --fx-easing: var(--motion-ease-standard);
-  --fx-duration-slow: var(--motion-duration-lg);
-  --fx-duration-fast: var(--motion-duration-sm);
 }
 
 .card[data-category="loading"] {
@@ -296,8 +290,7 @@
   }
 }
 .card-face > div[aria-hidden="true"] {
-  transform: scale(var(--scale-factor, 1));
-  transform-origin: center;
+  scale: var(--scale-factor, 1);
 }
 
 .card-tag {

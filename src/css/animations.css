@@ -1258,9 +1258,8 @@
 }
 
 @keyframes spin {
-  to {
-    transform: rotate(1turn);
-  }
+  from { transform: rotate(0turn); }
+  to { transform: rotate(1turn); }
 }
 
 @keyframes pulse {
@@ -1489,9 +1488,8 @@
 }
 
 @keyframes scanLine {
-  to {
-    transform: translateY(100%);
-  }
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
 }
 
 @keyframes tokenFlow {
@@ -1507,9 +1505,8 @@
 }
 
 @keyframes radarSpin {
-  to {
-    transform: rotate(1turn);
-  }
+  from { transform: rotate(0turn); }
+  to { transform: rotate(1turn); }
 }
 
 @keyframes hitPulse {
@@ -1668,7 +1665,7 @@
     -15px 15px 0 rgba(var(--accent-rgb), 0.2),
     -22px 0 0 rgba(var(--accent-rgb), 0.1),
     -15px -15px 0 rgba(var(--accent-rgb), 0.05);
-  animation: spinnerRotate var(--fx-duration, 1s) linear infinite;
+  animation: spinnerRotate var(--fx-duration) linear infinite;
 }
 
 @keyframes spinnerRotate {
@@ -1760,7 +1757,7 @@
   border-radius: 50% 40% 55% 45% / 45% 55% 40% 50%;
   filter: blur(20px);
   opacity: 0.6;
-  animation: blobMorph var(--fx-duration, 5s) ease-in-out infinite;
+  animation: blobMorph var(--fx-duration) ease-in-out infinite;
 }
 
 .blob-bg::after {
@@ -1774,7 +1771,7 @@
   border-radius: 40% 55% 45% 60% / 55% 45% 60% 40%;
   filter: blur(20px);
   opacity: 0.6;
-  animation: blobMorph var(--fx-duration, 5s) ease-in-out infinite;
+  animation: blobMorph var(--fx-duration) ease-in-out infinite;
   animation-delay: -2.5s;
 }
 
@@ -1882,7 +1879,7 @@
   width: 36px;
   height: 60px;
   margin: 0 auto;
-  animation: hgFlip calc(var(--fx-duration, 2s) * 2) ease-in-out infinite;
+  animation: hgFlip calc(var(--fx-duration) * ) ease-in-out infinite;
 }
 
 .hg-top {
@@ -1903,7 +1900,7 @@
   height: 75%;
   background: rgba(var(--accent-rgb), 0.55);
   border-radius: 1px;
-  animation: sandTop calc(var(--fx-duration, 2s) * 2) linear infinite;
+  animation: sandTop calc(var(--fx-duration) * ) linear infinite;
 }
 
 .hg-neck {
@@ -1931,7 +1928,7 @@
   height: 0%;
   background: rgba(var(--accent-rgb), 0.45);
   border-radius: 0 0 2px 2px;
-  animation: sandBottom calc(var(--fx-duration, 2s) * 2) linear infinite;
+  animation: sandBottom calc(var(--fx-duration) * ) linear infinite;
 }
 
 @keyframes hgFlip {
@@ -2442,6 +2439,13 @@
   transition: none;
 }
 
+/* 按需暂停：IntersectionObserver 通过 data-paused 属性控制动画状态 */
+.card[data-paused] *,
+.card[data-paused] *::before,
+.card[data-paused] *::after {
+  animation-play-state: paused !important;
+}
+
 /* ===== 数据可视化动?===== */
 .data-stream {
   width: 100%;
@@ -2769,9 +2773,8 @@
 }
 
 @keyframes buttonSpinner {
-  to {
-    transform: rotate(1turn);
-  }
+  from { transform: rotate(0turn); }
+  to { transform: rotate(1turn); }
 }
 
 @keyframes borderRotate {
@@ -3001,9 +3004,8 @@
   box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
 }
 @keyframes orbitSpin {
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* ========== 词语轮播 ========== */
