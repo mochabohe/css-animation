@@ -4,6 +4,7 @@ const categoryNames = {
   loading: "加载反馈",
   motion: "运动效果",
   interactive: "交互按钮",
+  empty: "空结果",
   text: "文字特效",
   background: "背景氛围",
   wave: "声波条纹",
@@ -11,8 +12,14 @@ const categoryNames = {
 };
 
 export function createCardRenderer(cards, filterButtons, viewState) {
+  const resultCountEl = document.querySelector("#resultCount");
+  const emptyStateEl = document.querySelector("#emptyState");
+
   return function renderCards() {
     const normalizedKeyword = viewState.keyword.trim().toLowerCase();
+    // 按关键词统计各分类数量（不受 filter 限制，用于按钮徽章）
+    const categoryCount = {};
+    let visibleCount = 0;
 
     cards.forEach((card) => {
       const category = card.dataset.category;
@@ -20,23 +27,45 @@ export function createCardRenderer(cards, filterButtons, viewState) {
       const tag = card.querySelector(".card-tag")?.textContent?.toLowerCase() || "";
       const categoryName = categoryNames[category]?.toLowerCase() || "";
 
-      const matchFilter = viewState.filter === "all" || category === viewState.filter;
       const matchKeyword =
         !normalizedKeyword ||
         title.includes(normalizedKeyword) ||
         tag.includes(normalizedKeyword) ||
         categoryName.includes(normalizedKeyword);
 
+      if (matchKeyword) {
+        categoryCount[category] = (categoryCount[category] || 0) + 1;
+      }
+
+      const matchFilter = viewState.filter === "all" || category === viewState.filter;
       const visible = matchFilter && matchKeyword;
       card.hidden = !visible;
       card.setAttribute("aria-hidden", String(!visible));
+      if (visible) visibleCount++;
     });
+
+    const totalKeywordMatch = Object.values(categoryCount).reduce((s, n) => s + n, 0);
 
     filterButtons.forEach((button) => {
       const isActive = button.dataset.filter === viewState.filter;
       button.classList.toggle("is-active", isActive);
       button.setAttribute("aria-pressed", String(isActive));
+
+      const countEl = button.querySelector(".filter-count");
+      if (countEl) {
+        const filter = button.dataset.filter;
+        const count = filter === "all" ? totalKeywordMatch : (categoryCount[filter] || 0);
+        countEl.textContent = count > 0 ? count : "";
+      }
     });
+
+    if (emptyStateEl) emptyStateEl.hidden = visibleCount > 0;
+    if (resultCountEl) {
+      resultCountEl.textContent =
+        normalizedKeyword || viewState.filter !== "all"
+          ? `找到 ${visibleCount} 个动画`
+          : `共 ${visibleCount} 个动画`;
+    }
   };
 }
 
@@ -57,20 +86,12 @@ export function bindFiltering({ filterButtons, searchInput, viewState }) {
   });
 }
 
-export function bindToggles({ motionToggle, metaToggle, colorModeToggle }) {
+export function bindToggles({ motionToggle, colorModeToggle }) {
   if (motionToggle) {
     motionToggle.addEventListener("click", () => {
       const enabled = document.body.classList.toggle("reduced-preview");
       motionToggle.setAttribute("aria-pressed", String(enabled));
       motionToggle.textContent = enabled ? "开启" : "关闭";
-    });
-  }
-
-  if (metaToggle) {
-    metaToggle.addEventListener("click", () => {
-      const enabled = document.body.classList.toggle("show-meta");
-      metaToggle.setAttribute("aria-pressed", String(enabled));
-      metaToggle.textContent = enabled ? "开启" : "关闭";
     });
   }
 
@@ -264,6 +285,8 @@ export function bindIntersectionPause(cards) {
     '.cta', '.icon-dot', '.bell-icon', '.avatar-ripple',
     '.bd-bar-chart span', '.bd-donut', '.radar',
     '.hover-float-card', '.spring-card',
+    '.empty-search', '.search-cross',
+    '.zchart-body span', '.eq-ring', '.eq-mark',
   ].join(', ');
 
   const setPlayState = (card, state) => {

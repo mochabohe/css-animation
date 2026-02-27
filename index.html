@@ -28,7 +28,7 @@
               data-filter="all"
               aria-pressed="true"
             >
-              全部
+              全部<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -36,7 +36,7 @@
               data-filter="interactive"
               aria-pressed="false"
             >
-              交互按钮
+              交互按钮<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -44,7 +44,15 @@
               data-filter="loading"
               aria-pressed="false"
             >
-              加载反馈
+              加载反馈<span class="filter-count"></span>
+            </button>
+            <button
+              class="filter-btn"
+              type="button"
+              data-filter="empty"
+              aria-pressed="false"
+            >
+              空结果<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -52,7 +60,7 @@
               data-filter="text"
               aria-pressed="false"
             >
-              文字特效
+              文字特效<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -60,7 +68,7 @@
               data-filter="background"
               aria-pressed="false"
             >
-              背景氛围
+              背景氛围<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -68,7 +76,7 @@
               data-filter="wave"
               aria-pressed="false"
             >
-              声波条纹
+              声波条纹<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -76,7 +84,7 @@
               data-filter="motion"
               aria-pressed="false"
             >
-              运动效果
+              运动效果<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -84,7 +92,7 @@
               data-filter="bigdata"
               aria-pressed="false"
             >
-              大数据
+              大数据<span class="filter-count"></span>
             </button>
           </div>
         </div>
@@ -224,22 +232,17 @@
                 关闭
               </button>
             </div>
-            <div class="sidebar-toggle-item">
-              <span>工程信息</span>
-              <button
-                id="metaToggle"
-                class="toggle-btn"
-                type="button"
-                aria-pressed="true"
-              >
-                开启
-              </button>
-            </div>
           </div>
         </div>
       </aside>
 
       <main class="page">
+        <div
+          id="resultCount"
+          class="result-count"
+          aria-live="polite"
+          aria-atomic="true"
+        ></div>
         <section class="grid" id="animationGrid" aria-live="polite">
           <!-- 交互按钮类 -->
           <article class="card" data-category="interactive">
@@ -279,7 +282,14 @@
             <h2>摇晃铃铛</h2>
             <div class="bell-wrap">
               <div class="bell-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                 </svg>
@@ -293,7 +303,17 @@
             <h2>角标跳动</h2>
             <div class="badge-bounce-wrap" aria-label="展示带有角标的图标">
               <div class="bell-icon-wrap">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
                 <div class="badge-bounce"></div>
               </div>
             </div>
@@ -340,14 +360,12 @@
             </button>
           </article>
 
-
-
           <article class="card" data-category="interactive">
             <span class="card-tag">交互按钮</span>
             <h2>悬浮输入框</h2>
             <div class="input-float-wrap">
               <div class="input-float-group">
-                <input type="text" id="username" required>
+                <input type="text" id="username" required />
                 <label for="username">用户名</label>
                 <span class="input-bar"></span>
               </div>
@@ -380,7 +398,14 @@
               <input type="checkbox" />
               <svg viewBox="0 0 24 24" class="checkbox-box">
                 <rect x="2" y="2" width="20" height="20" rx="4" />
-                <path class="tick" d="M6 12l4 4 8-8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path
+                  class="tick"
+                  d="M6 12l4 4 8-8"
+                  fill="none"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
               <span>记住我</span>
             </label>
@@ -491,9 +516,18 @@
             <span class="card-tag">加载反馈</span>
             <h2>列表骨架</h2>
             <div class="list-skeleton" aria-hidden="true">
-              <div class="skel-list-item"><span class="skel-icon-sq"></span><span class="skel-text-bar"></span></div>
-              <div class="skel-list-item"><span class="skel-icon-sq"></span><span class="skel-text-bar"></span></div>
-              <div class="skel-list-item"><span class="skel-icon-sq"></span><span class="skel-text-bar"></span></div>
+              <div class="skel-list-item">
+                <span class="skel-icon-sq"></span
+                ><span class="skel-text-bar"></span>
+              </div>
+              <div class="skel-list-item">
+                <span class="skel-icon-sq"></span
+                ><span class="skel-text-bar"></span>
+              </div>
+              <div class="skel-list-item">
+                <span class="skel-icon-sq"></span
+                ><span class="skel-text-bar"></span>
+              </div>
             </div>
           </article>
 
@@ -518,11 +552,41 @@
             </div>
           </article>
 
-
           <article class="card" data-category="loading">
             <span class="card-tag">加载反馈</span>
             <h2>进度条流动</h2>
             <div class="progress-bar" aria-label="加载进度条"></div>
+          </article>
+
+          <!-- 空结果类 -->
+          <article class="card" data-category="empty">
+            <span class="card-tag">空结果</span>
+            <h2>搜索无果</h2>
+            <div class="empty-search" aria-hidden="true">
+              <span class="search-lens"></span>
+              <span class="search-handle"></span>
+              <span class="search-cross"></span>
+              <span class="search-cross search-cross--alt"></span>
+            </div>
+          </article>
+
+          <article class="card" data-category="empty">
+            <span class="card-tag">空结果</span>
+            <h2>空档案夹</h2>
+            <div class="empty-folder" aria-hidden="true">
+              <div class="folder-back"></div>
+              <div class="folder-paper"></div>
+              <div class="folder-front"></div>
+            </div>
+          </article>
+
+          <article class="card" data-category="empty">
+            <span class="card-tag">空结果</span>
+            <h2>No Data 幽灵</h2>
+            <div class="ghost-nodata" aria-hidden="true">
+              <div class="ghost-body"><div class="ghost-eyes"></div></div>
+              <div class="ghost-shadow"></div>
+            </div>
           </article>
 
           <!-- 文字特效类 -->
@@ -602,15 +666,13 @@
             <p class="fx-text highlight-sweep">重点提示</p>
           </article>
 
-
-
           <!-- 背景氛围类 -->
           <article class="card" data-category="background">
             <span class="card-tag">背景氛围</span>
             <h2>粒子流动</h2>
             <div class="bg-panel particle-bg" aria-hidden="true">
-              <span></span><span></span><span></span>
-              <span></span><span></span><span></span>
+              <span></span><span></span><span></span> <span></span><span></span
+              ><span></span>
             </div>
           </article>
 
@@ -643,8 +705,6 @@
             <h2>网格扫光</h2>
             <div class="bg-panel grid-scan" aria-hidden="true"></div>
           </article>
-
-
 
           <article class="card" data-category="background">
             <span class="card-tag">背景氛围</span>
@@ -887,10 +947,18 @@
             <span class="card-tag">大数据</span>
             <h2>数据表骨架</h2>
             <div class="bd-table-skeleton" aria-hidden="true">
-              <div class="skel-row skel-header"><span></span><span></span><span></span></div>
-              <div class="skel-row"><span></span><span></span><span></span></div>
-              <div class="skel-row"><span></span><span></span><span></span></div>
-              <div class="skel-row"><span></span><span></span><span></span></div>
+              <div class="skel-row skel-header">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="skel-row">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="skel-row">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="skel-row">
+                <span></span><span></span><span></span>
+              </div>
             </div>
           </article>
 
@@ -899,13 +967,62 @@
             <h2>指标趋势折线</h2>
             <div class="bd-trend-line" aria-hidden="true">
               <svg viewBox="0 0 200 60" class="trend-svg">
-                <polyline class="trend-path" points="0,50 28,35 56,42 84,18 112,28 140,12 168,22 200,8" />
+                <polyline
+                  class="trend-path"
+                  points="0,50 28,35 56,42 84,18 112,28 140,12 168,22 200,8"
+                />
                 <circle class="trend-dot" cx="200" cy="8" r="3" />
               </svg>
             </div>
           </article>
 
-
+          <div id="emptyState" class="empty-state" hidden aria-live="polite">
+            <svg
+              class="empty-icon"
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <circle
+                cx="22"
+                cy="22"
+                r="14"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="32"
+                y1="32"
+                x2="42"
+                y2="42"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="17"
+                y1="22"
+                x2="27"
+                y2="22"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="22"
+                y1="17"
+                x2="22"
+                y2="27"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </svg>
+            <p class="empty-title">没有找到匹配的动画</p>
+            <p class="empty-hint">换个关键词试试，或点击「全部」查看所有效果</p>
+          </div>
         </section>
 
         <footer class="page-footer">

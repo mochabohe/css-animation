@@ -4,8 +4,8 @@
 }
 
 .sidebar {
-  width: 200px;
-  min-width: 200px;
+  width: 220px;
+  min-width: 220px;
   background: var(--bg-sidebar);
   border-right: 1px solid var(--border-sidebar);
   padding: 24px 16px;
@@ -17,6 +17,25 @@
   height: 100vh;
   overflow-y: auto;
   transition: background-color 0.35s ease, border-color 0.35s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--accent-rgb), 0.25) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-rgb), 0.25);
+  border-radius: 999px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--accent-rgb), 0.5);
 }
 
 .sidebar-section {
@@ -73,7 +92,10 @@
   width: 100%;
   max-width: 100%;
   margin: 0;
-  padding: 24px min(4vw, 40px) 0;
+  --page-pad-x: min(4vw, 40px);
+  padding: 24px var(--page-pad-x) 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .hero {
@@ -137,16 +159,66 @@
   }
 }
 
+.result-count {
+  font-size: 12px;
+  color: var(--text-muted-strong);
+  margin-bottom: 14px;
+  min-height: 18px;
+  transition: opacity 0.2s ease;
+}
+
+.result-count:empty {
+  display: none;
+}
+
 .grid {
   display: grid;
   gap: 18px;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
+/* ===== 空状态 ===== */
+.empty-state[hidden] {
+  display: none;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 20px;
+  color: var(--text-muted-strong);
+  text-align: center;
+}
+
+.empty-icon {
+  width: 48px;
+  height: 48px;
+  opacity: 0.35;
+}
+
+.empty-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.empty-hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 /* ===== 页脚 ===== */
 .page-footer {
-  margin-top: 40px;
-  padding: 20px min(4vw, 40px) 24px;
+  margin-top: auto;
+  padding: 20px var(--page-pad-x) 24px;
+  margin-left: calc(var(--page-pad-x) * -1);
+  margin-right: calc(var(--page-pad-x) * -1);
   border-top: 1px solid var(--border);
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.05), rgba(var(--accent-rgb), 0.02));
   transition: background-color 0.35s ease, border-color 0.35s ease;
@@ -158,8 +230,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 16px;
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 .footer-info {
@@ -262,9 +333,13 @@
 }
 
 @media (max-width: 680px) {
+  .page {
+    --page-pad-x: 16px;
+  }
+
   .page-footer {
     margin-top: 30px;
-    padding: 16px 16px 20px;
+    padding: 16px var(--page-pad-x) 20px;
   }
 
   .footer-content {

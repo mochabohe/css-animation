@@ -38,6 +38,8 @@
   --motion-typography-easing: var(--motion-ease-standard);
   --motion-background-duration: var(--motion-duration-xxl);
   --motion-background-easing: var(--motion-ease-standard);
+  --motion-empty-duration: var(--motion-duration-xl);
+  --motion-empty-easing: var(--motion-ease-standard);
 }
 
 /* ===== 暗色主题（默认） ===== */

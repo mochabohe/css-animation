@@ -19,7 +19,6 @@ const filterButtons = document.querySelectorAll(".filter-btn");
 const animationCards = document.querySelectorAll(".card[data-category]");
 const searchInput = document.querySelector("#searchInput");
 const motionToggle = document.querySelector("#motionToggle");
-const metaToggle = document.querySelector("#metaToggle");
 const themeButtons = document.querySelectorAll(".theme-btn");
 const likeButtons = document.querySelectorAll(".like-btn");
 
@@ -75,7 +74,7 @@ bindFiltering({
   viewState,
 });
 
-bindToggles({ motionToggle, metaToggle, colorModeToggle: document.querySelector("#colorModeToggle") });
+bindToggles({ motionToggle, colorModeToggle: document.querySelector("#colorModeToggle") });
 
 bindThemeControls({
   themeButtons,

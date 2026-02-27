@@ -1,4 +1,4 @@
-export const snippetsByTitle = {
+﻿export const snippetsByTitle = {
   加载脉冲: `.loader {
   width: 54px;
   aspect-ratio: 1;
@@ -1981,5 +1981,198 @@ export const snippetsByTitle = {
 }
 @keyframes orbitSpin {
   to { transform: rotate(360deg); }
+}`,
+  搜索无果: `.empty-search {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  animation: searchShake 3.6s ease-in-out infinite;
+}
+.empty-search::before {
+  content: "NO DATA";
+  position: absolute;
+  top: 60px;
+  font-size: 20px;
+  font-weight: 800;
+  color: rgba(var(--accent-rgb), 0.1);
+  letter-spacing: 2px;
+  z-index: 0;
+  white-space: nowrap;
+}
+.search-lens {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--accent-rgb), 0.55);
+  background: radial-gradient(circle at 30% 30%, rgba(var(--accent-rgb), 0.25), transparent 60%);
+  box-shadow: inset 0 0 12px rgba(var(--accent-rgb), 0.2);
+}
+.search-handle {
+  position: absolute;
+  width: 28px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transform: translate(22px, 22px) rotate(45deg);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.35);
+}
+.search-cross {
+  --cross-rotate: 45deg;
+  position: absolute;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.7);
+  top: 50%;
+  left: 50%;
+  animation: searchCrossPulse 2s ease-in-out infinite;
+}
+.search-cross--alt {
+  --cross-rotate: -45deg;
+}
+@keyframes searchShake {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(4deg); }
+}
+@keyframes searchCrossPulse {
+  0%, 100% { transform: translate(-50%, -50%) rotate(var(--cross-rotate)) scale(0.9); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) rotate(var(--cross-rotate)) scale(1.1); opacity: 1; }
+}`,
+  空档案夹: `<!-- HTML -->
+<div class="empty-folder">
+  <div class="folder-back"></div>
+  <div class="folder-paper"></div>
+  <div class="folder-front"></div>
+</div>
+
+/* CSS */
+.empty-folder {
+  position: relative;
+  width: 60px;
+  height: 50px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0 auto;
+}
+.folder-back {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40px;
+  background: rgba(var(--accent-rgb), 0.2);
+  border-radius: 4px 4px 2px 2px;
+}
+.folder-back::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 0;
+  width: 20px;
+  height: 10px;
+  background: rgba(var(--accent-rgb), 0.2);
+  border-radius: 4px 4px 0 0;
+}
+.folder-paper {
+  position: absolute;
+  bottom: 10px;
+  width: 36px;
+  height: 28px;
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1.5px dashed rgba(var(--accent-rgb), 0.45);
+  border-radius: 2px;
+  animation: paperFloat var(--fx-duration, 3s) ease-in-out infinite;
+}
+.folder-front {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 30px;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.5), rgba(var(--accent-rgb), 0.3));
+  border-radius: 2px 2px 4px 4px;
+  transform-origin: bottom;
+  transform: perspective(200px) rotateX(20deg);
+}
+@keyframes paperFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(-14px); opacity: 1; }
+}`,
+
+  "No Data 幽灵": `<!-- HTML -->
+<div class="ghost-nodata">
+  <div class="ghost-body"><div class="ghost-eyes"></div></div>
+  <div class="ghost-shadow"></div>
+</div>
+
+/* CSS */
+.ghost-nodata {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.ghost-nodata::before {
+  content: "NO DATA";
+  position: absolute;
+  top: 45px;
+  font-size: 26px;
+  font-weight: 800;
+  color: rgba(var(--accent-rgb), 0.08);
+  letter-spacing: 2px;
+  z-index: 0;
+  white-space: nowrap;
+}
+.ghost-body {
+  position: relative;
+  width: 40px;
+  height: 48px;
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.45), rgba(var(--accent-rgb), 0.15));
+  border: 1.5px solid rgba(var(--accent-rgb), 0.6);
+  border-radius: 20px 20px 6px 6px;
+  animation: ghostFloat var(--fx-duration, 3s) ease-in-out infinite;
+  display: flex;
+  justify-content: center;
+  padding-top: 14px;
+  box-sizing: border-box;
+  z-index: 1;
+  backdrop-filter: blur(2px);
+}
+.ghost-eyes {
+  display: flex;
+  gap: 8px;
+}
+.ghost-eyes::before, .ghost-eyes::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: ghostBlink var(--fx-duration, 3s) infinite;
+}
+.ghost-shadow {
+  margin-top: 10px;
+  width: 30px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.15);
+  animation: ghostShadow var(--fx-duration, 3s) ease-in-out infinite;
+}
+@keyframes ghostFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@keyframes ghostShadow {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(0.6); opacity: 0.3; }
+}
+@keyframes ghostBlink {
+  0%, 45%, 55%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.1); }
 }`,
 };

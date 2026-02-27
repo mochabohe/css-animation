@@ -19,6 +19,16 @@
     ],
     token: "motion.loading",
   },
+  empty: {
+    scenario: [
+      "搜索无结果 / 结果为空",
+      "筛选过严 / 建议调整",
+      "内容缺省 / 引导操作",
+      "初次进入 / 说明路径",
+      "权限不足 / 解释原因",
+    ],
+    token: "motion.empty",
+  },
   motion: {
     scenario: [
       "状态变化 / 关键强调",
@@ -189,6 +199,20 @@ export const animationParams = {
   进度条流动: {
     duration: { label: "流动时长", type: "range", min: 0.8, max: 4, step: 0.1, default: 1.6, unit: "s", target: "progressSlide" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "progressSlide" },
+  },
+
+  // ========== 空结果类 ==========
+  搜索无果: {
+    duration: { label: "摇摆时长", type: "range", min: 1.5, max: 6, step: 0.3, default: 3.6, unit: "s", target: "searchShake" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "searchShake" },
+  },
+  空档案夹: {
+    duration: { label: "漂浮时长", type: "range", min: 1.5, max: 6, step: 0.3, default: 3, unit: "s", target: "paperFloat" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "paperFloat" },
+  },
+  "No Data 幽灵": {
+    duration: { label: "漂浮时长", type: "range", min: 1.5, max: 6, step: 0.3, default: 3, unit: "s", target: "ghostFloat" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "ghostFloat" },
   },
 
   // ========== 运动效果类 ==========
@@ -380,6 +404,9 @@ export const animationNamesByTitle = {
   频谱条形: ["barsScale"],
   骨架屏闪光: ["shimmer"],
   进度条流动: ["progressSlide"],
+  搜索无果: ["searchShake", "searchCrossPulse"],
+  空档案夹: ["paperFloat"],
+  "No Data 幽灵": ["ghostFloat", "ghostShadow", "ghostBlink"],
   弹跳小球: ["bounce", "shadow"],
 
   漂浮气泡: ["floatUp"],

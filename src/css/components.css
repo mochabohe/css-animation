@@ -15,10 +15,27 @@
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s var(--motion-ease-standard);
-  text-align: center;
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  position: relative;
+}
+
+.filter-count {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.filter-btn.is-active .filter-count {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.filter-count:empty {
+  display: none;
 }
 
 .filter-btn:hover {
@@ -209,6 +226,11 @@
 .card[data-category="loading"] {
   --fx-duration: var(--motion-loading-duration);
   --fx-easing: var(--motion-loading-easing);
+}
+
+.card[data-category="empty"] {
+  --fx-duration: var(--motion-empty-duration);
+  --fx-easing: var(--motion-empty-easing);
 }
 
 .card[data-category="motion"] {
