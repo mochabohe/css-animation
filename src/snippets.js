@@ -1910,7 +1910,7 @@
   -webkit-mask-repeat: repeat-x;
   mask-repeat: repeat-x;
   background-color: rgba(var(--accent-rgb), 0.15);
-  animation: waveMoveLeft var(--fx-duration, 8s) linear infinite;
+  animation: waveMoveLeft 8s linear infinite;
   z-index: 1;
 }
 .wave-bg::after {
@@ -1922,7 +1922,7 @@
   -webkit-mask-repeat: repeat-x;
   mask-repeat: repeat-x;
   background-color: rgba(var(--accent-soft-rgb), 0.15);
-  animation: waveMoveRight var(--fx-duration, 6s) linear infinite;
+  animation: waveMoveRight 6s linear infinite;
   z-index: 2;
   bottom: -2px;
 }
@@ -1935,7 +1935,7 @@
   -webkit-mask-repeat: repeat-x;
   mask-repeat: repeat-x;
   background-color: rgba(255, 255, 255, 0.06);
-  animation: waveMoveLeft var(--fx-duration, 4s) linear infinite;
+  animation: waveMoveLeft 4s linear infinite;
   z-index: 3;
   bottom: -5px;
 }
