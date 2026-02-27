@@ -1879,7 +1879,7 @@
   width: 36px;
   height: 60px;
   margin: 0 auto;
-  animation: hgFlip calc(var(--fx-duration) * ) ease-in-out infinite;
+  animation: hgFlip calc(var(--fx-duration) * 2) ease-in-out infinite;
 }
 
 .hg-top {
@@ -1900,7 +1900,7 @@
   height: 75%;
   background: rgba(var(--accent-rgb), 0.55);
   border-radius: 1px;
-  animation: sandTop calc(var(--fx-duration) * ) linear infinite;
+  animation: sandTop calc(var(--fx-duration) * 2) linear infinite;
 }
 
 .hg-neck {
@@ -1928,7 +1928,7 @@
   height: 0%;
   background: rgba(var(--accent-rgb), 0.45);
   border-radius: 0 0 2px 2px;
-  animation: sandBottom calc(var(--fx-duration) * ) linear infinite;
+  animation: sandBottom calc(var(--fx-duration) * 2) linear infinite;
 }
 
 @keyframes hgFlip {
