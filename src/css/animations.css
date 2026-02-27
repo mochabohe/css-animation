@@ -39,6 +39,47 @@
 .card-front > .breath-orb,
 .card-front > .bd-bar-chart,
 .card-front > .bd-donut,
+/* Animations */
+.card-front > .loader,
+.card-front > .dots-loader,
+.card-front > .bars-loader,
+.card-front > .skeleton,
+.card-front > .ball-stage,
+.card-front > .float-stage,
+.card-front > .wave-track,
+.card-front > .orbit,
+.card-front > .heart,
+.card-front > .cta,
+.card-front > .link-btn,
+.card-front > .icon-btn,
+.card-front > .ripple-btn,
+.card-front > .magnet-btn,
+.card-front > .stack-wrap,
+.card-front > .prism,
+.card-front > .ai-token-stream,
+.card-front > .ai-vector-hit,
+.card-front > .ai-pipeline,
+.card-front > .ai-confidence,
+.card-front > .ai-anomaly,
+.card-front > .ai-cluster,
+.card-front > .ai-loading-dots,
+.card-front > .border-stream-btn,
+.card-front > .bell-wrap,
+.card-front > .input-float-wrap,
+.card-front > .hover-glow-card,
+.card-front > .glow-accordion,
+.card-front > .draw-checkbox,
+.card-front > .avatar-ripple,
+.card-front > .counter-wrap,
+.card-front > .orbit,
+.card-front > .spring-wrap,
+.card-front > .parallax-card,
+.card-front > .word-rotate-wrap,
+.card-front > .spinner-dots,
+.card-front > .float-card-stage,
+.card-front > .breath-orb,
+.card-front > .bd-bar-chart,
+.card-front > .bd-donut,
 .card-front > .bd-table-skeleton,
 .card-front > .bd-trend-line,
 .card-front > .text-reveal-wrap,
@@ -49,7 +90,8 @@
 .card-front > .tab-indicator-wrap,
 .card-front > .bubble-stage,
 .card-front > .fade-up-stage,
-.card-front > .ripple-bg {
+.card-front > .ripple-bg,
+.card-front > .badge-bounce-wrap {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -1477,7 +1519,7 @@
   }
 }
 
-/* ===== AI深思文字流光效�?===== */
+/* ===== AI深思文字流光效?===== */
 .thinking-shimmer {
   background: linear-gradient(90deg,
     var(--accent-deep) 0%,
@@ -1645,7 +1687,7 @@
   transition: none;
 }
 
-/* ===== 数据可视化动�?===== */
+/* ===== 数据可视化动?===== */
 .data-stream {
   width: 100%;
   height: 60px;
@@ -1907,7 +1949,7 @@
   }
 }
 
-/* ========== 霓虹闪烁�?========== */
+/* ========== 霓虹闪烁?========== */
 .neon-flicker {
   color: var(--accent-soft);
   text-shadow:
@@ -1973,7 +2015,7 @@
   transform-origin: bottom;
 }
 
-/* 第一层：底浪（缓慢平滑，波长极长�? 1个大周期 */
+/* 第一层：底浪（缓慢平滑，波长极长? 1个大周期 */
 .wave-bg::before {
   height: 60%;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 300 20, 600 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
@@ -1987,7 +2029,7 @@
   z-index: 1;
 }
 
-/* 第二层：前浪（中等速度，中波长�? 2个中等周�?*/
+/* 第二层：前浪（中等速度，中波长? 2个中等周?*/
 .wave-bg::after {
   height: 65%;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 150 25, 300 60 T 600 60 T 900 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
@@ -2002,7 +2044,7 @@
   bottom: -2px;
 }
 
-/* 第三层：前高光浪（最快，超短波长，形成细碎浪花错觉）- 3个紧凑周�?*/
+/* 第三层：前高光浪（最快，超短波长，形成细碎浪花错觉）- 3个紧凑周?*/
 .wave-layer3 {
   height: 75%;
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 100 40, 200 60 T 400 60 T 600 60 T 800 60 T 1000 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
@@ -2142,7 +2184,7 @@
 
 /* ========== 大数据类 ========== */
 
-/* 柱状图生�?*/
+/* 柱状图生?*/
 .bd-bar-chart {
   width: 100%;
   height: 70px;
@@ -2235,7 +2277,7 @@
   }
 }
 
-/* 数据表骨�?*/
+/* 数据表骨?*/
 .bd-table-skeleton {
   width: 100%;
   padding: 0 10px;
@@ -2419,7 +2461,7 @@
   100%     { --count: 0;  opacity: 0;   }
 }
 
-/* 弹性入�?*/
+/* 弹性入?*/
 .spring-wrap {
   width: 100%;
   height: 80px;
@@ -2446,7 +2488,7 @@
   100%    { transform: scale(0) rotate(12deg);   opacity: 0; }
 }
 
-/* 流星�?*/
+/* 流星?*/
 .meteor-shower {
   background:
     radial-gradient(ellipse at 60% 30%, rgba(var(--accent-rgb), 0.06), transparent 60%),
@@ -2480,7 +2522,7 @@
    亮色模式 (Light Mode) 动画适配
    ===================================================== */
 
-/* card-face color 继承，使 currentColor SVG 在亮色下为深�?*/
+/* card-face color 继承，使 currentColor SVG 在亮色下为深?*/
 [data-color-mode="light"] .card-face {
   color: var(--text);
 }
@@ -2504,7 +2546,7 @@
   background: rgba(218, 234, 255, 0.97);
 }
 
-/* 悬浮光晕卡：深色背景改浅�?*/
+/* 悬浮光晕卡：深色背景改浅?*/
 [data-color-mode="light"] .hover-glow-card {
   background: rgba(235, 243, 255, 0.85);
   color: #1a2a48;
@@ -2528,7 +2570,7 @@
   color: #3a5480;
 }
 
-/* 动态复选框：浅色文字改深色，复选框外框改浅�?*/
+/* 动态复选框：浅色文字改深色，复选框外框改浅?*/
 [data-color-mode="light"] .draw-checkbox {
   color: #1a2a48;
 }
@@ -2557,14 +2599,14 @@
   color: var(--muted);
 }
 
-/* 下划线滑入按�?*/
+/* 下划线滑入按?*/
 [data-color-mode="light"] .link-btn {
   color: var(--text);
 }
 
-/* 背景类（极光/星点/网格扫光/雷达）：亮色模式下改为浅色背�?*/
+/* 背景类（极光/星点/网格扫光/雷达）：亮色模式下改为浅色背?*/
 
-/* 星点闪烁 �?浅蓝天空背景，点改为主题色深�?*/
+/* 星点闪烁 ?浅蓝天空背景，点改为主题色深?*/
 [data-color-mode="light"] .stars {
   background: linear-gradient(135deg, #e8f3ff 0%, #dceeff 60%, #eef5ff 100%);
   box-shadow: none;
@@ -2577,7 +2619,7 @@
   box-shadow: 0 0 4px rgba(var(--accent-rgb), 0.5);
 }
 
-/* 极光流动 �?浅色极光，使用低饱和度渐�?*/
+/* 极光流动 ?浅色极光，使用低饱和度渐?*/
 [data-color-mode="light"] .aurora {
   background:
     radial-gradient(circle at 25% 20%, rgba(var(--accent-rgb), 0.3), transparent 55%),
@@ -2586,7 +2628,7 @@
   box-shadow: none;
 }
 
-/* 网格扫光 �?浅色�?+ 细线网格 */
+/* 网格扫光 ?浅色?+ 细线网格 */
 [data-color-mode="light"] .grid-scan {
   background:
     linear-gradient(transparent 94%, rgba(var(--accent-rgb), 0.18) 94%),
@@ -2596,7 +2638,7 @@
   box-shadow: none;
 }
 
-/* 雷达扫描 �?浅色�?*/
+/* 雷达扫描 ?浅色?*/
 [data-color-mode="light"] .radar {
   background: radial-gradient(circle, rgba(var(--accent-soft-rgb), 0.25), rgba(var(--accent-rgb), 0.08) 64%);
   box-shadow: none;
@@ -2609,7 +2651,7 @@
   border-color: rgba(80, 120, 200, 0.18);
 }
 
-/* 海浪起伏：深色海洋背�?�?浅蓝天空 */
+/* 海浪起伏：深色海洋背??浅蓝天空 */
 [data-color-mode="light"] .wave-bg {
   background: linear-gradient(180deg, #eaf4ff 0%, #d6eaff 55%, #c8e2ff 100%);
 }
@@ -2617,14 +2659,14 @@
   background-color: rgba(var(--accent-rgb), 0.1);
 }
 
-/* 呼吸图标按钮：深色背�?�?亮色 */
+/* 呼吸图标按钮：深色背??亮色 */
 [data-color-mode="light"] .icon-btn {
   background: rgba(230, 241, 255, 0.9);
   border-color: rgba(80, 120, 200, 0.3);
   color: #1a2a48;
 }
 
-/* 波纹点击按钮：深色背�?�?亮色 */
+/* 波纹点击按钮：深色背??亮色 */
 [data-color-mode="light"] .ripple-btn {
   background: rgba(230, 241, 255, 0.9);
   border-color: rgba(80, 120, 200, 0.3);
@@ -2632,7 +2674,7 @@
 }
 
 
-/* 粒子流动背景：深色背�?�?使用亮色基调 */
+/* 粒子流动背景：深色背??使用亮色基调 */
 [data-color-mode="light"] .particle-bg {
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.08), rgba(var(--accent-rgb), 0.03));
 }
@@ -2641,7 +2683,7 @@
   opacity: 0.45;
 }
 
-/* 墨迹呼吸背景：深色背�?�?亮色 */
+/* 墨迹呼吸背景：深色背??亮色 */
 [data-color-mode="light"] .blob-bg {
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.07), rgba(var(--accent-2-rgb), 0.04));
 }
@@ -2679,7 +2721,7 @@
   background: rgba(80, 120, 200, 0.15);
 }
 
-/* 弹窗模态弹�?header 背景适配 */
+/* 弹窗模态弹?header 背景适配 */
 [data-color-mode="light"] .modal-header {
   background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.08), rgba(var(--accent-rgb), 0.04));
   border-bottom-color: var(--border);
@@ -2690,13 +2732,13 @@
   color: var(--text);
 }
 
-/* 悬浮卡片文字�?hover-float-card）：深色文字 */
+/* 悬浮卡片文字?hover-float-card）：深色文字 */
 [data-color-mode="light"] .hover-float-card {
   color: var(--accent);
 }
 
 /* =====================================================
-   页脚联系区文字揭�?
+   页脚联系区文字揭?
    ===================================================== */
 .contact-text,
 .contact-name {
@@ -2840,7 +2882,7 @@
   font-size: 12px;
   line-height: 1.5;
   color: var(--text);
-  animation: bubblePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both infinite;
+  animation: bubblePop var(--fx-duration, 2.5s) var(--fx-easing, cubic-bezier(0.175, 0.885, 0.32, 1.275)) both infinite;
 }
 .bubble-left {
   align-self: flex-start;
@@ -2859,16 +2901,20 @@
     opacity: 0;
     transform: scale(0.3) translateY(20px);
   }
-  40% {
+  12% {
     opacity: 1;
     transform: scale(1.05) translateY(-2px);
   }
-  60% {
+  18% {
     transform: scale(0.97) translateY(1px);
   }
-  75%, 100% {
+  24%, 75% {
     opacity: 1;
     transform: scale(1) translateY(0);
+  }
+  85%, 100% {
+    opacity: 0;
+    transform: scale(0.8) translateY(-10px);
   }
 }
 
@@ -2889,23 +2935,27 @@
   border-radius: 8px;
   font-size: 12px;
   color: var(--text);
-  animation: fadeInUp 0.6s ease-out both infinite;
+  animation: fadeInUp var(--fx-duration, 2.5s) var(--fx-easing, ease-out) both infinite;
 }
 .fade-up-item:nth-child(1) { animation-delay: 0s; }
-.fade-up-item:nth-child(2) { animation-delay: 0.21s; }
-.fade-up-item:nth-child(3) { animation-delay: 0.42s; }
+.fade-up-item:nth-child(2) { animation-delay: 0.15s; }
+.fade-up-item:nth-child(3) { animation-delay: 0.3s; }
 @keyframes fadeInUp {
   0% {
     opacity: 0;
     transform: translateY(24px);
   }
-  60% {
+  15% {
     opacity: 1;
     transform: translateY(-2px);
   }
-  80%, 100% {
+  25%, 80% {
     opacity: 1;
     transform: translateY(0);
+  }
+  90%, 100% {
+    opacity: 0;
+    transform: translateY(-10px);
   }
 }
 
@@ -2955,4 +3005,42 @@
 @keyframes rippleCorePulse {
   0%, 100% { box-shadow: 0 0 10px 3px rgba(var(--accent-rgb), 0.4); }
   50%       { box-shadow: 0 0 20px 8px rgba(var(--accent-rgb), 0.7); }
+}
+
+/* =====================================================
+   新增动画：角标跳动
+   ===================================================== */
+.badge-bounce-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bell-icon-wrap {
+  position: relative;
+  display: flex;
+  color: var(--text);
+  width: 32px;
+  height: 32px;
+}
+.bell-icon-wrap svg {
+  width: 100%;
+  height: 100%;
+}
+.badge-bounce {
+  position: absolute;
+  top: 0px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  background: #ff4757;
+  border-radius: 50%;
+  border: 2px solid var(--bg-soft);
+  animation: badgeBounce var(--fx-duration, 2s) var(--fx-easing, ease-in-out) infinite;
+}
+@keyframes badgeBounce {
+  0%, 15%, 50%, 100% { transform: scale(1); }
+  25% { transform: scale(1.4); }
+  35% { transform: scale(0.85); }
+  42% { transform: scale(1.1); }
 }

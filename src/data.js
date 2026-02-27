@@ -77,6 +77,14 @@ export const animationParams = {
   },
 
 
+  下划线滑入: {
+    duration: { label: "滑入时长", type: "range", min: 0.1, max: 1, step: 0.05, default: 0.25, unit: "s", target: "transform" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease", target: "transform" },
+  },
+  磁吸悬停: {
+    duration: { label: "悬浮时长", type: "range", min: 0.1, max: 1, step: 0.05, default: 0.25, unit: "s", target: "transform" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "transform" },
+  },
   轨道卫星: {
     duration: { label: "公转周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "orbitSpin" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease-in", "ease-out"], default: "linear", target: "orbitSpin" },
@@ -191,6 +199,14 @@ export const animationParams = {
   流星雨: {
     duration: { label: "下落时长", type: "range", min: 0.8, max: 4, step: 0.2, default: 1.8, unit: "s", target: "meteorFall" },
   },
+  粒子流动: {
+    duration: { label: "漂浮时长", type: "range", min: 2, max: 12, step: 0.5, default: 6, unit: "s", target: "particleFloat" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "particleFloat" },
+  },
+  海浪起伏: {
+    duration: { label: "波浪时长", type: "range", min: 1, max: 8, step: 0.5, default: 4, unit: "s", target: "waveMoveLeft" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "waveMoveLeft" },
+  },
   // ========== AI 数据可视化类 ==========
   逐字加载: {
     duration: { label: "动画时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.1, unit: "s", target: "tokenFlow" },
@@ -262,16 +278,20 @@ export const animationParams = {
   },
 
   // ========== 新增实用动画 ==========
+  角标跳动: {
+    duration: { label: "弹跳时长", type: "range", min: 0.5, max: 4, step: 0.1, default: 2, unit: "s", target: "badgeBounce" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "badgeBounce" },
+  },
   标签页指示器: {
     duration: { label: "滑动时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "tabSlide" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "tabSlide" },
   },
   消息气泡弹入: {
-    duration: { label: "弹入时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.5, unit: "s", target: "bubblePop" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "bubblePop" },
+    duration: { label: "弹入时长", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "bubblePop" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.175, 0.885, 0.32, 1.275)"], default: "cubic-bezier(0.175, 0.885, 0.32, 1.275)", target: "bubblePop" },
   },
   渐入上移: {
-    duration: { label: "入场时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.6, unit: "s", target: "fadeInUp" },
+    duration: { label: "入场时长", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "fadeInUp" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "fadeInUp" },
   },
   涟漪扩散: {
@@ -354,4 +374,5 @@ export const animationNamesByTitle = {
   消息气泡弹入: ["bubblePop"],
   渐入上移: ["fadeInUp"],
   涟漪扩散: ["rippleOut", "rippleCorePulse"],
+  角标跳动: ["badgeBounce"],
 };

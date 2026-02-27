@@ -761,6 +761,34 @@ export const snippetsByTitle = {
   border-radius: 50%;
   border: 2px solid #0f1b2f;
 }`,
+  角标跳动: `.badge-bounce-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bell-icon-wrap {
+  position: relative;
+  display: flex;
+  color: var(--text);
+  width: 32px;
+  height: 32px;
+}
+.bell-icon-wrap svg {
+  width: 100%;
+  height: 100%;
+}
+.badge-bounce {
+  position: absolute;
+  top: 0px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  background: #ff4757;
+  border-radius: 50%;
+  border: 2px solid var(--bg-soft);
+  animation: badgeBounce var(--fx-duration, 2s) var(--fx-easing, ease-in-out) infinite;
+}`,
   悬浮输入框: `.input-float-wrap {
   width: 100%;
   display: flex;
@@ -1586,12 +1614,13 @@ export const snippetsByTitle = {
   font-size: 13px;
   line-height: 1.5;
   color: var(--text);
-  animation: bubblePop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  animation: bubblePop var(--fx-duration, 2.5s) var(--fx-easing, cubic-bezier(0.175, 0.885, 0.32, 1.275)) both infinite;
 }
 .bubble-left {
   align-self: flex-start;
   background: rgba(var(--accent-rgb), 0.15);
   border-bottom-left-radius: 4px;
+  animation-delay: 0s;
 }
 .bubble-right {
   align-self: flex-end;
@@ -1601,9 +1630,10 @@ export const snippetsByTitle = {
 }
 @keyframes bubblePop {
   0% { opacity: 0; transform: scale(0.3) translateY(20px); }
-  40% { opacity: 1; transform: scale(1.05) translateY(-2px); }
-  60% { transform: scale(0.97) translateY(1px); }
-  75%, 100% { opacity: 1; transform: scale(1) translateY(0); }
+  12% { opacity: 1; transform: scale(1.05) translateY(-2px); }
+  18% { transform: scale(0.97) translateY(1px); }
+  24%, 75% { opacity: 1; transform: scale(1) translateY(0); }
+  85%, 100% { opacity: 0; transform: scale(0.8) translateY(-10px); }
 }`,
   渐入上移: `.fade-up-stage {
   width: 100%;
@@ -1618,15 +1648,16 @@ export const snippetsByTitle = {
   border-radius: 8px;
   font-size: 13px;
   color: var(--text);
-  animation: fadeInUp 0.6s ease-out both;
+  animation: fadeInUp var(--fx-duration, 2.5s) var(--fx-easing, ease-out) both infinite;
 }
 .fade-up-item:nth-child(1) { animation-delay: 0s; }
-.fade-up-item:nth-child(2) { animation-delay: 0.2s; }
-.fade-up-item:nth-child(3) { animation-delay: 0.4s; }
+.fade-up-item:nth-child(2) { animation-delay: 0.15s; }
+.fade-up-item:nth-child(3) { animation-delay: 0.3s; }
 @keyframes fadeInUp {
   0% { opacity: 0; transform: translateY(24px); }
-  60% { opacity: 1; transform: translateY(-2px); }
-  80%, 100% { opacity: 1; transform: translateY(0); }
+  15% { opacity: 1; transform: translateY(-2px); }
+  25%, 80% { opacity: 1; transform: translateY(0); }
+  90%, 100% { opacity: 0; transform: translateY(-10px); }
 }`,
   涟漪扩散: `.ripple-bg {
   background: radial-gradient(ellipse at center,
