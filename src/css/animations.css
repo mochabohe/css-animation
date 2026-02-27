@@ -1879,7 +1879,25 @@
   width: 36px;
   height: 60px;
   margin: 0 auto;
-  animation: hgFlip calc(var(--fx-duration) * 2) ease-in-out infinite;
+  animation: hgFlip var(--fx-duration) ease-in-out infinite;
+}
+
+.hourglass::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 24px;
+  width: 2px;
+  height: 14px;
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: top;
+  background: linear-gradient(
+    to bottom,
+    rgba(var(--accent-rgb), 0.7),
+    rgba(var(--accent-rgb), 0.1)
+  );
+  animation: sandStream var(--fx-duration) linear infinite;
+  pointer-events: none;
 }
 
 .hg-top {
@@ -1895,12 +1913,12 @@
   content: "";
   position: absolute;
   bottom: 0;
-  left: 38%;
-  width: 24%;
+  left: 0;
+  width: 100%;
   height: 75%;
   background: rgba(var(--accent-rgb), 0.55);
-  border-radius: 1px;
-  animation: sandTop calc(var(--fx-duration) * 2) linear infinite;
+  border-radius: 0;
+  animation: sandTop var(--fx-duration) linear infinite;
 }
 
 .hg-neck {
@@ -1923,34 +1941,49 @@
   content: "";
   position: absolute;
   bottom: 0;
-  left: 10%;
-  width: 80%;
+  left: 0;
+  width: 100%;
   height: 0%;
   background: rgba(var(--accent-rgb), 0.45);
-  border-radius: 0 0 2px 2px;
-  animation: sandBottom calc(var(--fx-duration) * 2) linear infinite;
+  border-radius: 0;
+  animation: sandBottom var(--fx-duration) linear infinite;
 }
 
 @keyframes hgFlip {
-  0%, 45% { transform: rotate(0deg); }
-  50%, 95% { transform: rotate(180deg); }
-  100% { transform: rotate(360deg); }
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1.5deg); }
+  75% { transform: rotate(-1.5deg); }
 }
 
 @keyframes sandTop {
   0% { height: 75%; opacity: 1; }
-  45% { height: 0%; opacity: 0.4; }
-  50% { height: 0%; opacity: 0; }
-  55% { height: 0%; opacity: 1; }
-  100% { height: 65%; opacity: 1; }
+  80% { height: 0%; opacity: 1; }
+  90% { height: 0%; opacity: 0; }
+  90.01% { height: 75%; opacity: 0; }
+  100% { height: 75%; opacity: 1; }
 }
 
 @keyframes sandBottom {
   0% { height: 0%; opacity: 1; }
-  45% { height: 65%; opacity: 1; }
-  50% { height: 65%; opacity: 0; }
-  55% { height: 75%; opacity: 1; }
-  100% { height: 0%; opacity: 0.4; }
+  80% { height: 65%; opacity: 1; }
+  90% { height: 65%; opacity: 0; }
+  90.01% { height: 0%; opacity: 0; }
+  100% { height: 0%; opacity: 1; }
+}
+
+@keyframes sandStream {
+  0%, 8% {
+    opacity: 0;
+    transform: translateX(-50%) scaleY(0);
+  }
+  12%, 78% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1);
+  }
+  85%, 100% {
+    opacity: 0;
+    transform: translateX(-50%) scaleY(0);
+  }
 }
 
 
