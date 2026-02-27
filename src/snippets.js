@@ -787,7 +787,7 @@ export const snippetsByTitle = {
   background: #ff4757;
   border-radius: 50%;
   border: 2px solid var(--bg-soft);
-  animation: badgeBounce var(--fx-duration, 2s) var(--fx-easing, ease-in-out) infinite;
+  animation: badgeBounce 2s ease-in-out infinite;
 }`,
   悬浮输入框: `.input-float-wrap {
   width: 100%;
@@ -1614,7 +1614,7 @@ export const snippetsByTitle = {
   font-size: 13px;
   line-height: 1.5;
   color: var(--text);
-  animation: bubblePop var(--fx-duration, 2.5s) var(--fx-easing, cubic-bezier(0.175, 0.885, 0.32, 1.275)) both infinite;
+  animation: bubblePop 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both infinite;
 }
 .bubble-left {
   align-self: flex-start;
@@ -1648,7 +1648,7 @@ export const snippetsByTitle = {
   border-radius: 8px;
   font-size: 13px;
   color: var(--text);
-  animation: fadeInUp var(--fx-duration, 2.5s) var(--fx-easing, ease-out) both infinite;
+  animation: fadeInUp 2.5s ease-out both infinite;
 }
 .fade-up-item:nth-child(1) { animation-delay: 0s; }
 .fade-up-item:nth-child(2) { animation-delay: 0.15s; }

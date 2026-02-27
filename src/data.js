@@ -1,12 +1,84 @@
 ﻿export const categoryInsights = {
-  interactive: { scenario: "按钮反馈 / 引导操作", token: "motion.interactive" },
-  loading: { scenario: "异步请求 / 首屏加载", token: "motion.loading" },
-  motion: { scenario: "状态变化 / 数据强调", token: "motion.emphasis" },
-  transform: { scenario: "空间过渡 / 卡片转场", token: "motion.transform" },
-  text: { scenario: "品牌标题 / 信息强调", token: "motion.typography" },
-  background: { scenario: "页面氛围 / 空状态", token: "motion.background" },
-  wave: { scenario: "音频可视化 / 声波反馈", token: "motion.wave" },
-  bigdata: { scenario: "数据大屏 / 实时监控", token: "motion.bigdata" },
+  interactive: {
+    scenario: [
+      "按钮反馈 / 主行动作",
+      "悬停引导 / 操作提示",
+      "点击确认 / 状态响应",
+      "控件聚焦 / 交互强调",
+      "轻量动效 / 降低操作阻力",
+    ],
+    token: "motion.interactive",
+  },
+  loading: {
+    scenario: [
+      "异步请求 / 等待反馈",
+      "首屏加载 / 空态占位",
+      "数据拉取 / 进度提示",
+      "内容刷新 / 更新状态",
+      "流程处理中 / 系统忙碌",
+    ],
+    token: "motion.loading",
+  },
+  motion: {
+    scenario: [
+      "状态变化 / 关键强调",
+      "数据高亮 / 注意力引导",
+      "结果反馈 / 成功提示",
+      "页面转折 / 信息强调",
+      "节奏变化 / 动态吸睛",
+    ],
+    token: "motion.emphasis",
+  },
+  transform: {
+    scenario: [
+      "空间过渡 / 卡片转场",
+      "层级切换 / 视图过渡",
+      "布局变化 / 位置重排",
+      "面板切换 / 内容过渡",
+      "入场离场 / 结构变换",
+    ],
+    token: "motion.transform",
+  },
+  text: {
+    scenario: [
+      "品牌标题 / 视觉记忆",
+      "信息强调 / 关键词突出",
+      "文案轮播 / 重点呈现",
+      "标题入场 / 阅读引导",
+      "数据文案 / 数值强调",
+    ],
+    token: "motion.typography",
+  },
+  background: {
+    scenario: [
+      "页面氛围 / 空状态",
+      "背景动态 / 情绪营造",
+      "大块区域 / 视觉呼吸",
+      "封面展示 / 品牌感",
+      "轻动背景 / 不抢焦点",
+    ],
+    token: "motion.background",
+  },
+  wave: {
+    scenario: [
+      "音频可视化 / 声波反馈",
+      "节奏律动 / 音乐氛围",
+      "波形提示 / 语音状态",
+      "均衡器效果 / 频段表现",
+      "节拍反馈 / 动态装饰",
+    ],
+    token: "motion.wave",
+  },
+  bigdata: {
+    scenario: [
+      "数据大屏 / 实时监控",
+      "指标看板 / 走势展示",
+      "运行态势 / 稳定提示",
+      "异常告警 / 风险提示",
+      "数据流转 / 系统脉搏",
+    ],
+    token: "motion.bigdata",
+  },
 };
 
 
@@ -35,8 +107,8 @@ export const animationParams = {
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "likeHeart" },
   },
   开关切换: {
-    duration: { label: "切换时长", type: "range", min: 0.1, max: 0.8, step: 0.05, default: 0.3, unit: "s", target: "transition" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "transition" },
+    duration: { label: "切换时长", type: "range", min: 0.1, max: 0.8, step: 0.05, default: 0.3, unit: "s", target: "all" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "all" },
   },
 
   按钮加载中: {
@@ -204,8 +276,8 @@ export const animationParams = {
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "particleFloat" },
   },
   海浪起伏: {
-    duration: { label: "波浪时长", type: "range", min: 1, max: 8, step: 0.5, default: 4, unit: "s", target: "waveMoveLeft" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "waveMoveLeft" },
+    duration: { label: "波浪时长", type: "range", min: 1, max: 8, step: 0.5, default: 4, unit: "s", target: "waveMove(?:Left|Right)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "waveMove(?:Left|Right)" },
   },
   // ========== AI 数据可视化类 ==========
   逐字加载: {

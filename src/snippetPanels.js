@@ -3,6 +3,23 @@ import { snippetsByTitle } from "./snippets.js";
 import { extractKeyframesMap, collectDemoHtml } from "./utils.js";
 import { createCodeModal } from "./modal.js";
 
+function hashString(value) {
+  let hash = 0;
+  for (const char of value) {
+    hash = (hash * 31 + char.codePointAt(0)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+function pickScenario(scenario, title) {
+  if (Array.isArray(scenario)) {
+    if (!scenario.length) return "";
+    const index = hashString(title) % scenario.length;
+    return scenario[index];
+  }
+  return scenario || "";
+}
+
 function buildFullCss(title, keyframesMap) {
   const liteSnippet = snippetsByTitle[title];
   const keyframeNames = animationNamesByTitle[title] || [];
@@ -53,7 +70,8 @@ export function attachSnippetPanels(cards) {
 
     const sceneBadge = document.createElement("span");
     sceneBadge.className = "meta-badge";
-    sceneBadge.textContent = `场景: ${insight.scenario}`;
+    const scenarioText = pickScenario(insight.scenario, title);
+    sceneBadge.textContent = scenarioText ? `场景: ${scenarioText}` : "场景: 未定义";
     metaRow.append(sceneBadge);
 
     const openBtn = document.createElement("button");
