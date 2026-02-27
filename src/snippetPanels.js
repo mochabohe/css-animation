@@ -1,4 +1,9 @@
-import { categoryInsights, animationParams, animationNamesByTitle } from "./data.js";
+import {
+  animationNamesByTitle,
+  animationParams,
+  animationScenarioOverrides,
+  categoryInsights,
+} from "./data.js";
 import { snippetsByTitle } from "./snippets.js";
 import { extractKeyframesMap, collectDemoHtml } from "./utils.js";
 import { createCodeModal } from "./modal.js";
@@ -70,7 +75,8 @@ export function attachSnippetPanels(cards) {
 
     const sceneBadge = document.createElement("span");
     sceneBadge.className = "meta-badge";
-    const scenarioText = pickScenario(insight.scenario, title);
+    const overrideScenario = animationScenarioOverrides?.[title];
+    const scenarioText = pickScenario(overrideScenario ?? insight.scenario, title);
     sceneBadge.textContent = scenarioText ? `场景: ${scenarioText}` : "场景: 未定义";
     metaRow.append(sceneBadge);
 

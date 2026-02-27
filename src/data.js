@@ -81,6 +81,14 @@
   },
 };
 
+export const animationScenarioOverrides = {
+  搜索无果: "搜索无结果 / 建议更换关键词",
+  空档案夹: "内容为空 / 引导创建文件",
+  "No Data 幽灵": "暂无数据 / 状态提示",
+  "404 星球": "页面不存在 / 路径错误",
+  迷失信号: "网络异常 / 连接失败",
+};
+
 
 // 动画参数配置（支持实时调整）
 export const animationParams = {
@@ -200,6 +208,10 @@ export const animationParams = {
     duration: { label: "流动时长", type: "range", min: 0.8, max: 4, step: 0.1, default: 1.6, unit: "s", target: "progressSlide" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "progressSlide" },
   },
+  沙漏等待: {
+    duration: { label: "流沙时长", type: "range", min: 1, max: 4, step: 0.2, default: 2, unit: "s", target: "sandDrain" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "sandDrain" },
+  },
 
   // ========== 空结果类 ==========
   搜索无果: {
@@ -213,6 +225,14 @@ export const animationParams = {
   "No Data 幽灵": {
     duration: { label: "漂浮时长", type: "range", min: 1.5, max: 6, step: 0.3, default: 3, unit: "s", target: "ghostFloat" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "ghostFloat" },
+  },
+  "404 星球": {
+    duration: { label: "漂浮时长", type: "range", min: 1.5, max: 6, step: 0.3, default: 3, unit: "s", target: "planetFloat" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "planetFloat" },
+  },
+  迷失信号: {
+    duration: { label: "消隐时长", type: "range", min: 1, max: 5, step: 0.2, default: 2, unit: "s", target: "signalFade" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "signalFade" },
   },
 
   // ========== 运动效果类 ==========
@@ -404,9 +424,12 @@ export const animationNamesByTitle = {
   频谱条形: ["barsScale"],
   骨架屏闪光: ["shimmer"],
   进度条流动: ["progressSlide"],
+  沙漏等待: ["sandDrain", "sandAccum", "hgFlip"],
   搜索无果: ["searchShake", "searchCrossPulse"],
   空档案夹: ["paperFloat"],
   "No Data 幽灵": ["ghostFloat", "ghostShadow", "ghostBlink"],
+  "404 星球": ["planetFloat", "planetSpin", "starTwinkle"],
+  迷失信号: ["signalFade"],
   弹跳小球: ["bounce", "shadow"],
 
   漂浮气泡: ["floatUp"],

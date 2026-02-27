@@ -13,7 +13,9 @@
       "Bash(node fix-snippets.cjs)",
       "Bash(ls -la /c/Users/25198/Desktop/DC-Project/css-animation/src/*.js)",
       "Bash(npm run lint)",
-      "Bash(npm run test)"
+      "Bash(npm run test)",
+      "Bash(grep -v \"^[0-9]*:  //\")",
+      "Bash(grep -n \"No Data 幽灵\\\\`\" \"c:\\\\Users\\\\25198\\\\Desktop\\\\DC-Project\\\\css-animation\\\\src\\\\snippets.js\")"
     ]
   }
 }

@@ -287,6 +287,7 @@ export function bindIntersectionPause(cards) {
     '.hover-float-card', '.spring-card',
     '.empty-search', '.search-cross',
     '.zchart-body span', '.eq-ring', '.eq-mark',
+    '.hg-top', '.hg-bot', '.planet-404', '.signal-arc', '.planet-star',
   ].join(', ');
 
   const setPlayState = (card, state) => {

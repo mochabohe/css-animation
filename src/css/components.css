@@ -287,6 +287,17 @@
   box-shadow: 0 2px 16px rgba(var(--accent-rgb), 0.06);
 }
 
+/* 移动端/窄屏响应式缩放，防止较大动画撑破边界 */
+@media (max-width: 600px) {
+  .card[data-category="empty"] {
+    --scale-factor: 0.85;
+  }
+}
+.card-face > div[aria-hidden="true"] {
+  transform: scale(var(--scale-factor, 1));
+  transform-origin: center;
+}
+
 .card-tag {
   align-self: flex-start;
   border-radius: 999px;
