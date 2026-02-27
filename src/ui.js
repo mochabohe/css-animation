@@ -40,11 +40,10 @@ export function createCardRenderer(cards, filterButtons, viewState) {
   };
 }
 
-export function bindFiltering({ filterButtons, searchInput, viewState, renderCards }) {
+export function bindFiltering({ filterButtons, searchInput, viewState }) {
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       viewState.filter = button.dataset.filter || "all";
-      renderCards();
     });
   });
 
@@ -54,7 +53,6 @@ export function bindFiltering({ filterButtons, searchInput, viewState, renderCar
     clearTimeout(searchDebounceTimer);
     searchDebounceTimer = setTimeout(() => {
       viewState.keyword = event.target.value || "";
-      renderCards();
     }, 100);
   });
 }

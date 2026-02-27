@@ -55,6 +55,24 @@ export const snippetsByTitle = {
 .skeleton span:nth-child(3) {
   width: 62%;
 }`,
+  进度条流动: `.progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.18);
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 35%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, var(--accent-soft), var(--accent), transparent);
+  transform: translateX(-120%);
+  animation: progressSlide 1.6s linear infinite;
+}`,
   弹跳小球: `.ball {
   animation: bounce 1s cubic-bezier(0.42, 0, 0.58, 1) infinite;
 }`,
@@ -193,6 +211,26 @@ export const snippetsByTitle = {
   transform: translate(-50%, -50%) scale(0.5);
 }
 .ripple-btn:hover::after { animation: rippleWave 0.9s ease-out; }`,
+  按钮按压: `.press-btn {
+  border: 1px solid rgba(145, 177, 240, 0.35);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.9), rgba(var(--accent-2-rgb), 0.9));
+  color: #f5f8ff;
+  height: 44px;
+  padding: 0 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(var(--accent-rgb), 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.press-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(var(--accent-rgb), 0.4);
+}
+.press-btn:active {
+  animation: pressPulse 0.35s ease-out;
+}`,
   磁吸悬停: `.magnet-btn {
   border: 1px solid rgba(145, 177, 240, 0.4);
   border-radius: 12px;
@@ -1277,6 +1315,17 @@ export const snippetsByTitle = {
   90%      { clip-path: inset(0 0% 0 0);   opacity: 0; }
   100%     { clip-path: inset(0 100% 0 0); opacity: 0; }
 }`,
+  高亮扫光: `.highlight-sweep {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #f5f8ff;
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.15), rgba(var(--accent-rgb), 0.55), rgba(var(--accent-rgb), 0.15));
+  background-size: 220% 100%;
+  animation: highlightSweep 2.8s ease-in-out infinite;
+}`,
   数字增长: `@property --count {
   syntax: '<integer>';
   initial-value: 0;
@@ -1702,5 +1751,235 @@ export const snippetsByTitle = {
 @keyframes rippleCorePulse {
   0%, 100% { box-shadow: 0 0 10px 3px rgba(var(--accent-rgb), 0.4); }
   50%       { box-shadow: 0 0 20px 8px rgba(var(--accent-rgb), 0.7); }
+}`,
+  菊花旋转: `.spinner-dots {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: transparent;
+  position: relative;
+  box-shadow:
+    0 -22px 0 rgba(var(--accent-rgb), 1),
+    15px -15px 0 rgba(var(--accent-rgb), 0.85),
+    22px 0 0 rgba(var(--accent-rgb), 0.7),
+    15px 15px 0 rgba(var(--accent-rgb), 0.5),
+    0 22px 0 rgba(var(--accent-rgb), 0.35),
+    -15px 15px 0 rgba(var(--accent-rgb), 0.2),
+    -22px 0 0 rgba(var(--accent-rgb), 0.1),
+    -15px -15px 0 rgba(var(--accent-rgb), 0.05);
+  animation: spinnerRotate var(--fx-duration, 1s) linear infinite;
+}
+@keyframes spinnerRotate {
+  to { transform: rotate(360deg); }
+}`,
+  悬浮卡片: `.float-card-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 90px;
+}
+.hover-float-card {
+  width: 110px;
+  height: 66px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.18), rgba(var(--accent-rgb), 0.04));
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-soft);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+  animation: cardFloat var(--fx-duration, 3s) ease-in-out infinite;
+  box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.15);
+}
+.hover-float-card::after {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 20%;
+  right: 20%;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(var(--accent-rgb), 0.2);
+  filter: blur(6px);
+  animation: cardShadow var(--fx-duration, 3s) ease-in-out infinite;
+}
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-14px); }
+}
+@keyframes cardShadow {
+  0%, 100% { opacity: 0.5; transform: scaleX(1); }
+  50%       { opacity: 0.15; transform: scaleX(0.6); }
+}`,
+  墨迹呼吸: `.blob-bg {
+  background: #071020;
+  position: relative;
+  overflow: hidden;
+}
+.blob-bg::before {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 15%;
+  left: 15%;
+  background: var(--accent);
+  border-radius: 50% 40% 55% 45% / 45% 55% 40% 50%;
+  filter: blur(20px);
+  opacity: 0.6;
+  animation: blobMorph var(--fx-duration, 5s) ease-in-out infinite;
+}
+.blob-bg::after {
+  content: '';
+  position: absolute;
+  width: 65px;
+  height: 65px;
+  bottom: 15%;
+  right: 15%;
+  background: var(--accent-deep);
+  border-radius: 40% 55% 45% 60% / 55% 45% 60% 40%;
+  filter: blur(20px);
+  opacity: 0.6;
+  animation: blobMorph var(--fx-duration, 5s) ease-in-out infinite;
+  animation-delay: -2.5s;
+}
+@keyframes blobMorph {
+  0%, 100% {
+    border-radius: 50% 40% 55% 45% / 45% 55% 40% 50%;
+    transform: scale(1) rotate(0deg);
+  }
+  33% {
+    border-radius: 60% 40% 45% 55% / 55% 45% 60% 40%;
+    transform: scale(1.15) rotate(15deg);
+  }
+  66% {
+    border-radius: 40% 55% 60% 45% / 40% 60% 45% 55%;
+    transform: scale(0.9) rotate(-10deg);
+  }
+}`,
+  粒子流动: `.particle-bg {
+  background: #0d1730;
+  overflow: hidden;
+  position: relative;
+}
+.particle-bg span {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.7;
+  animation: particleFloat var(--fx-duration, 6s) ease-in-out infinite;
+}
+.particle-bg span:nth-child(1) { width: 8px; height: 8px; left: 15%; top: 65%; animation-delay: 0s; }
+.particle-bg span:nth-child(2) { width: 5px; height: 5px; left: 40%; top: 80%; animation-delay: 1s; }
+.particle-bg span:nth-child(3) { width: 10px; height: 10px; left: 65%; top: 70%; animation-delay: 2s; }
+.particle-bg span:nth-child(4) { width: 4px; height: 4px; left: 25%; top: 50%; animation-delay: 0.5s; }
+.particle-bg span:nth-child(5) { width: 7px; height: 7px; left: 75%; top: 50%; animation-delay: 1.5s; }
+.particle-bg span:nth-child(6) { width: 6px; height: 6px; left: 88%; top: 75%; animation-delay: 2.5s; }
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+  50% { transform: translateY(-45px) scale(1.1); opacity: 0.3; }
+}`,
+  海浪起伏: `.wave-bg {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 55%, var(--bg-soft) 100%);
+  position: relative;
+  overflow: hidden;
+}
+.wave-bg::before,
+.wave-bg::after,
+.wave-bg .wave-layer3 {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 200%;
+  transform-origin: bottom;
+}
+.wave-bg::before {
+  height: 60%;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 300 20, 600 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 300 20, 600 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: 50% 100%;
+  mask-size: 50% 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  background-color: rgba(var(--accent-rgb), 0.15);
+  animation: waveMoveLeft var(--fx-duration, 8s) linear infinite;
+  z-index: 1;
+}
+.wave-bg::after {
+  height: 65%;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 150 25, 300 60 T 600 60 T 900 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 150 25, 300 60 T 600 60 T 900 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: 50% 100%;
+  mask-size: 50% 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  background-color: rgba(var(--accent-soft-rgb), 0.15);
+  animation: waveMoveRight var(--fx-duration, 6s) linear infinite;
+  z-index: 2;
+  bottom: -2px;
+}
+.wave-layer3 {
+  height: 75%;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 100 40, 200 60 T 400 60 T 600 60 T 800 60 T 1000 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M 0 60 Q 100 40, 200 60 T 400 60 T 600 60 T 800 60 T 1000 60 T 1200 60 V 120 H 0 Z' fill='white'/%3E%3C/svg%3E");
+  -webkit-mask-size: 50% 100%;
+  mask-size: 50% 100%;
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  background-color: rgba(255, 255, 255, 0.06);
+  animation: waveMoveLeft var(--fx-duration, 4s) linear infinite;
+  z-index: 3;
+  bottom: -5px;
+}
+@keyframes waveMoveLeft {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes waveMoveRight {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}`,
+  轨道卫星: `.orbit {
+  position: relative;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.orbit-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(var(--accent-rgb), 0.4);
+  animation: orbitSpin var(--fx-duration, 3s) linear infinite;
+}
+.orbit-dot {
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  box-shadow: 0 0 8px var(--accent);
+}
+.orbit-core {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
+}
+@keyframes orbitSpin {
+  to { transform: rotate(360deg); }
 }`,
 };

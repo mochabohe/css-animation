@@ -29,16 +29,6 @@
     ],
     token: "motion.emphasis",
   },
-  transform: {
-    scenario: [
-      "空间过渡 / 卡片转场",
-      "层级切换 / 视图过渡",
-      "布局变化 / 位置重排",
-      "面板切换 / 内容过渡",
-      "入场离场 / 结构变换",
-    ],
-    token: "motion.transform",
-  },
   text: {
     scenario: [
       "品牌标题 / 视觉记忆",
@@ -101,6 +91,10 @@ export const animationParams = {
   波纹点击: {
     duration: { label: "波纹时长", type: "range", min: 0.5, max: 2, step: 0.1, default: 0.9, unit: "s", target: "rippleWave" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "rippleWave" },
+  },
+  按钮按压: {
+    duration: { label: "按压时长", type: "range", min: 0.15, max: 0.8, step: 0.05, default: 0.35, unit: "s", target: "pressPulse" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "pressPulse" },
   },
   点赞心跳: {
     duration: { label: "心跳时长", type: "range", min: 0.3, max: 1.5, step: 0.1, default: 0.6, unit: "s", target: "likeHeart" },
@@ -192,6 +186,10 @@ export const animationParams = {
     duration: { label: "扫光时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.5, unit: "s", target: "skelShimmer" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "skelShimmer" },
   },
+  进度条流动: {
+    duration: { label: "流动时长", type: "range", min: 0.8, max: 4, step: 0.1, default: 1.6, unit: "s", target: "progressSlide" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "progressSlide" },
+  },
 
   // ========== 运动效果类 ==========
   弹跳小球: {
@@ -246,6 +244,10 @@ export const animationParams = {
   },
   数字增长: {
     duration: { label: "计数时长", type: "range", min: 1, max: 6, step: 0.2, default: 3, unit: "s", target: "countUp" },
+  },
+  高亮扫光: {
+    duration: { label: "扫光时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.8, unit: "s", target: "highlightSweep" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "highlightSweep" },
   },
   // ========== 背景氛围类 ==========
   极光流动: {
@@ -377,6 +379,7 @@ export const animationNamesByTitle = {
   跳动圆点: ["dotsBounce"],
   频谱条形: ["barsScale"],
   骨架屏闪光: ["shimmer"],
+  进度条流动: ["progressSlide"],
   弹跳小球: ["bounce", "shadow"],
 
   漂浮气泡: ["floatUp"],
@@ -387,6 +390,7 @@ export const animationNamesByTitle = {
   下划线滑入: [],
   呼吸图标: ["dotBreath"],
   波纹点击: ["rippleWave"],
+  按钮按压: ["pressPulse"],
   磁吸悬停: [],
   故障闪烁: ["glitchSkew"],
   打字机: ["typing", "caret"],
@@ -435,6 +439,7 @@ export const animationNamesByTitle = {
   呼吸光晕: ["breathGlow"],
   弹性入场: ["springIn"],
   文字揭幕: ["textReveal"],
+  高亮扫光: ["highlightSweep"],
   数字增长: ["countUp"],
   流星雨: ["meteorFall"],
   柱状图生长: ["barGrow"],

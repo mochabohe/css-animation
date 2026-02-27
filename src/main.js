@@ -73,7 +73,6 @@ bindFiltering({
   filterButtons,
   searchInput,
   viewState,
-  renderCards,
 });
 
 bindToggles({ motionToggle, metaToggle, colorModeToggle: document.querySelector("#colorModeToggle") });

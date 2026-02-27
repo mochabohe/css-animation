@@ -39,47 +39,6 @@
 .card-front > .breath-orb,
 .card-front > .bd-bar-chart,
 .card-front > .bd-donut,
-/* Animations */
-.card-front > .loader,
-.card-front > .dots-loader,
-.card-front > .bars-loader,
-.card-front > .skeleton,
-.card-front > .ball-stage,
-.card-front > .float-stage,
-.card-front > .wave-track,
-.card-front > .orbit,
-.card-front > .heart,
-.card-front > .cta,
-.card-front > .link-btn,
-.card-front > .icon-btn,
-.card-front > .ripple-btn,
-.card-front > .magnet-btn,
-.card-front > .stack-wrap,
-.card-front > .prism,
-.card-front > .ai-token-stream,
-.card-front > .ai-vector-hit,
-.card-front > .ai-pipeline,
-.card-front > .ai-confidence,
-.card-front > .ai-anomaly,
-.card-front > .ai-cluster,
-.card-front > .ai-loading-dots,
-.card-front > .border-stream-btn,
-.card-front > .bell-wrap,
-.card-front > .input-float-wrap,
-.card-front > .hover-glow-card,
-.card-front > .glow-accordion,
-.card-front > .draw-checkbox,
-.card-front > .avatar-ripple,
-.card-front > .counter-wrap,
-.card-front > .orbit,
-.card-front > .spring-wrap,
-.card-front > .parallax-card,
-.card-front > .word-rotate-wrap,
-.card-front > .spinner-dots,
-.card-front > .float-card-stage,
-.card-front > .breath-orb,
-.card-front > .bd-bar-chart,
-.card-front > .bd-donut,
 .card-front > .bd-table-skeleton,
 .card-front > .bd-trend-line,
 .card-front > .text-reveal-wrap,
@@ -91,7 +50,9 @@
 .card-front > .bubble-stage,
 .card-front > .fade-up-stage,
 .card-front > .ripple-bg,
-.card-front > .badge-bounce-wrap {
+.card-front > .badge-bounce-wrap,
+.card-front > .press-btn,
+.card-front > .progress-bar {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -1667,6 +1628,98 @@
   66% {
     border-radius: 40% 55% 60% 45% / 40% 60% 45% 55%;
     transform: scale(0.9) rotate(-10deg);
+  }
+}
+
+
+/* ===== Button Press ===== */
+.press-btn {
+  border: 1px solid rgba(145, 177, 240, 0.35);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.9), rgba(var(--accent-2-rgb), 0.9));
+  color: #f5f8ff;
+  height: 44px;
+  padding: 0 22px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(var(--accent-rgb), 0.35);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.press-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(var(--accent-rgb), 0.4);
+}
+
+.press-btn:active {
+  animation: pressPulse calc(0.35s / var(--speed-multiplier)) var(--fx-easing) both;
+}
+
+@keyframes pressPulse {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 8px 18px rgba(var(--accent-rgb), 0.35);
+  }
+  45% {
+    transform: translateY(2px) scale(0.97);
+    box-shadow: 0 4px 10px rgba(var(--accent-rgb), 0.28);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 8px 18px rgba(var(--accent-rgb), 0.35);
+  }
+}
+
+/* ===== Progress Bar ===== */
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(var(--accent-rgb), 0.18);
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 35%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, var(--accent-soft), var(--accent), transparent);
+  transform: translateX(-120%);
+  animation: progressSlide calc(1.6s / var(--speed-multiplier)) linear infinite;
+}
+
+@keyframes progressSlide {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+/* ===== Highlight Sweep ===== */
+.highlight-sweep {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #f5f8ff;
+  font-size: 20px;
+  font-weight: 600;
+  background: linear-gradient(90deg, rgba(var(--accent-rgb), 0.15), rgba(var(--accent-rgb), 0.55), rgba(var(--accent-rgb), 0.15));
+  background-size: 220% 100%;
+  animation: highlightSweep calc(2.8s / var(--speed-multiplier)) var(--fx-easing) infinite;
+}
+
+@keyframes highlightSweep {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
   }
 }
 

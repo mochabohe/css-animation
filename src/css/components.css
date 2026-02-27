@@ -221,11 +221,6 @@
   --fx-easing: var(--motion-interactive-easing);
 }
 
-.card[data-category="transform"] {
-  --fx-duration: var(--motion-transform-duration);
-  --fx-easing: var(--motion-transform-easing);
-}
-
 .card[data-category="text"] {
   --fx-duration: var(--motion-typography-duration);
   --fx-easing: var(--motion-typography-easing);
