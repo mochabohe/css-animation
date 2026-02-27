@@ -1,6 +1,56 @@
 import { normalizeCssVariables, copyToClipboard, extractLightModeRulesForClasses } from "./utils.js";
 import animationsCss from "./css/animations.css?raw";
 
+const easingDescriptions = new Map([
+  ["linear", "匀速：从开始到结束速度恒定。"],
+  ["ease", "默认缓动：两端慢，中间快。"],
+  ["ease-in", "加速：开始慢，后段加速。"],
+  ["ease-out", "减速：开始快，后段减速。"],
+  ["ease-in-out", "慢入慢出：起步慢，中段快，收尾慢。"],
+  ["step-start", "阶梯跳变：开始立即切换到下一段，随后保持。"],
+  ["step-end", "阶梯跳变：前段保持，最后瞬间跳到结束。"],
+  ["cubic-bezier(0.42, 0, 0.58, 1)", "对称缓入缓出（≈ ease-in-out），节奏更平滑。"],
+  ["cubic-bezier(0.68, -0.55, 0.27, 1.55)", "强回弹：末端超调后回落，弹性明显。"],
+  ["cubic-bezier(0.175, 0.885, 0.32, 1.275)", "轻回弹：末端略超调后回落。"],
+]);
+
+function getEasingDescription(value) {
+  if (!value) return "";
+  const direct = easingDescriptions.get(value);
+  if (direct) return direct;
+
+  const stepsMatch = value.match(/^steps\((\d+),\s*(start|end)\)$/);
+  if (stepsMatch) {
+    const count = Number.parseInt(stepsMatch[1], 10);
+    const edge = stepsMatch[2] === "start" ? "开始即跳" : "末端跳";
+    return `${count} 段阶梯跳变（${edge}）。`;
+  }
+
+  if (value.startsWith("cubic-bezier(")) {
+    return "自定义贝塞尔：可塑造回弹、超调等节奏。";
+  }
+
+  if (value.startsWith("steps(")) {
+    return "阶梯跳变：按段数分步切换（分段越多越细）。";
+  }
+
+  return "";
+}
+
+function updateEasingHelpForSelect(select) {
+  const wrapper = select?.closest(".param-select-wrapper");
+  const help = wrapper?.querySelector(".param-help");
+  if (!help) return;
+  const desc = getEasingDescription(select.value);
+  if (desc) {
+    help.textContent = desc;
+    help.hidden = false;
+  } else {
+    help.textContent = "";
+    help.hidden = true;
+  }
+}
+
 function markButtonState(button, text, originalText) {
   button.textContent = text;
   button.classList.add("is-copied");
@@ -61,6 +111,9 @@ function buildParamPanel(currentParams, paramValues, onParamChange) {
     }
 
     if (config.type === "select") {
+      const selectWrapper = document.createElement("div");
+      selectWrapper.className = "param-select-wrapper";
+
       const select = document.createElement("select");
       select.className = "param-select";
 
@@ -75,12 +128,27 @@ function buildParamPanel(currentParams, paramValues, onParamChange) {
         select.append(optionElement);
       });
 
+      const shouldShowEasingHelp = key === "timing" || /缓动/.test(config.label);
+      if (shouldShowEasingHelp) {
+        const helpText = document.createElement("div");
+        helpText.className = "param-help";
+        selectWrapper.append(helpText);
+        paramRow.classList.add("param-row--stacked");
+      }
+
+      selectWrapper.prepend(select);
+
       select.addEventListener("change", (event) => {
         paramValues[key] = event.target.value;
+        updateEasingHelpForSelect(select);
         onParamChange();
       });
 
-      paramRow.append(paramLabel, select);
+      if (shouldShowEasingHelp) {
+        updateEasingHelpForSelect(select);
+      }
+
+      paramRow.append(paramLabel, selectWrapper);
     }
 
     paramsContainer.append(paramRow);
@@ -406,6 +474,9 @@ export function createCodeModal({
           if (valueDisplay) {
             valueDisplay.textContent = `${matchedConfig.default}${matchedConfig.unit}`;
           }
+        }
+        if (control.matches(".param-select")) {
+          updateEasingHelpForSelect(control);
         }
       });
     }

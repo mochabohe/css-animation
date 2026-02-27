@@ -657,12 +657,20 @@
   gap: 12px;
 }
 
+.param-row--stacked {
+  align-items: flex-start;
+}
+
 .param-label {
   font-size: 13px;
   color: var(--text-muted-strong);
   font-weight: 500;
   min-width: 80px;
   flex-shrink: 0;
+}
+
+.param-row--stacked .param-label {
+  padding-top: 2px;
 }
 
 .param-range-wrapper {
@@ -725,6 +733,14 @@
   font-family: ui-monospace, monospace;
 }
 
+.param-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
 .param-select {
   flex: 1;
   padding: 8px 12px;
@@ -753,6 +769,12 @@
   background: var(--bg-card);
   color: var(--text);
   padding: 8px;
+}
+
+.param-help {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.4;
 }
 
 .card-front > .data-stream,
