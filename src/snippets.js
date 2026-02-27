@@ -1770,6 +1770,7 @@
   animation: spinnerRotate var(--fx-duration, 1s) linear infinite;
 }
 @keyframes spinnerRotate {
+  from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }`,
   悬浮卡片: `.float-card-stage {
@@ -2208,8 +2209,7 @@
   height: 75%;
   background: rgba(var(--accent-rgb), 0.55);
   border-radius: 1px;
-  animation: sandDrain var(--fx-duration, 2s) linear infinite;
-  transform-origin: bottom;
+  animation: sandTop calc(var(--fx-duration, 2s) * 2) linear infinite;
 }
 .hg-neck {
   width: 4px;
@@ -2234,22 +2234,26 @@
   height: 0%;
   background: rgba(var(--accent-rgb), 0.45);
   border-radius: 0 0 2px 2px;
-  animation: sandAccum var(--fx-duration, 2s) linear infinite;
-  transform-origin: bottom;
+  animation: sandBottom calc(var(--fx-duration, 2s) * 2) linear infinite;
 }
 @keyframes hgFlip {
   0%, 45% { transform: rotate(0deg); }
   50%, 95% { transform: rotate(180deg); }
   100% { transform: rotate(360deg); }
 }
-@keyframes sandDrain {
+@keyframes sandTop {
   0% { height: 75%; opacity: 1; }
-  90% { height: 0%; opacity: 0.4; }
-  100% { height: 0%; opacity: 0; }
+  45% { height: 0%; opacity: 0.4; }
+  50% { height: 0%; opacity: 0; }
+  55% { height: 0%; opacity: 1; }
+  100% { height: 65%; opacity: 1; }
 }
-@keyframes sandAccum {
-  0% { height: 0%; }
-  100% { height: 65%; }
+@keyframes sandBottom {
+  0% { height: 0%; opacity: 1; }
+  45% { height: 65%; opacity: 1; }
+  50% { height: 65%; opacity: 0; }
+  55% { height: 75%; opacity: 1; }
+  100% { height: 0%; opacity: 0.4; }
 }`,
 
   "404 星球": `<!-- HTML -->

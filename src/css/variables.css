@@ -12,6 +12,9 @@
   /* Speed multiplier (default: 1x) */
   --speed-multiplier: 1;
 
+  /* Card sizing */
+  --card-height: 260px;
+
   /* Motion tokens (global) */
   --motion-linear: linear;
   --motion-ease-standard: ease-in-out;
