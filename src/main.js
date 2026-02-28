@@ -90,6 +90,11 @@ document.body.classList.add("show-meta");
 // 按需暂停：只有滚动进视口的卡片才运行动画
 bindIntersectionPause(animationCards);
 
+// 异步加载 AI 工坊模块，不阻塞首屏渲染
+import("./aiPanel.js").then(({ initAiPanel }) => {
+  initAiPanel();
+});
+
 // 异步加载 Code Lab 模块（snippets.js 67KB + modal.js 18KB），不阻塞首屏渲染
 import("./snippetPanels.js").then(({ attachSnippetPanels }) => {
   attachSnippetPanels(animationCards);

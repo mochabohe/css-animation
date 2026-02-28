@@ -7,6 +7,7 @@ import {
 import { snippetsByTitle } from "./snippets.js";
 import { extractKeyframesMap, collectDemoHtml } from "./utils.js";
 import { createCodeModal } from "./modal.js";
+import { transformAnimation } from "./ai.js";
 
 function hashString(value) {
   let hash = 0;
@@ -99,6 +100,7 @@ export function attachSnippetPanels(cards) {
             _hmt.push(["_trackEvent", "动画复制", "copy", name]);
           }
         },
+        onAiTransform: (instruction, html, css, onChunk) => transformAnimation(instruction, html, css, onChunk),
       });
 
       document.body.append(modal);

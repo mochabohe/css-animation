@@ -165,6 +165,8 @@ export function createCodeModal({
   currentParams,
   previousActiveElement,
   onTrackCopy,
+  onAiTransform,
+  onSave,
 }) {
   const modal = document.createElement("div");
   modal.className = "code-modal";
@@ -217,7 +219,19 @@ export function createCodeModal({
   closeModalBtn.type = "button";
   closeModalBtn.textContent = "✕ 关闭";
 
-  modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, closeModalBtn);
+  if (onSave) {
+    const saveBtn = document.createElement("button");
+    saveBtn.className = "modal-btn ai-save-btn";
+    saveBtn.type = "button";
+    saveBtn.textContent = "💾 保存";
+    saveBtn.addEventListener("click", () => {
+      onSave(title, htmlTextarea.value, cssTextarea.value);
+      markButtonState(saveBtn, "✓ 已保存", "💾 保存");
+    });
+    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, saveBtn, closeModalBtn);
+  } else {
+    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, closeModalBtn);
+  }
   modalHeader.append(modalTitle, modalActions);
 
   const editorContainer = document.createElement("div");
@@ -299,7 +313,11 @@ export function createCodeModal({
     attributeFilter: ["data-color-mode"],
   });
 
-  shadowRoot.append(animationsStyle, styleTag, shadowContainer);
+  // 安全网：确保 AI 生成的 .demo-wrap 始终有正确的定位基准
+  const demoWrapGuard = document.createElement("style");
+  demoWrapGuard.textContent = ".demo-wrap{position:relative !important;min-height:180px;}";
+
+  shadowRoot.append(animationsStyle, demoWrapGuard, styleTag, shadowContainer);
   previewPanel.append(previewLabel, previewBox);
 
   const paramValues = {};
@@ -370,7 +388,77 @@ export function createCodeModal({
   }
 
   editorContainer.append(leftColumn, cssPanel);
-  modalContent.append(modalHeader, editorContainer);
+
+  if (onAiTransform) {
+    const aiBar = document.createElement("div");
+    aiBar.className = "ai-bar";
+
+    const aiInput = document.createElement("input");
+    aiInput.type = "text";
+    aiInput.className = "ai-input";
+    aiInput.placeholder = "描述改造方向，如：改成暗夜紫色系、让动画更快更有弹性…";
+    aiInput.setAttribute("aria-label", "AI 改造指令");
+
+    const aiBtn = document.createElement("button");
+    aiBtn.type = "button";
+    aiBtn.className = "modal-btn ai-btn";
+    aiBtn.textContent = "✨ AI 改造";
+
+    // 思考过程显示区
+    const aiThinking = document.createElement("div");
+    aiThinking.className = "ai-thinking ai-thinking--modal";
+    aiThinking.setAttribute("aria-live", "polite");
+    aiThinking.hidden = true;
+
+    const aiThinkingPre = document.createElement("pre");
+    aiThinkingPre.className = "ai-thinking-content";
+    aiThinking.append(aiThinkingPre);
+
+    aiBtn.addEventListener("click", async () => {
+      const instruction = aiInput.value.trim();
+      if (!instruction) {
+        aiInput.focus();
+        return;
+      }
+      aiBtn.disabled = true;
+      aiBtn.textContent = "生成中…";
+      aiThinking.hidden = false;
+      aiThinkingPre.textContent = "";
+      try {
+        const result = await onAiTransform(instruction, htmlTextarea.value, cssTextarea.value, (accumulated) => {
+          aiThinkingPre.textContent = accumulated;
+          aiThinking.scrollTop = aiThinking.scrollHeight;
+        });
+        if (result?.html) {
+          htmlTextarea.value = result.html;
+          updatePreview();
+        }
+        if (result?.css) {
+          cssTextarea.value = result.css;
+          styleTag.textContent = result.css;
+        }
+        aiInput.value = "";
+        aiThinking.hidden = true;
+        aiThinkingPre.textContent = "";
+      } catch {
+        aiBtn.textContent = "失败，重试";
+        aiThinkingPre.textContent = "";
+        aiThinking.hidden = true;
+        setTimeout(() => {
+          aiBtn.textContent = "✨ AI 改造";
+        }, 2000);
+      } finally {
+        aiBtn.disabled = false;
+        if (aiBtn.textContent === "生成中…") aiBtn.textContent = "✨ AI 改造";
+      }
+    });
+
+    aiBar.append(aiInput, aiBtn, aiThinking);
+    modalContent.append(modalHeader, editorContainer, aiBar);
+  } else {
+    modalContent.append(modalHeader, editorContainer);
+  }
+
   modal.append(modalContent);
 
   const closeModal = () => {

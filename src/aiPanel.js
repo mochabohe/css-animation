@@ -1,0 +1,204 @@
+import { generateAnimation, transformAnimation, saveAnimation, loadSavedAnimations, deleteSavedAnimation } from "./ai.js";
+import { createCodeModal } from "./modal.js";
+
+// SVG 聊天气泡图标
+const CHAT_ICON = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+</svg>`;
+
+export function initAiPanel() {
+  // ===== 面板 =====
+  const panel = document.createElement("div");
+  panel.className = "ai-panel";
+  panel.setAttribute("role", "dialog");
+  panel.setAttribute("aria-label", "AI 工坊");
+  panel.hidden = true;
+
+  // 面板头部
+  const header = document.createElement("div");
+  header.className = "ai-panel-header";
+
+  const headerTitle = document.createElement("span");
+  headerTitle.className = "ai-panel-title";
+  headerTitle.textContent = "✨ AI 工坊";
+
+  const closeBtn = document.createElement("button");
+  closeBtn.type = "button";
+  closeBtn.className = "ai-panel-close";
+  closeBtn.textContent = "×";
+  closeBtn.setAttribute("aria-label", "关闭 AI 工坊");
+
+  header.append(headerTitle, closeBtn);
+
+  // 面板主体（可滚动）
+  const body = document.createElement("div");
+  body.className = "ai-panel-body";
+
+  // ===== 已保存列表（先声明供闭包使用）=====
+  const savedSection = document.createElement("div");
+  savedSection.className = "ai-saved-section";
+  savedSection.hidden = true;
+
+  const savedTitle = document.createElement("div");
+  savedTitle.className = "ai-saved-title";
+  savedTitle.textContent = "已保存";
+
+  const savedList = document.createElement("ul");
+  savedList.className = "ai-saved-list";
+
+  const renderSavedList = () => {
+    savedList.innerHTML = "";
+    const items = loadSavedAnimations();
+    if (items.length === 0) {
+      savedSection.hidden = true;
+      return;
+    }
+    savedSection.hidden = false;
+    items.forEach((item) => {
+      const li = document.createElement("li");
+      li.className = "ai-saved-item";
+
+      const nameSpan = document.createElement("span");
+      nameSpan.className = "ai-saved-name";
+      nameSpan.textContent = item.title;
+      nameSpan.title = item.title;
+
+      const openBtn = document.createElement("button");
+      openBtn.type = "button";
+      openBtn.className = "ai-saved-open";
+      openBtn.textContent = "打开";
+      openBtn.addEventListener("click", () => openModal(item.title, item.html, item.css, openBtn));
+
+      const delBtn = document.createElement("button");
+      delBtn.type = "button";
+      delBtn.className = "ai-saved-del";
+      delBtn.textContent = "×";
+      delBtn.setAttribute("aria-label", `删除 ${item.title}`);
+      delBtn.addEventListener("click", () => {
+        deleteSavedAnimation(item.ts);
+        renderSavedList();
+      });
+
+      li.append(nameSpan, openBtn, delBtn);
+      savedList.append(li);
+    });
+  };
+
+  savedSection.append(savedTitle, savedList);
+
+  // ===== 打开 Code Lab =====
+  const openModal = (title, html, css, triggerEl) => {
+    const modal = createCodeModal({
+      title,
+      demoHtml: html,
+      fullCss: css,
+      currentParams: null,
+      previousActiveElement: triggerEl,
+      onAiTransform: (instruction, h, c, onChunk) => transformAnimation(instruction, h, c, onChunk),
+      onSave: (t, h, c) => {
+        saveAnimation(t, h, c);
+        renderSavedList();
+      },
+    });
+
+    document.body.append(modal);
+    requestAnimationFrame(() => {
+      modal.classList.add("is-open");
+      modal.focus();
+      const firstFocusable = modal.querySelector("button");
+      if (firstFocusable) firstFocusable.focus();
+    });
+  };
+
+  // ===== 生成区域 =====
+  const genSection = document.createElement("div");
+  genSection.className = "ai-gen-section";
+
+  const genLabel = document.createElement("label");
+  genLabel.className = "ai-gen-label";
+  genLabel.textContent = "描述你想要的动画";
+
+  const genInput = document.createElement("textarea");
+  genInput.className = "ai-gen-input";
+  genInput.rows = 3;
+  genInput.placeholder = "例如：一个彩色气泡向上漂浮的动画…";
+  genInput.setAttribute("aria-label", "动画描述");
+
+  const genBtn = document.createElement("button");
+  genBtn.type = "button";
+  genBtn.className = "ai-gen-btn";
+  genBtn.textContent = "✨ 生成动画";
+
+  // 思考过程滚动显示区
+  const thinkingBox = document.createElement("div");
+  thinkingBox.className = "ai-thinking";
+  thinkingBox.setAttribute("aria-live", "polite");
+  thinkingBox.hidden = true;
+
+  const thinkingPre = document.createElement("pre");
+  thinkingPre.className = "ai-thinking-content";
+  thinkingBox.append(thinkingPre);
+
+  genBtn.addEventListener("click", async () => {
+    const description = genInput.value.trim();
+    if (!description) {
+      genInput.focus();
+      return;
+    }
+
+    genBtn.disabled = true;
+    genBtn.textContent = "生成中…";
+    thinkingBox.hidden = false;
+    thinkingPre.textContent = "";
+
+    try {
+      const result = await generateAnimation(description, (accumulated) => {
+        thinkingPre.textContent = accumulated;
+        // 自动滚动到底部
+        thinkingBox.scrollTop = thinkingBox.scrollHeight;
+      });
+
+      if (!result?.html || !result?.css) {
+        throw new Error("返回格式异常，未包含 html 或 css 字段");
+      }
+      thinkingBox.hidden = true;
+      thinkingPre.textContent = "";
+      openModal(description.slice(0, 30), result.html, result.css, genBtn);
+    } catch (err) {
+      thinkingPre.textContent = `生成失败：${err.message}`;
+    } finally {
+      genBtn.disabled = false;
+      genBtn.textContent = "✨ 生成动画";
+    }
+  });
+
+  genSection.append(genLabel, genInput, genBtn, thinkingBox);
+  body.append(genSection, savedSection);
+  panel.append(header, body);
+
+  // ===== 浮动按钮 =====
+  const fab = document.createElement("button");
+  fab.type = "button";
+  fab.className = "ai-fab";
+  fab.setAttribute("aria-label", "打开 AI 工坊");
+  fab.innerHTML = CHAT_ICON;
+
+  const togglePanel = () => {
+    const isOpen = !panel.hidden;
+    panel.hidden = isOpen;
+    fab.classList.toggle("is-open", !isOpen);
+    if (!isOpen) {
+      genInput.focus();
+    }
+  };
+
+  fab.addEventListener("click", togglePanel);
+  closeBtn.addEventListener("click", () => {
+    panel.hidden = true;
+    fab.classList.remove("is-open");
+    fab.focus();
+  });
+
+  document.body.append(panel, fab);
+  renderSavedList();
+}
