@@ -17,20 +17,16 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: css-animation/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install
         run: npm ci
-        working-directory: css-animation
 
       - name: Lint
         run: npm run lint
-        working-directory: css-animation
 
       - name: Test
         run: npm run test
-        working-directory: css-animation
 
       - name: Build
         run: npm run build
-        working-directory: css-animation

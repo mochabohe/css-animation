@@ -15,17 +15,22 @@ export function createCardRenderer(cards, filterButtons, viewState) {
   const resultCountEl = document.querySelector("#resultCount");
   const emptyStateEl = document.querySelector("#emptyState");
 
+  // 预索引：初始化时缓存搜索文本，避免每次渲染重复 DOM 查询
+  const cardIndex = [...cards].map((card) => ({
+    el: card,
+    category: card.dataset.category || "",
+    title: card.querySelector("h2")?.textContent?.toLowerCase() || "",
+    tag: card.querySelector(".card-tag")?.textContent?.toLowerCase() || "",
+    categoryName: categoryNames[card.dataset.category]?.toLowerCase() || "",
+  }));
+
   return function renderCards() {
     const normalizedKeyword = viewState.keyword.trim().toLowerCase();
     // 按关键词统计各分类数量（不受 filter 限制，用于按钮徽章）
     const categoryCount = {};
     let visibleCount = 0;
 
-    cards.forEach((card) => {
-      const category = card.dataset.category;
-      const title = card.querySelector("h2")?.textContent?.toLowerCase() || "";
-      const tag = card.querySelector(".card-tag")?.textContent?.toLowerCase() || "";
-      const categoryName = categoryNames[category]?.toLowerCase() || "";
+    cardIndex.forEach(({ el: card, category, title, tag, categoryName }) => {
 
       const matchKeyword =
         !normalizedKeyword ||
@@ -248,8 +253,10 @@ export function bindThemeControls({ themeButtons, customColorInput, customColorW
 export function bindLikeButtons(buttons) {
   buttons.forEach((button) => {
     let isLiked = false;
+    button.setAttribute("aria-pressed", "false");
     button.addEventListener("click", () => {
       isLiked = !isLiked;
+      button.setAttribute("aria-pressed", String(isLiked));
 
       if (isLiked) {
         button.classList.add("liked", "animating");

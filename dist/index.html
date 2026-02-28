@@ -15,8 +15,8 @@
         s.parentNode.insertBefore(hm, s);
       })();
     </script>
-    <script type="module" crossorigin src="./assets/index-BYnZDtOa.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Ome3Prp2.css">
+    <script type="module" crossorigin src="./assets/index-DzwlEvrx.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CShqd-up.css">
   </head>
   <body>
     <div class="layout-wrapper">
@@ -30,7 +30,7 @@
               data-filter="all"
               aria-pressed="true"
             >
-              全部
+              全部<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -38,7 +38,7 @@
               data-filter="interactive"
               aria-pressed="false"
             >
-              交互按钮
+              交互按钮<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -46,7 +46,15 @@
               data-filter="loading"
               aria-pressed="false"
             >
-              加载反馈
+              加载反馈<span class="filter-count"></span>
+            </button>
+            <button
+              class="filter-btn"
+              type="button"
+              data-filter="empty"
+              aria-pressed="false"
+            >
+              空结果<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -54,7 +62,7 @@
               data-filter="text"
               aria-pressed="false"
             >
-              文字特效
+              文字特效<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -62,7 +70,7 @@
               data-filter="background"
               aria-pressed="false"
             >
-              背景氛围
+              背景氛围<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -70,7 +78,7 @@
               data-filter="wave"
               aria-pressed="false"
             >
-              声波条纹
+              声波条纹<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -78,7 +86,7 @@
               data-filter="motion"
               aria-pressed="false"
             >
-              运动效果
+              运动效果<span class="filter-count"></span>
             </button>
             <button
               class="filter-btn"
@@ -86,7 +94,7 @@
               data-filter="bigdata"
               aria-pressed="false"
             >
-              大数据
+              大数据<span class="filter-count"></span>
             </button>
           </div>
         </div>
@@ -226,178 +234,29 @@
                 关闭
               </button>
             </div>
-            <div class="sidebar-toggle-item">
-              <span>工程信息</span>
-              <button
-                id="metaToggle"
-                class="toggle-btn"
-                type="button"
-                aria-pressed="true"
-              >
-                开启
-              </button>
-            </div>
           </div>
         </div>
       </aside>
 
       <main class="page">
+        <div
+          id="resultCount"
+          class="result-count"
+          aria-live="polite"
+          aria-atomic="true"
+        ></div>
         <section class="grid" id="animationGrid" aria-live="polite">
-          <!-- 交互按钮类 -->
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>边框流光</h2>
-            <button class="border-stream-btn" type="button">流光按钮</button>
-          </article>
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>霓虹流光</h2>
-            <button class="cta" type="button">流光按钮</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>磁吸悬停</h2>
-            <button class="magnet-btn" type="button">Magnet Hover</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>下划线滑入</h2>
-            <button class="link-btn" type="button">悬停查看效果</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>呼吸图标</h2>
-            <button class="icon-btn" type="button">
-              <span class="icon-dot"></span>
-              通知按钮
-            </button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>摇晃铃铛</h2>
-            <div class="bell-wrap">
-              <div class="bell-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-                </svg>
-                <span class="notification-dot"></span>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>波纹点击</h2>
-            <button class="ripple-btn" type="button">点击水波</button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>点赞心跳</h2>
-            <button class="like-btn" type="button" aria-label="点赞">
-              <svg
-                class="heart-icon"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-              >
-                <path
-                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                ></path>
-              </svg>
-            </button>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>开关切换</h2>
-            <label class="toggle-switch">
-              <input type="checkbox" />
-              <span class="toggle-slider"></span>
-            </label>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>按钮加载中</h2>
-            <button class="loading-btn" type="button">
-              <span class="loading-spinner"></span>
-              <span class="loading-text">加载中...</span>
-            </button>
-          </article>
-
-
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>悬浮输入框</h2>
-            <div class="input-float-wrap">
-              <div class="input-float-group">
-                <input type="text" id="username" required>
-                <label for="username">用户名</label>
-                <span class="input-bar"></span>
-              </div>
-            </div>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>悬浮光晕卡</h2>
-            <div class="hover-glow-card">
-              <span>Hover Me</span>
-            </div>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>详细信息折叠</h2>
-            <details class="glow-accordion">
-              <summary>展开查看更多明细</summary>
-              <div class="content">
-                <p>这里是内部的详情内容，包含着流光过渡以及高度的伸缩渲染。</p>
-              </div>
-            </details>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>动态复选框</h2>
-            <label class="draw-checkbox">
-              <input type="checkbox" />
-              <svg viewBox="0 0 24 24" class="checkbox-box">
-                <rect x="2" y="2" width="20" height="20" rx="4" />
-                <path class="tick" d="M6 12l4 4 8-8" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span>记住我</span>
-            </label>
-          </article>
-
-          <article class="card" data-category="interactive">
-            <span class="card-tag">交互按钮</span>
-            <h2>头像波纹</h2>
-            <div class="avatar-ripple">
-              <div class="avatar-core"></div>
-            </div>
-          </article>
-
-
-
           <!-- 加载反馈类 -->
-          <article class="card" data-category="loading">
-            <span class="card-tag">加载反馈</span>
-            <h2>菊花旋转</h2>
-            <div class="spinner-dots" aria-label="菊花加载中"></div>
-          </article>
-
           <article class="card" data-category="loading">
             <span class="card-tag">加载反馈</span>
             <h2>加载脉冲</h2>
             <div class="loader" aria-label="加载动画"></div>
+          </article>
+
+          <article class="card" data-category="loading">
+            <span class="card-tag">加载反馈</span>
+            <h2>菊花旋转</h2>
+            <div class="spinner-dots" aria-hidden="true"></div>
           </article>
 
           <article class="card" data-category="loading">
@@ -454,6 +313,16 @@
 
           <article class="card" data-category="loading">
             <span class="card-tag">加载反馈</span>
+            <h2>沙漏等待</h2>
+            <div class="hourglass" aria-hidden="true">
+              <div class="hg-top"></div>
+              <div class="hg-neck"></div>
+              <div class="hg-bot"></div>
+            </div>
+          </article>
+
+          <article class="card" data-category="loading">
+            <span class="card-tag">加载反馈</span>
             <h2>骨架屏闪光</h2>
             <div class="skeleton" aria-hidden="true">
               <span></span>
@@ -466,9 +335,18 @@
             <span class="card-tag">加载反馈</span>
             <h2>列表骨架</h2>
             <div class="list-skeleton" aria-hidden="true">
-              <div class="skel-list-item"><span class="skel-icon-sq"></span><span class="skel-text-bar"></span></div>
-              <div class="skel-list-item"><span class="skel-icon-sq"></span><span class="skel-text-bar"></span></div>
-              <div class="skel-list-item"><span class="skel-icon-sq"></span><span class="skel-text-bar"></span></div>
+              <div class="skel-list-item">
+                <span class="skel-icon-sq"></span
+                ><span class="skel-text-bar"></span>
+              </div>
+              <div class="skel-list-item">
+                <span class="skel-icon-sq"></span
+                ><span class="skel-text-bar"></span>
+              </div>
+              <div class="skel-list-item">
+                <span class="skel-icon-sq"></span
+                ><span class="skel-text-bar"></span>
+              </div>
             </div>
           </article>
 
@@ -493,6 +371,258 @@
             </div>
           </article>
 
+          <article class="card" data-category="loading">
+            <span class="card-tag">加载反馈</span>
+            <h2>进度条流动</h2>
+            <div class="progress-bar" aria-label="加载进度条"></div>
+          </article>
+
+          <!-- 交互按钮类 -->
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>边框流光</h2>
+            <button class="border-stream-btn" type="button">流光按钮</button>
+          </article>
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>霓虹流光</h2>
+            <button class="cta" type="button">流光按钮</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>磁吸悬停</h2>
+            <button class="magnet-btn" type="button">Magnet Hover</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>下划线滑入</h2>
+            <button class="link-btn" type="button">悬停查看效果</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>呼吸图标</h2>
+            <button class="icon-btn" type="button">
+              <span class="icon-dot"></span>
+              通知按钮
+            </button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>摇晃铃铛</h2>
+            <div class="bell-wrap">
+              <div class="bell-icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <span class="notification-dot"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>角标跳动</h2>
+            <div class="badge-bounce-wrap" aria-label="展示带有角标的图标">
+              <div class="bell-icon-wrap">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+                <div class="badge-bounce"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>波纹点击</h2>
+            <button class="ripple-btn" type="button">点击水波</button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>点赞心跳</h2>
+            <button class="like-btn" type="button" aria-label="点赞">
+              <svg
+                class="heart-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                ></path>
+              </svg>
+            </button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>开关切换</h2>
+            <label class="toggle-switch">
+              <input type="checkbox" />
+              <span class="toggle-slider"></span>
+            </label>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>按钮加载中</h2>
+            <button class="loading-btn" type="button">
+              <span class="loading-spinner"></span>
+              <span class="loading-text">加载中...</span>
+            </button>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>悬浮输入框</h2>
+            <div class="input-float-wrap">
+              <div class="input-float-group">
+                <input type="text" id="username" required />
+                <label for="username">用户名</label>
+                <span class="input-bar"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>悬浮光晕卡</h2>
+            <div class="hover-glow-card">
+              <span>Hover Me</span>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>详细信息折叠</h2>
+            <details class="glow-accordion">
+              <summary>展开查看更多明细</summary>
+              <div class="content">
+                <p>这里是内部的详情内容，包含着流光过渡以及高度的伸缩渲染。</p>
+              </div>
+            </details>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>动态复选框</h2>
+            <label class="draw-checkbox">
+              <input type="checkbox" />
+              <svg viewBox="0 0 24 24" class="checkbox-box">
+                <rect x="2" y="2" width="20" height="20" rx="4" />
+                <path
+                  class="tick"
+                  d="M6 12l4 4 8-8"
+                  fill="none"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <span>记住我</span>
+            </label>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>头像波纹</h2>
+            <div class="avatar-ripple">
+              <div class="avatar-core"></div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>标签页指示器</h2>
+            <div class="tab-indicator-wrap" aria-hidden="true">
+              <div class="tab-bar">
+                <span class="tab-item is-active">推荐</span>
+                <span class="tab-item">热门</span>
+                <span class="tab-item">最新</span>
+                <div class="tab-ink"></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card" data-category="interactive">
+            <span class="card-tag">交互按钮</span>
+            <h2>按钮按压</h2>
+            <button class="press-btn" type="button">按压反馈</button>
+          </article>
+
+          <!-- 空结果类 -->
+          <article class="card" data-category="empty">
+            <span class="card-tag">空结果</span>
+            <h2>搜索无果</h2>
+            <div class="empty-search" aria-hidden="true">
+              <span class="search-lens"></span>
+              <span class="search-handle"></span>
+              <span class="search-cross"></span>
+              <span class="search-cross search-cross--alt"></span>
+            </div>
+          </article>
+
+          <article class="card" data-category="empty">
+            <span class="card-tag">空结果</span>
+            <h2>空档案夹</h2>
+            <div class="empty-folder" aria-hidden="true">
+              <div class="folder-back"></div>
+              <div class="folder-paper"></div>
+              <div class="folder-front"></div>
+            </div>
+          </article>
+
+          <article class="card" data-category="empty">
+            <span class="card-tag">空结果</span>
+            <h2>No Data 幽灵</h2>
+            <div class="ghost-nodata" aria-hidden="true">
+              <div class="ghost-body"><div class="ghost-eyes"></div></div>
+              <div class="ghost-shadow"></div>
+            </div>
+          </article>
+
+          <article class="card" data-category="empty">
+            <span class="card-tag">空结果</span>
+            <h2>404 星球</h2>
+            <div class="planet-404" aria-hidden="true">
+              <div class="planet-orb"></div>
+              <span class="planet-star planet-star--1"></span>
+              <span class="planet-star planet-star--2"></span>
+              <span class="planet-star planet-star--3"></span>
+            </div>
+          </article>
+
+          <article class="card" data-category="empty">
+            <span class="card-tag">空结果</span>
+            <h2>迷失信号</h2>
+            <div class="lost-signal" aria-hidden="true">
+              <span class="signal-arc signal-arc--1"></span>
+              <span class="signal-arc signal-arc--2"></span>
+              <span class="signal-arc signal-arc--3"></span>
+              <span class="signal-dot"></span>
+            </div>
+          </article>
 
           <!-- 文字特效类 -->
           <article class="card" data-category="text">
@@ -565,15 +695,19 @@
             </div>
           </article>
 
-
+          <article class="card" data-category="text">
+            <span class="card-tag">文字特效</span>
+            <h2>高亮扫光</h2>
+            <p class="fx-text highlight-sweep">重点提示</p>
+          </article>
 
           <!-- 背景氛围类 -->
           <article class="card" data-category="background">
             <span class="card-tag">背景氛围</span>
             <h2>粒子流动</h2>
             <div class="bg-panel particle-bg" aria-hidden="true">
-              <span></span><span></span><span></span>
-              <span></span><span></span><span></span>
+              <span></span><span></span><span></span> <span></span><span></span
+              ><span></span>
             </div>
           </article>
 
@@ -607,8 +741,6 @@
             <div class="bg-panel grid-scan" aria-hidden="true"></div>
           </article>
 
-
-
           <article class="card" data-category="background">
             <span class="card-tag">背景氛围</span>
             <h2>海浪起伏</h2>
@@ -626,6 +758,19 @@
               <span></span>
               <span></span>
               <span></span>
+            </div>
+          </article>
+
+          <article class="card" data-category="background">
+            <span class="card-tag">背景氛围</span>
+            <h2>涟漪扩散</h2>
+            <div class="bg-panel ripple-bg" aria-hidden="true">
+              <div class="ripple-anchor">
+                <span class="ripple-ring"></span>
+                <span class="ripple-ring"></span>
+                <span class="ripple-ring"></span>
+                <div class="ripple-core"></div>
+              </div>
             </div>
           </article>
 
@@ -783,7 +928,24 @@
             </div>
           </article>
 
+          <article class="card" data-category="motion">
+            <span class="card-tag">运动效果</span>
+            <h2>消息气泡弹入</h2>
+            <div class="bubble-stage" aria-hidden="true">
+              <div class="chat-bubble bubble-left">你好 👋</div>
+              <div class="chat-bubble bubble-right">嗨！很高兴见到你</div>
+            </div>
+          </article>
 
+          <article class="card" data-category="motion">
+            <span class="card-tag">运动效果</span>
+            <h2>渐入上移</h2>
+            <div class="fade-up-stage" aria-hidden="true">
+              <div class="fade-up-item">内容块 A</div>
+              <div class="fade-up-item">内容块 B</div>
+              <div class="fade-up-item">内容块 C</div>
+            </div>
+          </article>
 
           <!-- 大数据类 -->
           <article class="card" data-category="bigdata">
@@ -820,10 +982,18 @@
             <span class="card-tag">大数据</span>
             <h2>数据表骨架</h2>
             <div class="bd-table-skeleton" aria-hidden="true">
-              <div class="skel-row skel-header"><span></span><span></span><span></span></div>
-              <div class="skel-row"><span></span><span></span><span></span></div>
-              <div class="skel-row"><span></span><span></span><span></span></div>
-              <div class="skel-row"><span></span><span></span><span></span></div>
+              <div class="skel-row skel-header">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="skel-row">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="skel-row">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="skel-row">
+                <span></span><span></span><span></span>
+              </div>
             </div>
           </article>
 
@@ -832,13 +1002,62 @@
             <h2>指标趋势折线</h2>
             <div class="bd-trend-line" aria-hidden="true">
               <svg viewBox="0 0 200 60" class="trend-svg">
-                <polyline class="trend-path" points="0,50 28,35 56,42 84,18 112,28 140,12 168,22 200,8" />
+                <polyline
+                  class="trend-path"
+                  points="0,50 28,35 56,42 84,18 112,28 140,12 168,22 200,8"
+                />
                 <circle class="trend-dot" cx="200" cy="8" r="3" />
               </svg>
             </div>
           </article>
 
-
+          <div id="emptyState" class="empty-state" hidden aria-live="polite">
+            <svg
+              class="empty-icon"
+              viewBox="0 0 48 48"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <circle
+                cx="22"
+                cy="22"
+                r="14"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="32"
+                y1="32"
+                x2="42"
+                y2="42"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="17"
+                y1="22"
+                x2="27"
+                y2="22"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="22"
+                y1="17"
+                x2="22"
+                y2="27"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </svg>
+            <p class="empty-title">没有找到匹配的动画</p>
+            <p class="empty-hint">换个关键词试试，或点击「全部」查看所有效果</p>
+          </div>
         </section>
 
         <footer class="page-footer">

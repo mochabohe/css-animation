@@ -5,7 +5,6 @@ import "./css/layout.css";
 import "./css/components.css";
 import "./css/animations.css";
 
-import { attachSnippetPanels } from "./snippetPanels.js";
 import {
   createCardRenderer,
   bindFiltering,
@@ -84,7 +83,6 @@ bindThemeControls({
 });
 
 bindLikeButtons(likeButtons);
-attachSnippetPanels(animationCards);
 renderCards();
 
 document.body.classList.add("show-meta");
@@ -92,20 +90,25 @@ document.body.classList.add("show-meta");
 // 按需暂停：只有滚动进视口的卡片才运行动画
 bindIntersectionPause(animationCards);
 
-// 如果 URL 带了 open 参数，自动弹开特定配置的 Code Lab
-if (initialOpen) {
-  const targetCard = Array.from(animationCards).find((card) => {
-    const title = card.querySelector("h2")?.textContent?.trim() || "";
-    return title === initialOpen;
-  });
-  if (targetCard) {
-    const toggleBtn = targetCard.querySelector(".snippet-toggle");
-    if (toggleBtn) {
-      // 延迟一帧让UI稳定后自动触发
-      requestAnimationFrame(() => {
-        toggleBtn.click();
-      });
+// 异步加载 Code Lab 模块（snippets.js 67KB + modal.js 18KB），不阻塞首屏渲染
+import("./snippetPanels.js").then(({ attachSnippetPanels }) => {
+  attachSnippetPanels(animationCards);
+
+  // URL 带 open 参数时，等 snippetPanels 就绪后再自动触发
+  if (initialOpen) {
+    const targetCard = Array.from(animationCards).find((card) => {
+      const title = card.querySelector("h2")?.textContent?.trim() || "";
+      return title === initialOpen;
+    });
+    if (targetCard) {
+      const toggleBtn = targetCard.querySelector(".snippet-toggle");
+      if (toggleBtn) {
+        // 延迟一帧让UI稳定后自动触发
+        requestAnimationFrame(() => {
+          toggleBtn.click();
+        });
+      }
     }
   }
-}
+});
 
