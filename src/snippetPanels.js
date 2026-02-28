@@ -104,6 +104,7 @@ export function attachSnippetPanels(cards) {
       document.body.append(modal);
       requestAnimationFrame(() => {
         modal.classList.add("is-open");
+        modal.focus(); // 先聚焦 modal 本身以激活键盘事件接收
         const firstFocusable = modal.querySelector("button");
         if (firstFocusable) {
           firstFocusable.focus();

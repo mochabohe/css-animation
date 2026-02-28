@@ -1,3 +1,9 @@
+// parseColor 缓存与复用 canvas（避免重复创建 DOM 元素）
+const _parseColorCache = new Map();
+const _parseColorCanvas = document.createElement("canvas");
+_parseColorCanvas.width = _parseColorCanvas.height = 1;
+const _parseColorCtx = _parseColorCanvas.getContext("2d");
+
 export const cssVarFallback = {
   "--accent": "#2cb9c5",
   "--accent-2": "#1f8f98",
@@ -136,45 +142,57 @@ export function parseColor(color) {
 
   color = color.trim();
 
+  // 命中缓存直接返回
+  if (_parseColorCache.has(color)) {
+    return _parseColorCache.get(color);
+  }
+
+  let result = null;
+
   // 支持 rgb(r, g, b) 格式
   const rgbMatch = /^rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)$/i.exec(color);
   if (rgbMatch) {
-    return {
+    result = {
       r: parseInt(rgbMatch[1], 10),
       g: parseInt(rgbMatch[2], 10),
       b: parseInt(rgbMatch[3], 10),
     };
+    _parseColorCache.set(color, result);
+    return result;
   }
 
   // 支持 rgba(r, g, b, a) 格式（忽略 alpha 通道）
   const rgbaMatch = /^rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*[\d.]+\s*\)$/i.exec(color);
   if (rgbaMatch) {
-    return {
+    result = {
       r: parseInt(rgbaMatch[1], 10),
       g: parseInt(rgbaMatch[2], 10),
       b: parseInt(rgbaMatch[3], 10),
     };
+    _parseColorCache.set(color, result);
+    return result;
   }
 
   // 支持 # 格式（六位和三位）
   if (color.startsWith('#') || /^[a-f\d]{3}$/i.test(color) || /^[a-f\d]{6}$/i.test(color)) {
-    return hexToRgb(color);
+    result = hexToRgb(color);
+    _parseColorCache.set(color, result);
+    return result;
   }
 
   // 支持颜色名称（如 white, red, blue 等）
-  // 使用 canvas 来解析颜色名称
-  const canvas = document.createElement('canvas');
-  canvas.width = canvas.height = 1;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = color;
+  // 复用模块级 canvas，避免重复创建 DOM 元素
+  _parseColorCtx.fillStyle = "#000000"; // 重置，防止上次状态污染
+  _parseColorCtx.fillStyle = color;
 
-  // 检查颜色是否有效
-  if (ctx.fillStyle === color.toLowerCase() || /^#[0-9a-f]{6}$/i.test(ctx.fillStyle)) {
-    // fillStyle 会被规范化为 #rrggbb 格式
-    return hexToRgb(ctx.fillStyle);
+  // 检查颜色是否有效（fillStyle 会被规范化为 #rrggbb 格式）
+  if (_parseColorCtx.fillStyle === color.toLowerCase() || /^#[0-9a-f]{6}$/i.test(_parseColorCtx.fillStyle)) {
+    result = hexToRgb(_parseColorCtx.fillStyle);
   }
 
-  return null;
+  // null 也缓存，避免对无效颜色重复执行 canvas 操作
+  _parseColorCache.set(color, result);
+  return result;
 }
 
 export function rgbToHsl(r, g, b) {

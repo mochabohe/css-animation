@@ -88,6 +88,11 @@ export function bindFiltering({ filterButtons, searchInput, viewState }) {
 
 export function bindToggles({ motionToggle, colorModeToggle }) {
   if (motionToggle) {
+    // 初始化：读取 body 当前状态，同步 aria-pressed 和文本
+    const initialReduced = document.body.classList.contains("reduced-preview");
+    motionToggle.setAttribute("aria-pressed", String(initialReduced));
+    motionToggle.textContent = initialReduced ? "开启" : "关闭";
+
     motionToggle.addEventListener("click", () => {
       const enabled = document.body.classList.toggle("reduced-preview");
       motionToggle.setAttribute("aria-pressed", String(enabled));
@@ -99,9 +104,9 @@ export function bindToggles({ motionToggle, colorModeToggle }) {
     // 系统偏好检测
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
 
-    // 读取 localStorage，未设置则默认暗色
+    // 读取 localStorage，未设置则跟随系统偏好
     const stored = localStorage.getItem("color-mode");
-    const initialMode = stored || "dark";
+    const initialMode = stored || (prefersDark.matches ? "dark" : "light");
     applyColorMode(initialMode, colorModeToggle);
 
     colorModeToggle.addEventListener("click", () => {

@@ -170,6 +170,7 @@ export function createCodeModal({
   modal.className = "code-modal";
   modal.setAttribute("role", "dialog");
   modal.setAttribute("aria-modal", "true");
+  modal.setAttribute("tabindex", "-1");
 
   const modalContent = document.createElement("div");
   modalContent.className = "modal-content";
@@ -288,6 +289,16 @@ export function createCodeModal({
     document.documentElement.getAttribute("data-color-mode") || "dark",
   );
 
+  // 监听主题切换，同步更新 Shadow DOM 内容器的 data-color-mode
+  const colorModeObserver = new MutationObserver(() => {
+    const mode = document.documentElement.getAttribute("data-color-mode") || "dark";
+    shadowContainer.setAttribute("data-color-mode", mode);
+  });
+  colorModeObserver.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-color-mode"],
+  });
+
   shadowRoot.append(animationsStyle, styleTag, shadowContainer);
   previewPanel.append(previewLabel, previewBox);
 
@@ -364,8 +375,9 @@ export function createCodeModal({
 
   const closeModal = () => {
     modal.classList.remove("is-open");
-    document.removeEventListener("keydown", onEscape);
-    document.removeEventListener("keydown", onTabTrap);
+    colorModeObserver.disconnect();
+    modal.removeEventListener("keydown", onEscape);
+    modal.removeEventListener("keydown", onTabTrap);
     setTimeout(() => {
       modal.remove();
       if (previousActiveElement) {
@@ -391,6 +403,13 @@ export function createCodeModal({
     const focusableElements = getFocusableElements();
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
+
+    // modal 容器本身（tabindex="-1"）获得焦点时，Tab 应移至首/末可聚焦元素
+    if (document.activeElement === modal) {
+      event.preventDefault();
+      (event.shiftKey ? lastElement : firstElement)?.focus();
+      return;
+    }
 
     if (event.shiftKey && document.activeElement === firstElement) {
       event.preventDefault();
@@ -492,8 +511,8 @@ export function createCodeModal({
     }
   });
 
-  document.addEventListener("keydown", onEscape);
-  document.addEventListener("keydown", onTabTrap);
+  modal.addEventListener("keydown", onEscape);
+  modal.addEventListener("keydown", onTabTrap);
 
   return modal;
 }
