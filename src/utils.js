@@ -181,13 +181,15 @@ export function parseColor(color) {
   }
 
   // 支持颜色名称（如 white, red, blue 等）
-  // 复用模块级 canvas，避免重复创建 DOM 元素
-  _parseColorCtx.fillStyle = "#000000"; // 重置，防止上次状态污染
-  _parseColorCtx.fillStyle = color;
+  // 复用模块级 canvas，避免重复创建 DOM 元素（canvas 不支持时跳过）
+  if (_parseColorCtx) {
+    _parseColorCtx.fillStyle = "#000000"; // 重置，防止上次状态污染
+    _parseColorCtx.fillStyle = color;
 
-  // 检查颜色是否有效（fillStyle 会被规范化为 #rrggbb 格式）
-  if (_parseColorCtx.fillStyle === color.toLowerCase() || /^#[0-9a-f]{6}$/i.test(_parseColorCtx.fillStyle)) {
-    result = hexToRgb(_parseColorCtx.fillStyle);
+    // 检查颜色是否有效（fillStyle 会被规范化为 #rrggbb 格式）
+    if (_parseColorCtx.fillStyle === color.toLowerCase() || /^#[0-9a-f]{6}$/i.test(_parseColorCtx.fillStyle)) {
+      result = hexToRgb(_parseColorCtx.fillStyle);
+    }
   }
 
   // null 也缓存，避免对无效颜色重复执行 canvas 操作
