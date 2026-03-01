@@ -1,17 +1,12 @@
 'use strict';
 
 /**
- * 阿里云函数计算 HTTP 函数 — DeepSeek API 代理
+ * 阿里云函数计算 事件函数 — DeepSeek API 代理
  *
  * 运行时：Node.js 18 / 20（内置 fetch，无需额外依赖）
  *
  * 环境变量（在函数计算控制台配置）：
  *   DEEPSEEK_API_KEY  — 你的 DeepSeek API Key（不要写在代码里）
- *
- * 使用方式：
- *   1. 在阿里云函数计算控制台创建 HTTP 函数，上传本文件
- *   2. 配置环境变量 DEEPSEEK_API_KEY
- *   3. 开启公网访问，将触发器 URL 填入 src/ai.js 的 PROXY_URL
  */
 
 const TARGET = 'https://api.deepseek.com/chat/completions';
@@ -23,13 +18,16 @@ const CORS_HEADERS = {
 };
 
 module.exports.handler = async (event, context) => {
+  // 事件函数的 event 是 Buffer，需要先解析
+  const evt = JSON.parse(event.toString());
+
   // CORS 预检请求
-  if (event.httpMethod === 'OPTIONS') {
+  if (evt.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: CORS_HEADERS, body: '' };
   }
 
   // 仅允许 POST
-  if (event.httpMethod !== 'POST') {
+  if (evt.httpMethod !== 'POST') {
     return { statusCode: 405, headers: CORS_HEADERS, body: 'Method Not Allowed' };
   }
 
@@ -40,7 +38,7 @@ module.exports.handler = async (event, context) => {
 
   let reqBody;
   try {
-    reqBody = JSON.parse(event.body || '{}');
+    reqBody = JSON.parse(evt.body || '{}');
   } catch {
     return { statusCode: 400, headers: CORS_HEADERS, body: '请求体必须为 JSON' };
   }
