@@ -1139,6 +1139,24 @@ body.has-ai-fab .page-footer .footer-content {
   cursor: not-allowed;
 }
 
+.ai-panel-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ai-panel-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ai-panel-body::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-rgb), 0.3);
+  border-radius: 2px;
+  transition: background 0.2s ease;
+}
+
+.ai-panel-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--accent-rgb), 0.6);
+}
+
 /* 流式思考过程显示 */
 .ai-thinking {
   max-height: 160px;
@@ -1147,6 +1165,23 @@ body.has-ai-fab .page-footer .footer-content {
   border: 1px solid var(--border-muted);
   background: var(--bg-input);
   padding: 8px 10px;
+}
+
+.ai-thinking::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ai-thinking::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ai-thinking::-webkit-scrollbar-thumb {
+  background: rgba(var(--accent-rgb), 0.25);
+  border-radius: 2px;
+}
+
+.ai-thinking::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--accent-rgb), 0.5);
 }
 
 .ai-thinking-content {

@@ -1874,7 +1874,7 @@
   border-radius: 50%;
   background: var(--accent);
   opacity: 0.7;
-  animation: particleFloat var(--fx-duration, 6s) ease-in-out infinite;
+  animation: particleFloat 6s ease-in-out infinite;
 }
 .particle-bg span:nth-child(1) { width: 8px; height: 8px; left: 15%; top: 65%; animation-delay: 0s; }
 .particle-bg span:nth-child(2) { width: 5px; height: 5px; left: 40%; top: 80%; animation-delay: 1s; }
