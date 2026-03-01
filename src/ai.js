@@ -1,6 +1,6 @@
 // FC 代理地址：部署函数计算后填入触发器 URL，留空则直连 DeepSeek
 // 填入后同事无需各自配置 API Key，Key 由服务端持有
-export const PROXY_URL = "https://deepseek-proxy-xfsnayfbvj.cn-hangzhou.fcapp.run";
+export const PROXY_URL = "https://deepseek-stream-cgpnjvcloa.cn-hangzhou.fcapp.run";
 
 // API Key 管理（从 localStorage 读取；PROXY_URL 已配置时无需设置）
 export function getApiKey() {
@@ -64,14 +64,9 @@ async function streamSSE(res, onChunk) {
   return JSON.parse(fullContent);
 }
 
-// Text-to-Animation（流式，onChunk 接收累计文本）
-export async function generateAnimation(description, onChunk) {
+// 调用 DeepSeek（流式，代理和直连均支持）
+async function callAI(messages, onChunk) {
   const { url, headers } = buildRequest();
-
-  const messages = [
-    { role: "system", content: SYSTEM_PROMPT },
-    { role: "user", content: `生成一个 CSS 动画：${description}` },
-  ];
 
   const res = await fetch(url, {
     method: "POST",
@@ -93,36 +88,20 @@ export async function generateAnimation(description, onChunk) {
   return streamSSE(res, onChunk);
 }
 
-// Style Variations（流式，onChunk 接收累计文本）
-export async function transformAnimation(instruction, html, css, onChunk) {
-  const { url, headers } = buildRequest();
-
-  const messages = [
+// Text-to-Animation
+export async function generateAnimation(description, onChunk) {
+  return callAI([
     { role: "system", content: SYSTEM_PROMPT },
-    {
-      role: "user",
-      content: `修改以下动画，${instruction}\n\nHTML:\n${html}\n\nCSS:\n${css}`,
-    },
-  ];
+    { role: "user", content: `生成一个 CSS 动画：${description}` },
+  ], onChunk);
+}
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers,
-    body: JSON.stringify({
-      model: "deepseek-chat",
-      messages,
-      response_format: { type: "json_object" },
-      temperature: 0.7,
-      stream: true,
-    }),
-  });
-
-  if (!res.ok) {
-    const errText = await res.text().catch(() => "");
-    throw new Error(`API 错误：${res.status}${errText ? " - " + errText : ""}`);
-  }
-
-  return streamSSE(res, onChunk);
+// Style Variations
+export async function transformAnimation(instruction, html, css, onChunk) {
+  return callAI([
+    { role: "system", content: SYSTEM_PROMPT },
+    { role: "user", content: `修改以下动画，${instruction}\n\nHTML:\n${html}\n\nCSS:\n${css}` },
+  ], onChunk);
 }
 
 // ===== 本地保存 =====

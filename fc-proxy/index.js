@@ -20,14 +20,16 @@ const CORS_HEADERS = {
 module.exports.handler = async (event, context) => {
   // 事件函数的 event 是 Buffer，需要先解析
   const evt = JSON.parse(event.toString());
+  // FC 3.0 HTTP 触发器的 method 在 requestContext.http.method 中
+  const method = evt.requestContext?.http?.method;
 
   // CORS 预检请求
-  if (evt.httpMethod === 'OPTIONS') {
+  if (method === 'OPTIONS') {
     return { statusCode: 200, headers: CORS_HEADERS, body: '' };
   }
 
   // 仅允许 POST
-  if (evt.httpMethod !== 'POST') {
+  if (method !== 'POST') {
     return { statusCode: 405, headers: CORS_HEADERS, body: 'Method Not Allowed' };
   }
 
