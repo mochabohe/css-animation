@@ -1,12 +1,21 @@
 import { generateAnimation, transformAnimation, saveAnimation, loadSavedAnimations, deleteSavedAnimation, getApiKey, saveApiKey, PROXY_URL } from "./ai.js";
 import { createCodeModal } from "./modal.js";
 
-// SVG 聊天气泡图标
-const CHAT_ICON = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+// SVG 眨眼机器人图标
+const CHAT_ICON = `<svg class="ai-fab-icon" width="30" height="30" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+  <rect class="ai-head" x="5" y="8" width="18" height="14" rx="4.5"/>
+  <path d="M14 8V5"/>
+  <circle cx="14" cy="4" r="1.4" fill="currentColor" stroke="none"/>
+  <circle class="ai-eye ai-eye-left" cx="11" cy="14" r="1.3" fill="currentColor" stroke="none"/>
+  <circle class="ai-eye ai-eye-right" cx="17" cy="14" r="1.3" fill="currentColor" stroke="none"/>
+  <path class="ai-mouth" d="M10.5 18h7"/>
+  <path d="M3.5 14h1.5"/>
+  <path d="M23 14h1.5"/>
 </svg>`;
 
 export function initAiPanel() {
+  document.body.classList.add("has-ai-fab");
+
   // ===== 面板 =====
   const panel = document.createElement("div");
   panel.className = "ai-panel";
