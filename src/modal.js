@@ -453,6 +453,13 @@ export function createCodeModal({
       }
     });
 
+    aiInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.isComposing) {
+        event.preventDefault();
+        aiBtn.click();
+      }
+    });
+
     aiBar.append(aiInput, aiBtn, aiThinking);
     modalContent.append(modalHeader, editorContainer, aiBar);
   } else {

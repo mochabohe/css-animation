@@ -259,6 +259,14 @@ export function initAiPanel() {
     }
   });
 
+  genInput.addEventListener("keydown", (event) => {
+    // Enter 发送，Shift+Enter 换行
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+      event.preventDefault();
+      genBtn.click();
+    }
+  });
+
   genSection.append(genLabel, genInput, genBtn, thinkingBox);
   body.append(keySection, genSection, savedSection);
   panel.append(header, body);

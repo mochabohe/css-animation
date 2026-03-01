@@ -44,12 +44,26 @@ const EXPLICIT_COLOR_PATTERNS = [
   /(改成|换成|使用|主色|颜色|配色).{0,10}(红|橙|黄|绿|青|蓝|紫|粉|黑|白|灰|金|银|棕|米|青柠|靛蓝)/,
 ];
 
+const RAINBOW_INTENT_PATTERNS = [/(彩虹|七彩|多彩|彩色渐变|rainbow|multicolor|spectrum)/i];
+
+function hasRainbowIntent(text) {
+  if (!text) return false;
+  return RAINBOW_INTENT_PATTERNS.some((pattern) => pattern.test(text));
+}
+
 function hasExplicitColorIntent(text) {
   if (!text) return false;
-  return EXPLICIT_COLOR_PATTERNS.some((pattern) => pattern.test(text));
+  return hasRainbowIntent(text) || EXPLICIT_COLOR_PATTERNS.some((pattern) => pattern.test(text));
 }
 
 function buildColorDirective(text) {
+  if (hasRainbowIntent(text)) {
+    return [
+      "用户要求彩虹/多彩效果：必须使用多色方案。",
+      "请使用至少 6 个不同色相（例如红橙黄绿蓝紫），且颜色应在视觉上明显可区分。",
+      "不要把主视觉颜色写成 var(--accent*) 主题变量。",
+    ].join("\n");
+  }
   if (hasExplicitColorIntent(text)) {
     return "用户已明确指定颜色：请严格按用户颜色生成/修改，不要回退到 var(--accent*) 主题变量。";
   }
@@ -72,8 +86,20 @@ function hasConcreteColorValues(cssText) {
   return CSS_CONCRETE_COLOR_PATTERNS.some((pattern) => pattern.test(cssText));
 }
 
-function shouldRetryForExplicitColor(cssText) {
+function hasRainbowPalette(cssText) {
   if (!cssText) return false;
+  const hexCount = (cssText.match(/#(?:[0-9a-fA-F]{3,8})\b/g) || []).length;
+  const hslCount = (cssText.match(/\bhsla?\s*\(/gi) || []).length;
+  const namedRainbowHits =
+    (cssText.match(/\b(red|orange|yellow|green|cyan|blue|purple|violet|indigo)\b/gi) || []).length;
+  return hexCount >= 4 || hslCount >= 4 || namedRainbowHits >= 4;
+}
+
+function shouldRetryForColorIntent(cssText, userInstruction) {
+  if (!cssText) return false;
+  if (hasRainbowIntent(userInstruction)) {
+    return hasThemeAccentVariables(cssText) || !hasRainbowPalette(cssText);
+  }
   return hasThemeAccentVariables(cssText) && !hasConcreteColorValues(cssText);
 }
 
@@ -87,16 +113,23 @@ async function callAIWithColorFallback({ userInstruction, buildUserContent, onCh
     onChunk,
   );
 
-  if (!hasExplicitColorIntent(userInstruction) || !shouldRetryForExplicitColor(firstResult?.css)) {
+  if (!hasExplicitColorIntent(userInstruction) || !shouldRetryForColorIntent(firstResult?.css, userInstruction)) {
     return firstResult;
   }
 
-  const retryDirective = [
-    colorDirective,
-    "检测到你上一版仍主要使用 var(--accent*) 主题变量。",
-    "本次必须优先使用用户明确提到的颜色值（hex/rgb/hsl/英文色名均可）。",
-    "不要把主视觉颜色写成 var(--accent*)。",
-  ].join("\n");
+  const retryDirective = hasRainbowIntent(userInstruction)
+    ? [
+        colorDirective,
+        "检测到你上一版没有形成明显彩虹配色。",
+        "本次必须提供至少 6 个明显不同色相，并避免单色/同色系。",
+        "禁止使用 var(--accent*) 作为主视觉颜色来源。",
+      ].join("\n")
+    : [
+        colorDirective,
+        "检测到你上一版仍主要使用 var(--accent*) 主题变量。",
+        "本次必须优先使用用户明确提到的颜色值（hex/rgb/hsl/英文色名均可）。",
+        "不要把主视觉颜色写成 var(--accent*)。",
+      ].join("\n");
 
   onChunk?.("检测到颜色未按用户要求落地，正在自动重试...\n");
 
