@@ -1,4 +1,4 @@
-import { generateAnimation, transformAnimation, saveAnimation, loadSavedAnimations, deleteSavedAnimation } from "./ai.js";
+import { generateAnimation, transformAnimation, saveAnimation, loadSavedAnimations, deleteSavedAnimation, getApiKey, saveApiKey, PROXY_URL } from "./ai.js";
 import { createCodeModal } from "./modal.js";
 
 // SVG 聊天气泡图标
@@ -110,6 +110,84 @@ export function initAiPanel() {
     });
   };
 
+  // ===== API Key 区域（代理已配置时自动隐藏）=====
+  const keySection = document.createElement("div");
+  keySection.className = "ai-key-section";
+  // 有代理地址时无需 Key，直接隐藏
+  keySection.hidden = Boolean(PROXY_URL);
+
+  if (!PROXY_URL) {
+    const keyRow = document.createElement("div");
+    keyRow.className = "ai-key-row";
+
+    const keyLabel = document.createElement("span");
+    keyLabel.className = "ai-key-label";
+    keyLabel.textContent = "API Key";
+
+    const keyStatus = document.createElement("span");
+    keyStatus.className = "ai-key-status";
+
+    const keyEditBtn = document.createElement("button");
+    keyEditBtn.type = "button";
+    keyEditBtn.className = "ai-key-edit-btn";
+
+    keyRow.append(keyLabel, keyStatus, keyEditBtn);
+
+    const keyForm = document.createElement("div");
+    keyForm.className = "ai-key-form";
+    keyForm.hidden = true;
+
+    const keyInput = document.createElement("input");
+    keyInput.type = "password";
+    keyInput.className = "ai-key-input";
+    keyInput.placeholder = "sk-xxxxxxxx…";
+    keyInput.setAttribute("aria-label", "DeepSeek API Key");
+
+    const keySaveBtn = document.createElement("button");
+    keySaveBtn.type = "button";
+    keySaveBtn.className = "ai-key-save-btn";
+    keySaveBtn.textContent = "保存";
+
+    keyForm.append(keyInput, keySaveBtn);
+    keySection.append(keyRow, keyForm);
+
+    const updateKeyStatus = () => {
+      const key = getApiKey();
+      if (key) {
+        keyStatus.textContent = "已配置 ✓";
+        keyStatus.classList.add("is-set");
+        keyEditBtn.textContent = "修改";
+      } else {
+        keyStatus.textContent = "未配置";
+        keyStatus.classList.remove("is-set");
+        keyEditBtn.textContent = "设置";
+      }
+    };
+
+    updateKeyStatus();
+
+    keyEditBtn.addEventListener("click", () => {
+      keyForm.hidden = !keyForm.hidden;
+      if (!keyForm.hidden) {
+        keyInput.value = "";
+        keyInput.focus();
+      }
+    });
+
+    keySaveBtn.addEventListener("click", () => {
+      const val = keyInput.value.trim();
+      if (!val) return;
+      saveApiKey(val);
+      keyInput.value = "";
+      keyForm.hidden = true;
+      updateKeyStatus();
+    });
+
+    keyInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") keySaveBtn.click();
+    });
+  }
+
   // ===== 生成区域 =====
   const genSection = document.createElement("div");
   genSection.className = "ai-gen-section";
@@ -173,7 +251,7 @@ export function initAiPanel() {
   });
 
   genSection.append(genLabel, genInput, genBtn, thinkingBox);
-  body.append(genSection, savedSection);
+  body.append(keySection, genSection, savedSection);
   panel.append(header, body);
 
   // ===== 浮动按钮 =====
