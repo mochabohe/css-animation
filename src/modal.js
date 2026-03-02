@@ -596,13 +596,16 @@ export function createCodeModal({
     animated.forEach((el) => { el.style.animation = ""; });
   };
 
+  // AI 改造后更新此基准，使意图按钮基于改造后的 CSS 而非原始 CSS
+  let baseCss = fullCss;
+
   /**
    * 将当前参数导出到 CSS 编辑器和 styleTag。
    * 按 target 分组，对每组进行正则替换 duration / timing。
    */
   const exportParamsToCssEditor = () => {
     if (!currentParams) return;
-    let updatedCss = normalizeCssVariables(fullCss);
+    let updatedCss = normalizeCssVariables(baseCss);
 
     // 按 target 分组参数（同一 target 的 duration 和 timing 一起替换）
     const byTarget = {};
@@ -735,6 +738,7 @@ export function createCodeModal({
         if (result?.css) {
           cssTextarea.value = result.css;
           styleTag.textContent = result.css;
+          baseCss = result.css;
         }
         // 记录改造历史
         addHistoryTag(instruction);
@@ -868,6 +872,7 @@ export function createCodeModal({
   resetBtn.addEventListener("click", () => {
     htmlTextarea.value = demoHtml;
     cssTextarea.value = buildInitialCss();
+    baseCss = fullCss;
 
     if (currentParams && paramsPanel) {
       Object.entries(currentParams).forEach(([key, config]) => {
