@@ -10,7 +10,11 @@
     "lint": "eslint .",
     "test": "vitest run",
     "demo:video": "node scripts/record-demo-video.mjs",
-    "demo:video:existing": "node scripts/record-demo-video.mjs --no-server --url http://localhost:5173/"
+    "demo:video:existing": "node scripts/record-demo-video.mjs --no-server --url http://localhost:5173/",
+    "showcase:record": "node scripts/capture-screenshots.mjs",
+    "showcase:record:existing": "node scripts/capture-screenshots.mjs --no-server --url http://localhost:5173/",
+    "showcase:video": "node scripts/record-showcase-video.mjs",
+    "showcase:video:existing": "node scripts/record-showcase-video.mjs --no-server --url http://localhost:5173/"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",

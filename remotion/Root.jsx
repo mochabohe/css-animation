@@ -4,6 +4,11 @@ import {
   promoDurationInFrames,
   promoFps,
 } from "./CssAnimationPromo";
+import {
+  CssAnimationShowcase,
+  showcaseDurationInFrames,
+  showcaseFps,
+} from "./CssAnimationFullDemo";
 
 export const RemotionRoot = () => {
   return (
@@ -22,6 +27,24 @@ export const RemotionRoot = () => {
         component={CssAnimationPromo}
         durationInFrames={promoDurationInFrames}
         fps={promoFps}
+        width={1080}
+        height={1920}
+        defaultProps={{orientation: "portrait"}}
+      />
+      <Composition
+        id="CssAnimationShowcase16x9"
+        component={CssAnimationShowcase}
+        durationInFrames={showcaseDurationInFrames}
+        fps={showcaseFps}
+        width={1920}
+        height={1080}
+        defaultProps={{orientation: "landscape"}}
+      />
+      <Composition
+        id="CssAnimationShowcase9x16"
+        component={CssAnimationShowcase}
+        durationInFrames={showcaseDurationInFrames}
+        fps={showcaseFps}
         width={1080}
         height={1920}
         defaultProps={{orientation: "portrait"}}
