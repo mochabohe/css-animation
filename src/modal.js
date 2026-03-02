@@ -1,5 +1,88 @@
 import { normalizeCssVariables, copyToClipboard, extractLightModeRulesForClasses } from "./utils.js";
+import { explainAnimation, convertToFramework, suggestParams } from "./ai.js";
 import animationsCss from "./css/animations.css?raw";
+
+// 轻量 Markdown 解析器（仅支持标题、加粗、代码块、列表）
+function parseSimpleMarkdown(text) {
+  if (!text) return "";
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/^### (.+)$/gm, '<h4 class="ai-md-h4">$1</h4>')
+    .replace(/^## (.+)$/gm, '<h3 class="ai-md-h3">$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, '<code class="ai-md-code">$1</code>')
+    .replace(/^- (.+)$/gm, '<li class="ai-md-li">$1</li>')
+    .replace(/(<li[^>]*>.*<\/li>\n?)+/g, (m) => `<ul class="ai-md-ul">${m}</ul>`)
+    .replace(/\n{2,}/g, "<br><br>")
+    .replace(/\n/g, "<br>");
+}
+
+// 预设意图调参规则（无需 API 调用）
+const PARAM_INTENT_PRESETS = {
+  faster: {
+    label: "更快",
+    apply: (params, values) => {
+      const result = {};
+      for (const [key, config] of Object.entries(params)) {
+        if (config.type === "range") {
+          result[key] = Math.max(config.min, values[key] * 0.4);
+        }
+      }
+      return result;
+    },
+  },
+  slower: {
+    label: "更慢",
+    apply: (params, values) => {
+      const result = {};
+      for (const [key, config] of Object.entries(params)) {
+        if (config.type === "range") {
+          result[key] = Math.min(config.max, values[key] * 2.5);
+        }
+      }
+      return result;
+    },
+  },
+  bouncy: {
+    label: "更弹性",
+    apply: (params, values) => {
+      const result = {};
+      const bouncyPriority = [
+        "cubic-bezier(0.68, -0.55, 0.27, 1.55)",
+        "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+        "ease",
+        "ease-out",
+      ];
+      for (const [key, config] of Object.entries(params)) {
+        if (config.type === "select") {
+          const best = bouncyPriority.find((v) => config.options.includes(v));
+          if (best && best !== values[key]) result[key] = best;
+        }
+        if (config.type === "range") {
+          result[key] = Math.max(config.min, values[key] * 0.5);
+        }
+      }
+      return result;
+    },
+  },
+  softer: {
+    label: "更柔和",
+    apply: (params, values) => {
+      const result = {};
+      for (const [key, config] of Object.entries(params)) {
+        if (config.type === "select" && config.options.includes("ease-in-out")) {
+          result[key] = "ease-in-out";
+        }
+        if (config.type === "range") {
+          result[key] = Math.min(config.max, values[key] * 2);
+        }
+      }
+      return result;
+    },
+  },
+};
 
 const easingDescriptions = new Map([
   ["linear", "匀速：从开始到结束速度恒定。"],
@@ -60,7 +143,33 @@ function markButtonState(button, text, originalText) {
   }, 1200);
 }
 
-function buildParamPanel(currentParams, paramValues, onParamChange) {
+// 从标准化后的 CSS 中提取动画实际的 duration 和 timing 初始值
+function extractActualValues(normalizedCss, currentParams) {
+  const actual = {};
+  const targets = new Set(Object.values(currentParams).map((c) => c.target));
+  const timingPattern =
+    "ease-in-out|ease-in|ease-out|ease|linear|cubic-bezier\\([^)]+\\)|steps\\([^)]+\\)";
+
+  for (const target of targets) {
+    const re = new RegExp(
+      `${target}\\s+(\\d+\\.?\\d*s)\\s+(${timingPattern})`,
+    );
+    const m = normalizedCss.match(re);
+    if (m) {
+      actual[target] = { duration: Number.parseFloat(m[1]), timing: m[2] };
+    }
+  }
+
+  for (const [key, config] of Object.entries(currentParams)) {
+    const a = actual[config.target];
+    if (!a) continue;
+    if (config.type === "range" && a.duration) actual[key] = a.duration;
+    if (config.type === "select" && a.timing) actual[key] = a.timing;
+  }
+  return actual;
+}
+
+function buildParamPanel(currentParams, paramValues, onParamChange, normalizedCss) {
   if (!currentParams) return null;
 
   const paramsPanel = document.createElement("div");
@@ -73,6 +182,12 @@ function buildParamPanel(currentParams, paramValues, onParamChange) {
   const paramsContainer = document.createElement("div");
   paramsContainer.className = "params-container";
 
+  // 从 CSS 实际值提取初始参数（解决 data.js default 与 CSS 变量值不一致问题）
+  const actualValues = normalizedCss ? extractActualValues(normalizedCss, currentParams) : {};
+
+  // 收集所有控件引用，供意图调参同步更新 UI
+  const controlRefs = {};
+
   Object.entries(currentParams).forEach(([key, config]) => {
     const paramRow = document.createElement("div");
     paramRow.className = "param-row";
@@ -81,7 +196,9 @@ function buildParamPanel(currentParams, paramValues, onParamChange) {
     paramLabel.className = "param-label";
     paramLabel.textContent = config.label;
 
-    paramValues[key] = config.default;
+    // 优先使用 CSS 中的实际值，回退到 config.default
+    const initialValue = (key in actualValues) ? actualValues[key] : config.default;
+    paramValues[key] = initialValue;
 
     if (config.type === "range") {
       const rangeWrapper = document.createElement("div");
@@ -93,11 +210,11 @@ function buildParamPanel(currentParams, paramValues, onParamChange) {
       input.min = config.min;
       input.max = config.max;
       input.step = config.step;
-      input.value = config.default;
+      input.value = initialValue;
 
       const valueDisplay = document.createElement("span");
       valueDisplay.className = "param-value";
-      valueDisplay.textContent = `${config.default}${config.unit}`;
+      valueDisplay.textContent = `${initialValue}${config.unit}`;
 
       input.addEventListener("input", (event) => {
         const value = Number.parseFloat(event.target.value);
@@ -106,6 +223,7 @@ function buildParamPanel(currentParams, paramValues, onParamChange) {
         onParamChange();
       });
 
+      controlRefs[key] = { input, valueDisplay, config };
       rangeWrapper.append(input, valueDisplay);
       paramRow.append(paramLabel, rangeWrapper);
     }
@@ -122,7 +240,7 @@ function buildParamPanel(currentParams, paramValues, onParamChange) {
         optionElement.value = option;
         optionElement.textContent =
           option === "cubic-bezier(0.68, -0.55, 0.27, 1.55)" ? "bounce" : option;
-        if (option === config.default) {
+        if (option === initialValue) {
           optionElement.selected = true;
         }
         select.append(optionElement);
@@ -148,12 +266,97 @@ function buildParamPanel(currentParams, paramValues, onParamChange) {
         updateEasingHelpForSelect(select);
       }
 
+      controlRefs[key] = { input: select, config };
       paramRow.append(paramLabel, selectWrapper);
     }
 
     paramsContainer.append(paramRow);
   });
 
+  // 应用参数并同步 UI 控件
+  const applyParamValues = (newValues) => {
+    for (const [key, value] of Object.entries(newValues)) {
+      if (!(key in currentParams)) continue;
+      const ref = controlRefs[key];
+      if (!ref) continue;
+
+      const config = ref.config;
+      if (config.type === "range") {
+        const decimals = (String(config.step).split(".")[1] || "").length;
+        const clamped = parseFloat((Math.round(Math.max(config.min, Math.min(config.max, value)) / config.step) * config.step).toFixed(decimals));
+        paramValues[key] = clamped;
+        ref.input.value = clamped;
+        if (ref.valueDisplay) ref.valueDisplay.textContent = `${clamped}${config.unit}`;
+      } else if (config.type === "select") {
+        if (config.options.includes(value)) {
+          paramValues[key] = value;
+          ref.input.value = value;
+          updateEasingHelpForSelect(ref.input);
+        }
+      }
+    }
+    onParamChange();
+  };
+
+  // 意图调参快捷按钮行
+  const intentRow = document.createElement("div");
+  intentRow.className = "ai-intent-row";
+
+  Object.entries(PARAM_INTENT_PRESETS).forEach(([, preset]) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "ai-intent-btn";
+    btn.textContent = preset.label;
+    btn.addEventListener("click", () => {
+      intentRow.querySelectorAll(".ai-intent-btn").forEach((b) => b.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      const newValues = preset.apply(currentParams, paramValues);
+      applyParamValues(newValues);
+    });
+    intentRow.append(btn);
+  });
+
+  // AI 自定义调参输入
+  const aiParamRow = document.createElement("div");
+  aiParamRow.className = "ai-intent-custom";
+
+  const aiParamInput = document.createElement("input");
+  aiParamInput.type = "text";
+  aiParamInput.className = "ai-intent-input";
+  aiParamInput.placeholder = "描述调整意图…";
+
+  const aiParamBtn = document.createElement("button");
+  aiParamBtn.type = "button";
+  aiParamBtn.className = "ai-intent-btn ai-intent-btn--ai";
+  aiParamBtn.textContent = "AI 调参";
+
+  aiParamBtn.addEventListener("click", async () => {
+    const intent = aiParamInput.value.trim();
+    if (!intent) return;
+    aiParamBtn.disabled = true;
+    aiParamBtn.textContent = "分析中…";
+    try {
+      const newValues = await suggestParams(intent, currentParams, paramValues);
+      applyParamValues(newValues);
+      aiParamInput.value = "";
+    } catch {
+      // 静默处理
+    } finally {
+      aiParamBtn.disabled = false;
+      aiParamBtn.textContent = "AI 调参";
+    }
+  });
+
+  aiParamInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.isComposing) {
+      e.preventDefault();
+      aiParamBtn.click();
+    }
+  });
+
+  aiParamRow.append(aiParamInput, aiParamBtn);
+
+  paramsContainer.append(intentRow, aiParamRow);
   paramsPanel.append(paramsLabel, paramsContainer);
   return paramsPanel;
 }
@@ -219,6 +422,42 @@ export function createCodeModal({
   closeModalBtn.type = "button";
   closeModalBtn.textContent = "✕ 关闭";
 
+  // AI 解读按钮
+  const explainBtn = document.createElement("button");
+  explainBtn.className = "modal-btn ai-explain-btn";
+  explainBtn.type = "button";
+  explainBtn.textContent = "AI 解读";
+
+  // 导出按钮（下拉）
+  const exportWrap = document.createElement("div");
+  exportWrap.className = "ai-export-wrap";
+
+  const exportBtn = document.createElement("button");
+  exportBtn.className = "modal-btn ai-export-btn";
+  exportBtn.type = "button";
+  exportBtn.textContent = "导出为…";
+
+  const exportMenu = document.createElement("div");
+  exportMenu.className = "ai-export-menu";
+  exportMenu.hidden = true;
+
+  const frameworks = [
+    { key: "react", label: "React JSX" },
+    { key: "vue", label: "Vue SFC" },
+    { key: "tailwind", label: "Tailwind CSS" },
+  ];
+
+  frameworks.forEach(({ key, label }) => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.className = "ai-export-menu-item";
+    item.textContent = label;
+    item.dataset.framework = key;
+    exportMenu.append(item);
+  });
+
+  exportWrap.append(exportBtn, exportMenu);
+
   if (onSave) {
     const saveBtn = document.createElement("button");
     saveBtn.className = "modal-btn ai-save-btn";
@@ -228,9 +467,9 @@ export function createCodeModal({
       onSave(title, htmlTextarea.value, cssTextarea.value);
       markButtonState(saveBtn, "✓ 已保存", "💾 保存");
     });
-    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, saveBtn, closeModalBtn);
+    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, explainBtn, exportWrap, saveBtn, closeModalBtn);
   } else {
-    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, closeModalBtn);
+    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, explainBtn, exportWrap, closeModalBtn);
   }
   modalHeader.append(modalTitle, modalActions);
 
@@ -327,57 +566,79 @@ export function createCodeModal({
   };
 
   /**
-   * 通过 CSS 变量将参数实时注入 Shadow DOM。
-   * 櫳子选择器和参数变更时仅修改 shadow 内容器的 style，
-   * 无需重写整块 CSS 字符串，避免正则脱脆性问题。
-   * 认频居类名寻贪卵: --anim-{key}-dur 和 --anim-{key}-timing
+   * 参数变更时：修改 CSS 文本 + 强制重启动画。
+   * 直接替换 styleTag 中的硬编码值（适用于所有动画），
+   * 再通过 animation:none → reflow → 恢复 的方式强制浏览器重启动画。
    */
   const updatePreviewWithParams = () => {
     if (!currentParams) return;
 
-    Object.entries(currentParams).forEach(([key, config]) => {
-      const value = paramValues[key];
-      const cssVarName = `--anim-param-${key}`;
-      if (config.type === 'range') {
-        shadowContainer.style.setProperty(cssVarName, `${value}${config.unit}`);
-      } else if (config.type === 'select') {
-        shadowContainer.style.setProperty(cssVarName, value);
-      }
-    });
-
-    // 同时将当前参数导出到 CSS 编辑器（供复制使用）
+    // 1. 通过正则替换更新 CSS 文本（styleTag + cssTextarea）
     exportParamsToCssEditor();
+
+    // 2. 强制重启 Shadow DOM 中所有 CSS 动画
+    const animated = shadowContainer.querySelectorAll("*");
+    animated.forEach((el) => { el.style.animation = "none"; });
+    // 触发 reflow，让浏览器识别动画已清除
+    void shadowContainer.offsetHeight;
+    animated.forEach((el) => { el.style.animation = ""; });
   };
 
   /**
-   * 将当前参数銟入到 CSS 编辑器（供复制导出）。
-   * 使用正则替换进行，但仅影响展示层，不干扰 shadow 内实时预览。
+   * 将当前参数导出到 CSS 编辑器和 styleTag。
+   * 按 target 分组，对每组进行正则替换 duration / timing。
    */
   const exportParamsToCssEditor = () => {
     if (!currentParams) return;
     let updatedCss = normalizeCssVariables(fullCss);
-    Object.entries(currentParams).forEach(([key, config]) => {
-      const value = paramValues[key];
-      const target = config.target;
-      if (config.type === 'range') {
-        const durationRegex = new RegExp(`(${target}\\s+)(\\d+\\.?\\d*)(s)`, 'g');
-        updatedCss = updatedCss.replace(durationRegex, (_match, prefix, _oldDuration, unit) => {
-          return `${prefix}${value}${unit}`;
-        });
+
+    // 按 target 分组参数（同一 target 的 duration 和 timing 一起替换）
+    const byTarget = {};
+    for (const [key, config] of Object.entries(currentParams)) {
+      const t = config.target;
+      if (!byTarget[t]) byTarget[t] = { dur: null, tim: null };
+      if (config.type === "range" && !byTarget[t].dur) {
+        byTarget[t].dur = { key, config };
       }
-      if (config.type === 'select' && key === 'timing') {
-        const timingRegex = new RegExp(
-          `(${target}\\s+\\d+\\.?\\d*s\\s+)(linear|ease(?:-in)?(?:-out)?|ease-in-out|cubic-bezier\\([^)]+\\))`,
-          'g'
-        );
-        updatedCss = updatedCss.replace(timingRegex, (_match, prefix) => `${prefix}${value}`);
+      if (config.type === "select" && !byTarget[t].tim) {
+        byTarget[t].tim = { key, config };
       }
-    });
+    }
+
+    const timingPattern =
+      "ease-in-out|ease-in|ease-out|ease|linear" +
+      "|cubic-bezier\\([^)]+\\)" +
+      "|steps\\([^)]+\\)";
+
+    for (const [target, { dur, tim }] of Object.entries(byTarget)) {
+      if (!dur && !tim) continue;
+
+      // 匹配 animation/transition 简写：name/prop duration timing ...
+      const animRegex = new RegExp(
+        `(${target}\\s+)` +
+        `(\\d+\\.?\\d*s)` +
+        `(\\s+)` +
+        `(${timingPattern})`,
+        "g",
+      );
+
+      updatedCss = updatedCss.replace(animRegex, (_match, name, _dur, space, _timing) => {
+        let newDur = _dur;
+        if (dur) {
+          const decimals = (String(dur.config.step).split(".")[1] || "").length;
+          newDur = `${Number(paramValues[dur.key]).toFixed(decimals)}${dur.config.unit}`;
+        }
+        const newTiming = tim ? paramValues[tim.key] : _timing;
+        return `${name}${newDur}${space}${newTiming}`;
+      });
+    }
+
     cssTextarea.value = updatedCss;
     styleTag.textContent = updatedCss;
   };
 
-  const paramsPanel = buildParamPanel(currentParams, paramValues, updatePreviewWithParams);
+  const initialNormalizedCss = normalizeCssVariables(fullCss);
+  const paramsPanel = buildParamPanel(currentParams, paramValues, updatePreviewWithParams, initialNormalizedCss);
 
   const leftColumn = document.createElement("div");
   leftColumn.className = "modal-left-column";
@@ -586,8 +847,6 @@ export function createCodeModal({
     if (currentParams && paramsPanel) {
       Object.entries(currentParams).forEach(([key, config]) => {
         paramValues[key] = config.default;
-        // 清除注入到 Shadow DOM 的 CSS 变量，让预览回到 CSS 默认值
-        shadowContainer.style.removeProperty(`--anim-param-${key}`);
       });
 
       const controls = paramsPanel.querySelectorAll("input, select");
@@ -608,10 +867,129 @@ export function createCodeModal({
           updateEasingHelpForSelect(control);
         }
       });
+
+      // 清除意图按钮高亮
+      paramsPanel.querySelectorAll(".ai-intent-btn").forEach((b) => b.classList.remove("is-active"));
     }
 
     updatePreview();
+    // 重置后强制重启动画，确保预览恢复
+    const animated = shadowContainer.querySelectorAll("*");
+    animated.forEach((el) => { el.style.animation = "none"; });
+    void shadowContainer.offsetHeight;
+    animated.forEach((el) => { el.style.animation = ""; });
     markButtonState(resetBtn, "✓ 已重置", "重置");
+  });
+
+  // ===== AI 解读功能 =====
+  let explainPanel = null;
+
+  explainBtn.addEventListener("click", async () => {
+    // 切换面板
+    if (explainPanel && !explainPanel.hidden) {
+      explainPanel.hidden = true;
+      return;
+    }
+
+    if (!explainPanel) {
+      explainPanel = document.createElement("div");
+      explainPanel.className = "ai-explain-panel";
+      const explainContent = document.createElement("div");
+      explainContent.className = "ai-explain-content";
+      const explainClose = document.createElement("button");
+      explainClose.type = "button";
+      explainClose.className = "ai-explain-close";
+      explainClose.textContent = "×";
+      explainClose.addEventListener("click", () => { explainPanel.hidden = true; });
+      explainPanel.append(explainClose, explainContent);
+      modalContent.append(explainPanel);
+    }
+
+    const content = explainPanel.querySelector(".ai-explain-content");
+    explainPanel.hidden = false;
+    content.textContent = "正在分析代码…";
+    explainBtn.disabled = true;
+
+    try {
+      await explainAnimation(htmlTextarea.value, cssTextarea.value, (accumulated) => {
+        content.innerHTML = parseSimpleMarkdown(accumulated);
+      });
+    } catch (err) {
+      content.textContent = `解读失败：${err.message}`;
+    } finally {
+      explainBtn.disabled = false;
+    }
+  });
+
+  // ===== 框架导出功能 =====
+  exportBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    exportMenu.hidden = !exportMenu.hidden;
+  });
+
+  // 点击外部关闭菜单
+  modal.addEventListener("click", () => { exportMenu.hidden = true; });
+
+  exportMenu.addEventListener("click", async (e) => {
+    const item = e.target.closest(".ai-export-menu-item");
+    if (!item) return;
+    e.stopPropagation();
+    exportMenu.hidden = true;
+
+    const framework = item.dataset.framework;
+    const frameworkLabel = item.textContent;
+
+    // 创建导出结果面板
+    const overlay = document.createElement("div");
+    overlay.className = "ai-export-overlay";
+
+    const panel = document.createElement("div");
+    panel.className = "ai-export-panel";
+
+    const panelHeader = document.createElement("div");
+    panelHeader.className = "ai-export-panel-header";
+
+    const panelTitle = document.createElement("span");
+    panelTitle.textContent = `导出为 ${frameworkLabel}`;
+
+    const panelCopyBtn = document.createElement("button");
+    panelCopyBtn.type = "button";
+    panelCopyBtn.className = "modal-btn";
+    panelCopyBtn.textContent = "复制代码";
+
+    const panelCloseBtn = document.createElement("button");
+    panelCloseBtn.type = "button";
+    panelCloseBtn.className = "modal-btn modal-close";
+    panelCloseBtn.textContent = "✕ 关闭";
+
+    panelHeader.append(panelTitle, panelCopyBtn, panelCloseBtn);
+
+    const panelCode = document.createElement("textarea");
+    panelCode.className = "ai-export-code";
+    panelCode.readOnly = true;
+    panelCode.value = "正在转换…";
+
+    panel.append(panelHeader, panelCode);
+    overlay.append(panel);
+    modal.append(overlay);
+
+    panelCloseBtn.addEventListener("click", () => overlay.remove());
+    overlay.addEventListener("click", (ev) => { if (ev.target === overlay) overlay.remove(); });
+
+    panelCopyBtn.addEventListener("click", async () => {
+      try {
+        await copyToClipboard(panelCode.value);
+        markButtonState(panelCopyBtn, "✓ 已复制", "复制代码");
+      } catch { /* ignore */ }
+    });
+
+    try {
+      await convertToFramework(htmlTextarea.value, cssTextarea.value, framework, (accumulated) => {
+        panelCode.value = accumulated;
+      });
+    } catch (err) {
+      panelCode.value = `转换失败：${err.message}`;
+    }
   });
 
   closeModalBtn.addEventListener("click", closeModal);

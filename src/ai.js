@@ -367,6 +367,101 @@ export async function searchAnimations(query, animationIndex) {
   return result?.matches || [];
 }
 
+// ===== CSS 代码解释 =====
+export async function explainAnimation(html, css, onChunk) {
+  const messages = [
+    {
+      role: "system",
+      content: `你是 CSS 动画教学专家。用中文对动画代码进行逐段解释。
+格式要求：
+- 先用一句话概述动画整体效果
+- 用 ## 分段解释每个关键部分（@keyframes、animation 属性、transform 等）
+- 重要属性用 **加粗**
+- 每段用"通俗比喻 + 技术细节"的方式解释
+- 最后给出 1-2 条优化建议
+保持简洁，总字数不超过 500 字。`,
+    },
+    {
+      role: "user",
+      content: `请解释以下动画代码：\n\nHTML:\n${html}\n\nCSS:\n${css}`,
+    },
+  ];
+
+  return callAIText(messages, onChunk);
+}
+
+// ===== 框架适配导出 =====
+const FRAMEWORK_PROMPTS = {
+  react: `将以下 HTML+CSS 动画转换为 React 函数组件。
+要求：
+- 使用 JSX 语法，className 替代 class
+- CSS 作为单独的 CSS Module 或内联 style 对象
+- 包含完整的 @keyframes（放在 CSS 部分）
+- 导出组件名使用 PascalCase
+- 输出格式：先组件代码，再 CSS 代码，用 --- 分隔`,
+
+  vue: `将以下 HTML+CSS 动画转换为 Vue 3 单文件组件（SFC）。
+要求：
+- 使用 <template>、<script setup>、<style scoped> 三段式
+- 包含完整的 @keyframes
+- 保持所有动画效果不变
+- 输出完整的 .vue 文件内容`,
+
+  tailwind: `将以下 HTML+CSS 动画转换为 Tailwind CSS 格式。
+要求：
+- 尽量使用 Tailwind 工具类替代自定义 CSS
+- 无法用工具类实现的部分（如 @keyframes）用 @layer 或 CSS-in-JS 补充
+- 保持所有动画效果不变
+- 输出 HTML（含 Tailwind 类）和补充 CSS`,
+};
+
+export async function convertToFramework(html, css, framework, onChunk) {
+  const frameworkPrompt = FRAMEWORK_PROMPTS[framework];
+  if (!frameworkPrompt) throw new Error(`不支持的框架: ${framework}`);
+
+  const messages = [
+    {
+      role: "system",
+      content: `你是前端代码转换专家。${frameworkPrompt}`,
+    },
+    {
+      role: "user",
+      content: `HTML:\n${html}\n\nCSS:\n${css}`,
+    },
+  ];
+
+  return callAIText(messages, onChunk);
+}
+
+// ===== 意图驱动调参 =====
+export async function suggestParams(intent, currentParams, currentValues) {
+  const paramsDesc = Object.entries(currentParams)
+    .map(([key, config]) => {
+      const current = currentValues[key];
+      if (config.type === "range") {
+        return `${key}(${config.label}): 当前=${current}${config.unit}, 范围=${config.min}-${config.max}${config.unit}`;
+      }
+      return `${key}(${config.label}): 当前=${current}, 可选=${config.options.join("/")}`;
+    })
+    .join("\n");
+
+  const messages = [
+    {
+      role: "system",
+      content: `你是 CSS 动画参数调优专家。根据用户的调整意图，返回推荐的参数值。
+返回 JSON 格式：{"params": {"参数key": 新值, ...}}
+只修改与意图相关的参数，不要修改无关参数。数值类型返回数字，选择类型返回字符串。`,
+    },
+    {
+      role: "user",
+      content: `当前参数：\n${paramsDesc}\n\n调整意图：${intent}`,
+    },
+  ];
+
+  const result = await callAI(messages);
+  return result?.params || {};
+}
+
 // ===== 本地保存 =====
 const SAVED_KEY = "ai-saved-animations";
 

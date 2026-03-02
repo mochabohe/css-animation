@@ -123,7 +123,17 @@ export function createCardRenderer(cards, filterButtons, viewState) {
 export function bindFiltering({ filterButtons, searchInput, aiSearchBtn, viewState }) {
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      viewState.filter = button.dataset.filter || "all";
+      const target = button.dataset.filter || "all";
+      // 点击「全部」时同时清空搜索关键词和 AI 搜索状态，实现完整重置
+      if (target === "all" && (viewState.keyword || viewState.aiMatches)) {
+        if (searchInput) searchInput.value = "";
+        viewState.aiMatches = null;
+        viewState.keyword = "";
+        // 移除 AI 搜索清除按钮
+        const clearBtn = document.querySelector(".ai-search-clear");
+        if (clearBtn) clearBtn.remove();
+      }
+      viewState.filter = target;
     });
   });
 
@@ -141,6 +151,9 @@ export function bindFiltering({ filterButtons, searchInput, aiSearchBtn, viewSta
   // AI 智能搜索
   if (!aiSearchBtn) return;
 
+  const resultCountEl = document.querySelector("#resultCount");
+  const emptyStateEl = document.querySelector("#emptyState");
+
   const doAiSearch = async () => {
     const query = searchInput.value.trim();
     if (!query) {
@@ -150,6 +163,19 @@ export function bindFiltering({ filterButtons, searchInput, aiSearchBtn, viewSta
 
     aiSearchBtn.disabled = true;
     aiSearchBtn.classList.add("is-loading");
+
+    // 搜索期间：隐藏结果计数，在内容区居中显示搜索状态
+    if (resultCountEl) resultCountEl.hidden = true;
+    if (emptyStateEl) {
+      emptyStateEl.hidden = false;
+      emptyStateEl.classList.add("ai-searching");
+      const title = emptyStateEl.querySelector(".empty-title");
+      const hint = emptyStateEl.querySelector(".empty-hint");
+      const icon = emptyStateEl.querySelector(".empty-icon");
+      if (title) title.textContent = "AI 正在搜索中…";
+      if (hint) hint.textContent = "正在理解语义并匹配最相关的动画";
+      if (icon) icon.hidden = true;
+    }
 
     try {
       const matches = await searchAnimations(query, animationSemanticIndex);
@@ -164,6 +190,17 @@ export function bindFiltering({ filterButtons, searchInput, aiSearchBtn, viewSta
     } finally {
       aiSearchBtn.disabled = false;
       aiSearchBtn.classList.remove("is-loading");
+      // 恢复空状态区域的默认内容
+      if (emptyStateEl) {
+        emptyStateEl.classList.remove("ai-searching");
+        const title = emptyStateEl.querySelector(".empty-title");
+        const hint = emptyStateEl.querySelector(".empty-hint");
+        const icon = emptyStateEl.querySelector(".empty-icon");
+        if (title) title.textContent = "没有找到匹配的动画";
+        if (hint) hint.textContent = "换个关键词试试，或点击「全部」查看所有效果";
+        if (icon) icon.hidden = false;
+      }
+      if (resultCountEl) resultCountEl.hidden = false;
     }
   };
 
