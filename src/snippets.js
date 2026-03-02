@@ -2609,5 +2609,139 @@
   28% { opacity: 1; transform: translateX(-50%) translateY(0); }
   68% { opacity: 1; transform: translateX(-50%) translateY(0); }
   82%, 100% { opacity: 0; transform: translateX(-50%) translateY(4px); }
+}`,
+  脉冲按钮: `.pulse-cta {
+  position: relative;
+  padding: 8px 28px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep, var(--accent)));
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+}
+.pulse-cta::before,
+.pulse-cta::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 2px solid var(--accent);
+  opacity: 0;
+  animation: ctaPulseRing 2.5s ease-out infinite;
+}
+.pulse-cta::after {
+  animation-delay: 0.8s;
+}
+@keyframes ctaPulseRing {
+  0% { opacity: 0.6; transform: scale(1); }
+  70% { opacity: 0; transform: scale(1.35); }
+  100% { opacity: 0; transform: scale(1.35); }
+}`,
+  弹幕飘过: `.danmaku-stage {
+  width: 100%;
+  height: 70px;
+  position: relative;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.danmaku-item {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  padding: 2px 10px;
+  border-radius: 99px;
+  background: rgba(var(--accent-rgb), 0.12);
+  animation: danmakuFly 6s linear infinite;
+}
+.danmaku-item:nth-child(1) { top: 4px; }
+.danmaku-item:nth-child(2) { top: 26px; animation-delay: -2s; }
+.danmaku-item:nth-child(3) { top: 48px; animation-delay: -4s; }
+@keyframes danmakuFly {
+  0% { left: 100%; }
+  100% { left: -120px; }
+}`,
+  文字描边绘制: `.stroke-text-svg {
+  width: 140px;
+  height: 40px;
+}
+.stroke-text-path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.2;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: strokeDraw 3s ease-in-out infinite;
+}
+@keyframes strokeDraw {
+  0%, 5% { stroke-dashoffset: 300; fill: transparent; }
+  50% { stroke-dashoffset: 0; fill: transparent; }
+  65%, 80% { stroke-dashoffset: 0; fill: rgba(var(--accent-rgb), 0.15); }
+  100% { stroke-dashoffset: 300; fill: transparent; }
+}`,
+  时钟摆动: `.pendulum-wrap {
+  width: 80px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+}
+.pendulum-arm {
+  width: 2px;
+  height: 60px;
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.4), var(--accent));
+  transform-origin: top center;
+  animation: pendulumSwing 2s ease-in-out infinite;
+  position: relative;
+}
+.pendulum-arm::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.pendulum-arm::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep, var(--accent)));
+  box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.4);
+}
+@keyframes pendulumSwing {
+  0% { transform: rotate(30deg); }
+  50% { transform: rotate(-30deg); }
+  100% { transform: rotate(30deg); }
+}`,
+  聚光扫描: `.spotlight-panel {
+  width: 100%;
+  height: 80px;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle 40px at var(--spot-x, -40px) 50%, rgba(var(--accent-rgb), 0.35), transparent 70%),
+    linear-gradient(135deg, rgba(var(--accent-rgb), 0.06), rgba(var(--accent-rgb), 0.02));
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
+  overflow: hidden;
+  animation: spotlightSweep 3s ease-in-out infinite;
+}
+@property --spot-x {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: -40px;
+}
+@keyframes spotlightSweep {
+  0% { --spot-x: -40px; }
+  50% { --spot-x: calc(100% + 40px); }
+  50.01%, 100% { --spot-x: -40px; }
 }`
 };

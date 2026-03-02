@@ -183,6 +183,11 @@ export const animationSemanticIndex = {
   步骤进度: ["步骤", "进度", "step", "流程", "分步", "向导"],
   弹窗缩放: ["弹窗", "缩放", "modal", "对话框", "弹出"],
   工具提示: ["工具提示", "tooltip", "气泡", "悬停", "提示"],
+  脉冲按钮: ["脉冲", "按钮", "CTA", "吸引", "点击", "行动号召"],
+  弹幕飘过: ["弹幕", "飘过", "滚动", "直播", "评论", "互动"],
+  文字描边绘制: ["描边", "绘制", "stroke", "SVG", "文字", "书写"],
+  时钟摆动: ["钟摆", "摆动", "pendulum", "节拍", "摇摆"],
+  聚光扫描: ["聚光", "扫描", "spotlight", "高亮", "搜索", "灯光"],
 };
 
 
@@ -536,6 +541,26 @@ export const animationParams = {
     duration: { label: "浮现时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "tooltipPop" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "tooltipPop" },
   },
+  脉冲按钮: {
+    duration: { label: "脉冲周期", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "ctaPulseRing" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-out", "ease-in-out"], default: "ease-out", target: "ctaPulseRing" },
+  },
+  弹幕飘过: {
+    duration: { label: "飘过时长", type: "range", min: 3, max: 12, step: 0.5, default: 6, unit: "s", target: "danmakuFly" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out"], default: "linear", target: "danmakuFly" },
+  },
+  文字描边绘制: {
+    duration: { label: "绘制时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "strokeDraw" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "strokeDraw" },
+  },
+  时钟摆动: {
+    duration: { label: "摆动周期", type: "range", min: 1, max: 5, step: 0.5, default: 2, unit: "s", target: "pendulumSwing" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "pendulumSwing" },
+  },
+  聚光扫描: {
+    duration: { label: "扫描时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "spotlightSweep" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "spotlightSweep" },
+  },
 };
 
 export const animationNamesByTitle = {
@@ -628,4 +653,9 @@ export const animationNamesByTitle = {
   步骤进度: ["stepFill", "stepDot", "stepLine"],
   弹窗缩放: ["modalPop", "backdropFade"],
   工具提示: ["tooltipPop"],
+  脉冲按钮: ["ctaPulseRing"],
+  弹幕飘过: ["danmakuFly"],
+  文字描边绘制: ["strokeDraw"],
+  时钟摆动: ["pendulumSwing"],
+  聚光扫描: ["spotlightSweep"],
 };

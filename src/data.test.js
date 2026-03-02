@@ -175,3 +175,35 @@ describe("animationParams — 参数调节正则能匹配 snippet CSS", () => {
     }
   }
 });
+
+describe("animationParams — shorthand duration 不被 animation-duration 覆盖", () => {
+  for (const [title, params] of Object.entries(animationParams)) {
+    const snippet = snippetsByTitle[title];
+    if (!snippet) continue;
+
+    const normalizedCss = testNormalizeCss(snippet);
+
+    const targets = [...new Set(
+      Object.values(params).filter((c) => c.type === "range").map((c) => c.target),
+    )];
+
+    for (const target of targets) {
+      if (TRANSITION_TARGETS.has(target)) continue;
+
+      // 检查 shorthand 中是否带了 duration
+      const shorthandRe = new RegExp(`${target}\\s+(${DURATION_RE})`);
+      const hasShorthandDuration = shorthandRe.test(normalizedCss);
+      if (!hasShorthandDuration) continue; // 走 fallback 比例缩放逻辑，不受此约束
+
+      it(`"${title}" shorthand 已含 duration，不应有 animation-duration 覆盖`, () => {
+        // 如果 shorthand 中已有 duration，snippet 中不应出现 animation-duration 覆盖
+        // 否则参数面板改 shorthand 的值会被覆盖，用户看不到效果
+        const overrideRe = /animation-duration:\s*\d+\.?\d*s/;
+        expect(
+          overrideRe.test(normalizedCss),
+          `"${title}" 的 snippet 中 shorthand 已包含 duration，但又有 animation-duration 覆盖，参数调节会失效`,
+        ).toBe(false);
+      });
+    }
+  }
+});
