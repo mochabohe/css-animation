@@ -177,6 +177,12 @@ export const animationSemanticIndex = {
   消息气泡弹入: ["消息", "气泡", "弹入", "聊天", "通知"],
   渐入上移: ["渐入", "上移", "入场", "fade-in", "出现"],
   涟漪扩散: ["涟漪", "扩散", "波纹", "点击", "中心"],
+  错误抖动: ["错误", "抖动", "shake", "表单", "验证", "输入"],
+  翻转卡片: ["翻转", "卡片", "flip", "3D", "正反面", "悬停"],
+  跑马灯滚动: ["跑马灯", "滚动", "marquee", "公告", "文字滚动"],
+  步骤进度: ["步骤", "进度", "step", "流程", "分步", "向导"],
+  弹窗缩放: ["弹窗", "缩放", "modal", "对话框", "弹出"],
+  工具提示: ["工具提示", "tooltip", "气泡", "悬停", "提示"],
 };
 
 
@@ -506,6 +512,30 @@ export const animationParams = {
     duration: { label: "扩散时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.4, unit: "s", target: "rippleOut" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "rippleOut" },
   },
+  错误抖动: {
+    duration: { label: "抖动时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.6, unit: "s", target: "shakeError" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "shakeError" },
+  },
+  翻转卡片: {
+    duration: { label: "翻转时长", type: "range", min: 2, max: 8, step: 0.5, default: 4, unit: "s", target: "flipAuto" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "flipAuto" },
+  },
+  跑马灯滚动: {
+    duration: { label: "滚动时长", type: "range", min: 3, max: 15, step: 1, default: 8, unit: "s", target: "marqueeScroll" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease"], default: "linear", target: "marqueeScroll" },
+  },
+  步骤进度: {
+    duration: { label: "流程时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "stepFill" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "stepFill" },
+  },
+  弹窗缩放: {
+    duration: { label: "弹出时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "modalPop" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "modalPop" },
+  },
+  工具提示: {
+    duration: { label: "浮现时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "tooltipPop" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "tooltipPop" },
+  },
 };
 
 export const animationNamesByTitle = {
@@ -592,4 +622,10 @@ export const animationNamesByTitle = {
   渐入上移: ["fadeInUp"],
   涟漪扩散: ["rippleOut", "rippleCorePulse"],
   角标跳动: ["badgeBounce"],
+  错误抖动: ["shakeError", "shakeHintFade"],
+  翻转卡片: ["flipAuto"],
+  跑马灯滚动: ["marqueeScroll"],
+  步骤进度: ["stepFill", "stepDot", "stepLine"],
+  弹窗缩放: ["modalPop", "backdropFade"],
+  工具提示: ["tooltipPop"],
 };

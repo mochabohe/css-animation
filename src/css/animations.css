@@ -55,7 +55,13 @@
 .card-front > .empty-search,
 .card-front > .zero-chart,
 .card-front > .empty-question,
-.card-front > .progress-bar {
+.card-front > .progress-bar,
+.card-front > .shake-error-wrap,
+.card-front > .flip-card-wrap,
+.card-front > .marquee-wrap,
+.card-front > .step-progress-wrap,
+.card-front > .modal-pop-wrap,
+.card-front > .tooltip-demo-wrap {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -4263,4 +4269,331 @@
   42% {
     transform: scale(1.1);
   }
+}
+
+/* =====================================================
+   错误抖动
+   ===================================================== */
+.shake-error-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0 12px;
+}
+
+.shake-input {
+  width: 100%;
+  max-width: 180px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1.5px solid var(--accent);
+  background: rgba(var(--accent-rgb), 0.06);
+  color: var(--text);
+  font-size: 12px;
+  animation: shakeError 0.6s ease-in-out infinite;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.25);
+  border-color: #ef4444;
+}
+
+.shake-hint {
+  font-size: 11px;
+  color: #ef4444;
+  opacity: 0;
+  animation: shakeHintFade 0.6s ease-in-out infinite;
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  8% { transform: translateX(-6px); }
+  16% { transform: translateX(5px); }
+  24% { transform: translateX(-4px); }
+  32% { transform: translateX(3px); }
+  40% { transform: translateX(-1px); }
+  48%, 100% { transform: translateX(0); }
+}
+
+@keyframes shakeHintFade {
+  0%, 5% { opacity: 0; }
+  15%, 55% { opacity: 1; }
+  70%, 100% { opacity: 0; }
+}
+
+/* =====================================================
+   翻转卡片
+   ===================================================== */
+.flip-card-wrap {
+  width: 120px;
+  height: 72px;
+  perspective: 400px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease-in-out;
+  transform-style: preserve-3d;
+  animation: flipAuto 4s ease-in-out infinite;
+}
+
+.flip-card-wrap:hover .flip-card-inner {
+  animation-play-state: paused;
+  transform: rotateY(180deg);
+}
+
+.flip-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.flip-face--front {
+  background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.25), rgba(var(--accent-rgb), 0.08));
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+}
+
+.flip-face--back {
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep, var(--accent)));
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  transform: rotateY(180deg);
+  color: #fff;
+}
+
+@keyframes flipAuto {
+  0%, 38% { transform: rotateY(0deg); }
+  50%, 88% { transform: rotateY(180deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+/* =====================================================
+   跑马灯滚动
+   ===================================================== */
+.marquee-wrap {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: marqueeScroll 8s linear infinite;
+}
+
+.marquee-track span {
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--accent);
+  opacity: 0.85;
+}
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* =====================================================
+   步骤进度
+   ===================================================== */
+.step-progress-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.step-node {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--accent-rgb), 0.3);
+  background: transparent;
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-node::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transform: scale(0);
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(var(--accent-rgb), 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.step-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.step-node:nth-child(1) { animation: stepFill 3s ease-in-out infinite; }
+.step-node:nth-child(1)::after { animation: stepDot 3s ease-in-out infinite; }
+.step-line:nth-child(2)::after { animation: stepLine 3s ease-in-out infinite; animation-delay: 0.45s; }
+.step-node:nth-child(3) { animation: stepFill 3s ease-in-out infinite; animation-delay: 0.9s; }
+.step-node:nth-child(3)::after { animation: stepDot 3s ease-in-out infinite; animation-delay: 0.9s; }
+.step-line:nth-child(4)::after { animation: stepLine 3s ease-in-out infinite; animation-delay: 1.35s; }
+.step-node:nth-child(5) { animation: stepFill 3s ease-in-out infinite; animation-delay: 1.8s; }
+.step-node:nth-child(5)::after { animation: stepDot 3s ease-in-out infinite; animation-delay: 1.8s; }
+
+@keyframes stepFill {
+  0%, 8% { border-color: rgba(var(--accent-rgb), 0.3); }
+  16%, 80% { border-color: var(--accent); }
+  92%, 100% { border-color: rgba(var(--accent-rgb), 0.3); }
+}
+
+@keyframes stepDot {
+  0%, 8% { opacity: 0; transform: scale(0); }
+  20% { opacity: 1; transform: scale(1.15); }
+  28%, 80% { opacity: 1; transform: scale(1); }
+  92%, 100% { opacity: 0; transform: scale(0); }
+}
+
+@keyframes stepLine {
+  0%, 5% { transform: scaleX(0); }
+  25%, 75% { transform: scaleX(1); }
+  90%, 100% { transform: scaleX(0); }
+}
+
+/* =====================================================
+   弹窗缩放
+   ===================================================== */
+.modal-pop-wrap {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.modal-backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  opacity: 0;
+  animation: backdropFade 3s ease-out infinite;
+}
+
+.modal-box {
+  position: relative;
+  width: 110px;
+  padding: 12px;
+  border-radius: 10px;
+  background: var(--card-bg, rgba(var(--accent-rgb), 0.12));
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  text-align: center;
+  font-size: 11px;
+  color: var(--text);
+  opacity: 0;
+  transform: scale(0.7);
+  animation: modalPop 3s ease-out infinite;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.modal-box-title {
+  font-weight: 600;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.modal-box-desc {
+  opacity: 0.7;
+  font-size: 10px;
+}
+
+@keyframes modalPop {
+  0%, 10% { opacity: 0; transform: scale(0.7); }
+  22% { opacity: 1; transform: scale(1.04); }
+  30%, 68% { opacity: 1; transform: scale(1); }
+  82% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 0; transform: scale(0.7); }
+}
+
+@keyframes backdropFade {
+  0%, 10% { opacity: 0; }
+  22%, 68% { opacity: 1; }
+  82%, 100% { opacity: 0; }
+}
+
+/* =====================================================
+   工具提示浮现
+   ===================================================== */
+.tooltip-demo-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tooltip-trigger {
+  padding: 6px 18px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(var(--accent-rgb), 0.3);
+  background: rgba(var(--accent-rgb), 0.08);
+  color: var(--text);
+  font-size: 12px;
+  cursor: default;
+}
+
+.tooltip-bubble {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 5px 10px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  animation: tooltipPop 3s ease-out infinite;
+}
+
+.tooltip-bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--accent);
+}
+
+@keyframes tooltipPop {
+  0%, 15% { opacity: 0; transform: translateX(-50%) translateY(4px); }
+  28% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  68% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  82%, 100% { opacity: 0; transform: translateX(-50%) translateY(4px); }
 }
