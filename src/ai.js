@@ -142,8 +142,8 @@ async function callAIWithColorFallback({ userInstruction, buildUserContent, onCh
   );
 }
 
-// SSE 流式读取公共逻辑
-async function streamSSE(res, onChunk) {
+// SSE 流式读取公共逻辑（parseJson: false 时返回纯文本，用于解释、导出等场景）
+async function streamSSE(res, onChunk, { parseJson = true } = {}) {
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let fullContent = "";
@@ -169,6 +169,7 @@ async function streamSSE(res, onChunk) {
     }
   }
 
+  if (!parseJson) return fullContent;
   return JSON.parse(fullContent);
 }
 
@@ -196,6 +197,29 @@ async function callAI(messages, onChunk) {
   return streamSSE(res, onChunk);
 }
 
+// 纯文本流式调用（用于搜索、解释等不需要 JSON 返回的场景）
+async function callAIText(messages, onChunk) {
+  const { url, headers } = buildRequest();
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify({
+      model: "deepseek-chat",
+      messages,
+      temperature: 0.7,
+      stream: true,
+    }),
+  });
+
+  if (!res.ok) {
+    const errText = await res.text().catch(() => "");
+    throw new Error(`API 错误：${res.status}${errText ? " - " + errText : ""}`);
+  }
+
+  return streamSSE(res, onChunk, { parseJson: false });
+}
+
 // Text-to-Animation
 export async function generateAnimation(description, onChunk) {
   return callAIWithColorFallback({
@@ -213,6 +237,134 @@ export async function transformAnimation(instruction, html, css, onChunk) {
       `修改以下动画。\n${directive}\n修改要求：${instruction}\n\nHTML:\n${html}\n\nCSS:\n${css}`,
     onChunk,
   });
+}
+
+// ===== 多轮对话管理 =====
+class ConversationManager {
+  constructor(maxRounds = 6) {
+    this.maxRounds = maxRounds;
+    this.conversations = new Map();
+  }
+
+  create() {
+    const id = `conv_${Date.now()}`;
+    this.conversations.set(id, {
+      messages: [{ role: "system", content: SYSTEM_PROMPT }],
+      currentResult: null,
+    });
+    return id;
+  }
+
+  addUserMessage(id, content) {
+    const conv = this.conversations.get(id);
+    if (!conv) return;
+    conv.messages.push({ role: "user", content });
+    this._trimHistory(conv);
+  }
+
+  addAssistantMessage(id, content) {
+    const conv = this.conversations.get(id);
+    if (!conv) return;
+    conv.messages.push({ role: "assistant", content });
+  }
+
+  getMessages(id) {
+    return this.conversations.get(id)?.messages || [];
+  }
+
+  setResult(id, result) {
+    const conv = this.conversations.get(id);
+    if (conv) conv.currentResult = result;
+  }
+
+  getResult(id) {
+    return this.conversations.get(id)?.currentResult || null;
+  }
+
+  clear(id) {
+    this.conversations.delete(id);
+  }
+
+  _trimHistory(conv) {
+    // 保留 system + 最近 maxRounds*2 条消息
+    if (conv.messages.length > 1 + this.maxRounds * 2) {
+      conv.messages = [
+        conv.messages[0],
+        ...conv.messages.slice(-(this.maxRounds * 2)),
+      ];
+    }
+  }
+}
+
+export const conversationManager = new ConversationManager();
+
+// 多轮对话式动画生成/修改
+export async function chatAnimation(message, conversationId, onChunk) {
+  const conv = conversationManager.conversations.get(conversationId);
+  if (!conv) throw new Error("会话不存在");
+
+  const colorDirective = buildColorDirective(message);
+  const prevResult = conversationManager.getResult(conversationId);
+
+  // 构建用户消息：首轮为生成指令，后续轮为修改指令（自动携带当前代码上下文）
+  let userContent;
+  if (prevResult) {
+    userContent = `修改以下动画。\n${colorDirective}\n修改要求：${message}\n\nHTML:\n${prevResult.html}\n\nCSS:\n${prevResult.css}`;
+  } else {
+    userContent = `生成一个 CSS 动画。\n${colorDirective}\n用户需求：${message}`;
+  }
+
+  conversationManager.addUserMessage(conversationId, userContent);
+
+  const messages = conversationManager.getMessages(conversationId);
+  const result = await callAI(messages, onChunk);
+
+  // 保存 AI 回复到会话历史
+  conversationManager.addAssistantMessage(conversationId, JSON.stringify(result));
+  conversationManager.setResult(conversationId, result);
+
+  return result;
+}
+
+// ===== 智能搜索 =====
+const searchCache = new Map();
+
+export async function searchAnimations(query, animationIndex) {
+  // 检查缓存
+  const cacheKey = query.trim().toLowerCase();
+  if (searchCache.has(cacheKey)) return searchCache.get(cacheKey);
+
+  // 构建精简上下文
+  const indexLines = Object.entries(animationIndex)
+    .map(([title, tags]) => `${title}: ${tags.join(", ")}`)
+    .join("\n");
+
+  const messages = [
+    {
+      role: "system",
+      content: `你是动画搜索助手。根据用户查询，从动画列表中返回最匹配的动画。
+返回 JSON 格式：{"matches": [{"title": "动画标题", "reason": "推荐理由(10字内)"}]}
+只返回确实相关的动画，最多返回 8 个。标题必须与列表中的完全一致。`,
+    },
+    {
+      role: "user",
+      content: `动画列表：\n${indexLines}\n\n用户查询：${query}`,
+    },
+  ];
+
+  const result = await callAI(messages);
+
+  // 缓存结果
+  if (result?.matches) {
+    searchCache.set(cacheKey, result.matches);
+    // 最多缓存 20 条
+    if (searchCache.size > 20) {
+      const firstKey = searchCache.keys().next().value;
+      searchCache.delete(firstKey);
+    }
+  }
+
+  return result?.matches || [];
 }
 
 // ===== 本地保存 =====

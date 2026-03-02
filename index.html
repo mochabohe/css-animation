@@ -199,12 +199,27 @@
 
         <div class="sidebar-section">
           <h3 class="sidebar-title">搜索</h3>
-          <input
-            id="searchInput"
-            type="search"
-            class="sidebar-search"
-            placeholder="搜索动画..."
-          />
+          <div class="sidebar-search-row">
+            <input
+              id="searchInput"
+              type="search"
+              class="sidebar-search"
+              placeholder="搜索动画..."
+            />
+            <button
+              id="aiSearchBtn"
+              type="button"
+              class="ai-search-btn"
+              aria-label="AI 智能搜索"
+              title="AI 智能搜索"
+            >
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="8.5" cy="8.5" r="5.5"/>
+                <path d="M12.5 12.5L16 16"/>
+                <path d="M7 6.5c1.5-1 3.5-.5 4 1" opacity="0.6"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <div class="sidebar-section">

@@ -53,11 +53,11 @@ const updateURL = (state) => {
 // 使用 Proxy 实现自动响应式状态：任何属性变更自动触发渲染并同步 URL
 let renderCards;
 const viewState = new Proxy(
-  { filter: initialFilter, keyword: initialKeyword },
+  { filter: initialFilter, keyword: initialKeyword, aiMatches: null },
   {
     set(target, prop, value) {
       target[prop] = value;
-      updateURL(target);
+      if (prop !== "aiMatches") updateURL(target);
       // renderCards 在初始化后赋值，Proxy set 触发时已存在
       if (typeof renderCards === "function") renderCards();
       return true;
@@ -70,6 +70,7 @@ renderCards = createCardRenderer(animationCards, filterButtons, viewState);
 bindFiltering({
   filterButtons,
   searchInput,
+  aiSearchBtn: document.querySelector("#aiSearchBtn"),
   viewState,
 });
 

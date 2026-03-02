@@ -1,4 +1,4 @@
-import { generateAnimation, transformAnimation, saveAnimation, loadSavedAnimations, deleteSavedAnimation, getApiKey, saveApiKey, PROXY_URL } from "./ai.js";
+import { chatAnimation, transformAnimation, saveAnimation, loadSavedAnimations, deleteSavedAnimation, getApiKey, saveApiKey, PROXY_URL, conversationManager } from "./ai.js";
 import { createCodeModal } from "./modal.js";
 
 // SVG 眨眼机器人图标
@@ -16,6 +16,9 @@ const CHAT_ICON = `<svg class="ai-fab-icon" width="30" height="30" viewBox="0 0 
 export function initAiPanel() {
   document.body.classList.add("has-ai-fab");
 
+  // 当前会话 ID
+  let currentConvId = null;
+
   // ===== 面板 =====
   const panel = document.createElement("div");
   panel.className = "ai-panel";
@@ -31,13 +34,19 @@ export function initAiPanel() {
   headerTitle.className = "ai-panel-title";
   headerTitle.textContent = "✨ AI 工坊";
 
+  const newChatBtn = document.createElement("button");
+  newChatBtn.type = "button";
+  newChatBtn.className = "ai-new-chat";
+  newChatBtn.textContent = "新对话";
+  newChatBtn.setAttribute("aria-label", "开始新对话");
+
   const closeBtn = document.createElement("button");
   closeBtn.type = "button";
   closeBtn.className = "ai-panel-close";
   closeBtn.textContent = "×";
   closeBtn.setAttribute("aria-label", "关闭 AI 工坊");
 
-  header.append(headerTitle, closeBtn);
+  header.append(headerTitle, newChatBtn, closeBtn);
 
   // 面板主体（可滚动）
   const body = document.createElement("div");
@@ -122,7 +131,6 @@ export function initAiPanel() {
   // ===== API Key 区域（代理已配置时自动隐藏）=====
   const keySection = document.createElement("div");
   keySection.className = "ai-key-section";
-  // 有代理地址时无需 Key，直接隐藏
   keySection.hidden = Boolean(PROXY_URL);
 
   if (!PROXY_URL) {
@@ -197,78 +205,150 @@ export function initAiPanel() {
     });
   }
 
-  // ===== 生成区域 =====
-  const genSection = document.createElement("div");
-  genSection.className = "ai-gen-section";
+  // ===== 多轮对话区域 =====
+  const chatSection = document.createElement("div");
+  chatSection.className = "ai-gen-section";
 
-  const genLabel = document.createElement("label");
-  genLabel.className = "ai-gen-label";
-  genLabel.textContent = "描述你想要的动画";
+  const chatLabel = document.createElement("label");
+  chatLabel.className = "ai-gen-label";
+  chatLabel.textContent = "描述你想要的动画";
 
-  const genInput = document.createElement("textarea");
-  genInput.className = "ai-gen-input";
-  genInput.rows = 3;
-  genInput.placeholder = "例如：一个彩色气泡向上漂浮的动画…";
-  genInput.setAttribute("aria-label", "动画描述");
+  // 对话消息列表
+  const chatMessages = document.createElement("div");
+  chatMessages.className = "ai-chat-messages";
 
-  const genBtn = document.createElement("button");
-  genBtn.type = "button";
-  genBtn.className = "ai-gen-btn";
-  genBtn.textContent = "✨ 生成动画";
+  // 底部输入行
+  const inputRow = document.createElement("div");
+  inputRow.className = "ai-chat-input-row";
 
-  // 思考过程滚动显示区
-  const thinkingBox = document.createElement("div");
-  thinkingBox.className = "ai-thinking";
-  thinkingBox.setAttribute("aria-live", "polite");
-  thinkingBox.hidden = true;
+  const chatInput = document.createElement("input");
+  chatInput.type = "text";
+  chatInput.className = "ai-chat-input";
+  chatInput.placeholder = "例如：一个彩色气泡向上漂浮的动画…";
+  chatInput.setAttribute("aria-label", "动画描述");
 
-  const thinkingPre = document.createElement("pre");
-  thinkingPre.className = "ai-thinking-content";
-  thinkingBox.append(thinkingPre);
+  const sendBtn = document.createElement("button");
+  sendBtn.type = "button";
+  sendBtn.className = "ai-chat-send";
+  sendBtn.textContent = "✨ 发送";
 
-  genBtn.addEventListener("click", async () => {
-    const description = genInput.value.trim();
-    if (!description) {
-      genInput.focus();
+  inputRow.append(chatInput, sendBtn);
+
+  // 添加用户消息气泡
+  const addUserBubble = (text) => {
+    const bubble = document.createElement("div");
+    bubble.className = "ai-msg ai-msg-user";
+    bubble.textContent = text;
+    chatMessages.append(bubble);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    return bubble;
+  };
+
+  // 添加 AI 消息气泡（包含思考过程和预览按钮）
+  const addAiBubble = () => {
+    const bubble = document.createElement("div");
+    bubble.className = "ai-msg ai-msg-ai";
+
+    const thinkingBox = document.createElement("div");
+    thinkingBox.className = "ai-thinking";
+    const thinkingPre = document.createElement("pre");
+    thinkingPre.className = "ai-thinking-content";
+    thinkingBox.append(thinkingPre);
+    bubble.append(thinkingBox);
+
+    chatMessages.append(bubble);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    return { bubble, thinkingPre, thinkingBox };
+  };
+
+  // 确保会话存在
+  const ensureConversation = () => {
+    if (!currentConvId) {
+      currentConvId = conversationManager.create();
+    }
+    return currentConvId;
+  };
+
+  // 发送消息
+  const handleSend = async () => {
+    const text = chatInput.value.trim();
+    if (!text) {
+      chatInput.focus();
       return;
     }
 
-    genBtn.disabled = true;
-    genBtn.textContent = "生成中…";
-    thinkingBox.hidden = false;
-    thinkingPre.textContent = "";
+    chatInput.value = "";
+    sendBtn.disabled = true;
+    sendBtn.textContent = "生成中…";
+
+    addUserBubble(text);
+    const convId = ensureConversation();
+    const { bubble, thinkingPre, thinkingBox } = addAiBubble();
 
     try {
-      const result = await generateAnimation(description, (accumulated) => {
+      const result = await chatAnimation(text, convId, (accumulated) => {
         thinkingPre.textContent = accumulated;
-        // 自动滚动到底部
         thinkingBox.scrollTop = thinkingBox.scrollHeight;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
       });
 
       if (!result?.html || !result?.css) {
         throw new Error("返回格式异常，未包含 html 或 css 字段");
       }
+
+      // 隐藏思考过程，显示成功消息和预览按钮
       thinkingBox.hidden = true;
-      thinkingPre.textContent = "";
-      openModal(description.slice(0, 30), result.html, result.css, genBtn);
+      const successText = document.createElement("div");
+      successText.textContent = "动画生成成功";
+      successText.style.cssText = "font-size:11px;color:var(--muted);margin-bottom:4px;";
+
+      const previewBtn = document.createElement("button");
+      previewBtn.type = "button";
+      previewBtn.className = "ai-msg-preview-btn";
+      previewBtn.textContent = "打开预览";
+      previewBtn.addEventListener("click", () => {
+        openModal(text.slice(0, 30), result.html, result.css, previewBtn);
+      });
+
+      bubble.append(successText, previewBtn);
+
+      // 自动打开预览
+      openModal(text.slice(0, 30), result.html, result.css, sendBtn);
     } catch (err) {
-      thinkingPre.textContent = `生成失败：${err.message}`;
+      thinkingBox.hidden = true;
+      const errMsg = document.createElement("div");
+      errMsg.className = "ai-msg-error";
+      errMsg.textContent = `生成失败：${err.message}`;
+      bubble.append(errMsg);
     } finally {
-      genBtn.disabled = false;
-      genBtn.textContent = "✨ 生成动画";
+      sendBtn.disabled = false;
+      sendBtn.textContent = "✨ 发送";
+      chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-  });
+  };
 
-  genInput.addEventListener("keydown", (event) => {
-    // Enter 发送，Shift+Enter 换行
-    if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+  sendBtn.addEventListener("click", handleSend);
+
+  chatInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.isComposing) {
       event.preventDefault();
-      genBtn.click();
+      handleSend();
     }
   });
 
-  genSection.append(genLabel, genInput, genBtn, thinkingBox);
-  body.append(keySection, genSection, savedSection);
+  // 新对话按钮
+  newChatBtn.addEventListener("click", () => {
+    if (currentConvId) {
+      conversationManager.clear(currentConvId);
+    }
+    currentConvId = null;
+    chatMessages.innerHTML = "";
+    chatInput.focus();
+  });
+
+  chatSection.append(chatLabel, chatMessages, inputRow);
+  body.append(keySection, chatSection, savedSection);
   panel.append(header, body);
 
   // ===== 浮动按钮 =====
@@ -283,7 +363,7 @@ export function initAiPanel() {
     panel.hidden = isOpen;
     fab.classList.toggle("is-open", !isOpen);
     if (!isOpen) {
-      genInput.focus();
+      chatInput.focus();
     }
   };
 

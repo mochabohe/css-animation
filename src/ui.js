@@ -1,4 +1,6 @@
 import { rgbToHsl, hslToRgb, generateColorVariants } from "./utils.js";
+import { searchAnimations } from "./ai.js";
+import { animationSemanticIndex } from "./data.js";
 
 const categoryNames = {
   loading: "加载反馈",
@@ -16,22 +18,64 @@ export function createCardRenderer(cards, filterButtons, viewState) {
   const emptyStateEl = document.querySelector("#emptyState");
 
   // 预索引：初始化时缓存搜索文本，避免每次渲染重复 DOM 查询
-  const cardIndex = [...cards].map((card) => ({
-    el: card,
-    category: card.dataset.category || "",
-    title: card.querySelector("h2")?.textContent?.toLowerCase() || "",
-    tag: card.querySelector(".card-tag")?.textContent?.toLowerCase() || "",
-    categoryName: categoryNames[card.dataset.category]?.toLowerCase() || "",
-  }));
+  const cardIndex = [...cards].map((card) => {
+    const rawTitle = card.querySelector("h2")?.textContent?.trim() || "";
+    return {
+      el: card,
+      category: card.dataset.category || "",
+      titleRaw: rawTitle,
+      title: rawTitle.toLowerCase(),
+      tag: card.querySelector(".card-tag")?.textContent?.toLowerCase() || "",
+      categoryName: categoryNames[card.dataset.category]?.toLowerCase() || "",
+    };
+  });
 
   return function renderCards() {
     const normalizedKeyword = viewState.keyword.trim().toLowerCase();
+    const aiMatches = viewState.aiMatches;
+    // 构建 AI 匹配标题集合和理由映射
+    const aiMatchTitles = aiMatches ? new Set(aiMatches.map((m) => m.title)) : null;
+    const aiReasonMap = aiMatches
+      ? new Map(aiMatches.map((m) => [m.title, m.reason]))
+      : null;
+
     // 按关键词统计各分类数量（不受 filter 限制，用于按钮徽章）
     const categoryCount = {};
     let visibleCount = 0;
 
-    cardIndex.forEach(({ el: card, category, title, tag, categoryName }) => {
+    cardIndex.forEach(({ el: card, category, title, titleRaw, tag, categoryName }) => {
+      // 清理之前的 AI 匹配状态
+      card.classList.remove("ai-matched");
+      const oldReason = card.querySelector(".ai-match-reason");
+      if (oldReason) oldReason.remove();
 
+      // AI 搜索模式：仅显示匹配的卡片
+      if (aiMatchTitles) {
+        const isAiMatch = aiMatchTitles.has(titleRaw);
+        const matchFilter = viewState.filter === "all" || category === viewState.filter;
+        const visible = isAiMatch && matchFilter;
+        card.hidden = !visible;
+        card.setAttribute("aria-hidden", String(!visible));
+        if (visible) {
+          visibleCount++;
+          card.classList.add("ai-matched");
+          // 添加推荐理由标签
+          const reason = aiReasonMap.get(titleRaw);
+          if (reason) {
+            const reasonEl = document.createElement("div");
+            reasonEl.className = "ai-match-reason";
+            reasonEl.textContent = reason;
+            card.style.position = "relative";
+            card.append(reasonEl);
+          }
+        }
+        if (isAiMatch) {
+          categoryCount[category] = (categoryCount[category] || 0) + 1;
+        }
+        return;
+      }
+
+      // 普通搜索模式
       const matchKeyword =
         !normalizedKeyword ||
         title.includes(normalizedKeyword) ||
@@ -67,14 +111,16 @@ export function createCardRenderer(cards, filterButtons, viewState) {
     if (emptyStateEl) emptyStateEl.hidden = visibleCount > 0;
     if (resultCountEl) {
       resultCountEl.textContent =
-        normalizedKeyword || viewState.filter !== "all"
-          ? `找到 ${visibleCount} 个动画`
-          : `共 ${visibleCount} 个动画`;
+        aiMatchTitles
+          ? `AI 找到 ${visibleCount} 个匹配动画`
+          : normalizedKeyword || viewState.filter !== "all"
+            ? `找到 ${visibleCount} 个动画`
+            : `共 ${visibleCount} 个动画`;
     }
   };
 }
 
-export function bindFiltering({ filterButtons, searchInput, viewState }) {
+export function bindFiltering({ filterButtons, searchInput, aiSearchBtn, viewState }) {
   filterButtons.forEach((button) => {
     button.addEventListener("click", () => {
       viewState.filter = button.dataset.filter || "all";
@@ -86,9 +132,71 @@ export function bindFiltering({ filterButtons, searchInput, viewState }) {
   searchInput.addEventListener("input", (event) => {
     clearTimeout(searchDebounceTimer);
     searchDebounceTimer = setTimeout(() => {
+      // 普通输入时清除 AI 搜索状态
+      if (viewState.aiMatches) viewState.aiMatches = null;
       viewState.keyword = event.target.value || "";
     }, 100);
   });
+
+  // AI 智能搜索
+  if (!aiSearchBtn) return;
+
+  const doAiSearch = async () => {
+    const query = searchInput.value.trim();
+    if (!query) {
+      searchInput.focus();
+      return;
+    }
+
+    aiSearchBtn.disabled = true;
+    aiSearchBtn.classList.add("is-loading");
+
+    try {
+      const matches = await searchAnimations(query, animationSemanticIndex);
+      viewState.aiMatches = matches.length > 0 ? matches : null;
+
+      // 添加清除按钮
+      if (matches.length > 0) {
+        showClearButton(viewState, searchInput);
+      }
+    } catch {
+      // 搜索失败时静默处理
+    } finally {
+      aiSearchBtn.disabled = false;
+      aiSearchBtn.classList.remove("is-loading");
+    }
+  };
+
+  aiSearchBtn.addEventListener("click", doAiSearch);
+
+  // Ctrl+Enter 快捷键触发 AI 搜索
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+      event.preventDefault();
+      doAiSearch();
+    }
+  });
+}
+
+function showClearButton(viewState, searchInput) {
+  // 避免重复添加
+  const existing = document.querySelector(".ai-search-clear");
+  if (existing) return;
+
+  const resultCountEl = document.querySelector("#resultCount");
+  if (!resultCountEl) return;
+
+  const clearBtn = document.createElement("button");
+  clearBtn.type = "button";
+  clearBtn.className = "ai-search-clear";
+  clearBtn.textContent = "✕ 清除 AI 搜索";
+  clearBtn.addEventListener("click", () => {
+    viewState.aiMatches = null;
+    clearBtn.remove();
+    searchInput.focus();
+  });
+
+  resultCountEl.after(clearBtn);
 }
 
 export function bindToggles({ motionToggle, colorModeToggle }) {

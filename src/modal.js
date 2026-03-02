@@ -393,6 +393,10 @@ export function createCodeModal({
     const aiBar = document.createElement("div");
     aiBar.className = "ai-bar";
 
+    // 改造历史记录
+    const aiHistory = document.createElement("div");
+    aiHistory.className = "ai-bar-history";
+
     const aiInput = document.createElement("input");
     aiInput.type = "text";
     aiInput.className = "ai-input";
@@ -413,6 +417,15 @@ export function createCodeModal({
     const aiThinkingPre = document.createElement("pre");
     aiThinkingPre.className = "ai-thinking-content";
     aiThinking.append(aiThinkingPre);
+
+    // 添加历史标签
+    const addHistoryTag = (text) => {
+      const tag = document.createElement("span");
+      tag.className = "ai-bar-history-item";
+      tag.textContent = text;
+      tag.title = text;
+      aiHistory.append(tag);
+    };
 
     aiBtn.addEventListener("click", async () => {
       const instruction = aiInput.value.trim();
@@ -437,6 +450,8 @@ export function createCodeModal({
           cssTextarea.value = result.css;
           styleTag.textContent = result.css;
         }
+        // 记录改造历史
+        addHistoryTag(instruction);
         aiInput.value = "";
         aiThinking.hidden = true;
         aiThinkingPre.textContent = "";
@@ -460,7 +475,7 @@ export function createCodeModal({
       }
     });
 
-    aiBar.append(aiInput, aiBtn, aiThinking);
+    aiBar.append(aiHistory, aiInput, aiBtn, aiThinking);
     modalContent.append(modalHeader, editorContainer, aiBar);
   } else {
     modalContent.append(modalHeader, editorContainer);
