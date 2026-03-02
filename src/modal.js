@@ -143,20 +143,32 @@ function markButtonState(button, text, originalText) {
   }, 1200);
 }
 
+// duration 匹配模式：支持简单值 (1.4s) 和 calc(...) 表达式
+const DURATION_RE = "(?:\\d+\\.?\\d*s|calc\\([^)]+\\))";
+// duration 和 timing 之间可能插有 infinite / both / 数字等 iteration-count 关键字
+const MID_GAP_RE = "\\s+(?:(?:infinite|both|forwards|backwards|\\d+)\\s+)?";
+
+// 从 duration 字符串中提取数值（如 "1.4s" → 1.4, "calc(1.4s / 1)" → 1.4）
+function parseDurationValue(raw) {
+  const m = raw.match(/(\d+\.?\d*)\s*s/);
+  return m ? Number.parseFloat(m[1]) : Number.NaN;
+}
+
 // 从标准化后的 CSS 中提取动画实际的 duration 和 timing 初始值
 function extractActualValues(normalizedCss, currentParams) {
   const actual = {};
   const targets = new Set(Object.values(currentParams).map((c) => c.target));
   const timingPattern =
-    "ease-in-out|ease-in|ease-out|ease|linear|cubic-bezier\\([^)]+\\)|steps\\([^)]+\\)";
+    "ease-in-out|ease-in|ease-out|ease|linear|step-start|step-end" +
+    "|cubic-bezier\\([^)]+\\)|steps\\([^)]+\\)";
 
   for (const target of targets) {
     const re = new RegExp(
-      `${target}\\s+(\\d+\\.?\\d*s)\\s+(${timingPattern})`,
+      `${target}\\s+(${DURATION_RE})(${MID_GAP_RE})(${timingPattern})`,
     );
     const m = normalizedCss.match(re);
     if (m) {
-      actual[target] = { duration: Number.parseFloat(m[1]), timing: m[2] };
+      actual[target] = { duration: parseDurationValue(m[1]), timing: m[3] };
     }
   }
 
@@ -606,7 +618,7 @@ export function createCodeModal({
     }
 
     const timingPattern =
-      "ease-in-out|ease-in|ease-out|ease|linear" +
+      "ease-in-out|ease-in|ease-out|ease|linear|step-start|step-end" +
       "|cubic-bezier\\([^)]+\\)" +
       "|steps\\([^)]+\\)";
 
@@ -614,23 +626,36 @@ export function createCodeModal({
       if (!dur && !tim) continue;
 
       // 匹配 animation/transition 简写：name/prop duration timing ...
+      // duration 支持简单值 (1.4s) 和 calc(...) 表达式
       const animRegex = new RegExp(
         `(${target}\\s+)` +
-        `(\\d+\\.?\\d*s)` +
-        `(\\s+)` +
+        `(${DURATION_RE})` +
+        `(${MID_GAP_RE})` +
         `(${timingPattern})`,
         "g",
       );
 
-      updatedCss = updatedCss.replace(animRegex, (_match, name, _dur, space, _timing) => {
+      let matched = false;
+      updatedCss = updatedCss.replace(animRegex, (_match, name, _dur, mid, _timing) => {
+        matched = true;
         let newDur = _dur;
         if (dur) {
           const decimals = (String(dur.config.step).split(".")[1] || "").length;
           newDur = `${Number(paramValues[dur.key]).toFixed(decimals)}${dur.config.unit}`;
         }
         const newTiming = tim ? paramValues[tim.key] : _timing;
-        return `${name}${newDur}${space}${newTiming}`;
+        return `${name}${newDur}${mid}${newTiming}`;
       });
+
+      // 回退：animation 简写中无 duration 时，按比例缩放独立的 animation-duration 声明
+      if (!matched && dur) {
+        const scale = paramValues[dur.key] / dur.config.default;
+        const decimals = Math.max((String(dur.config.step).split(".")[1] || "").length, 1);
+        updatedCss = updatedCss.replace(
+          /animation-duration:\s*(\d+\.?\d*)s/g,
+          (_m, orig) => `animation-duration: ${(Number.parseFloat(orig) * scale).toFixed(decimals)}s`,
+        );
+      }
     }
 
     cssTextarea.value = updatedCss;

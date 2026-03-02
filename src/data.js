@@ -299,8 +299,8 @@ export const animationParams = {
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "progressSlide" },
   },
   沙漏等待: {
-    duration: { label: "流沙时长", type: "range", min: 1, max: 4, step: 0.2, default: 2, unit: "s", target: "sandDrain" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "sandDrain" },
+    duration: { label: "流沙时长", type: "range", min: 1, max: 4, step: 0.2, default: 2, unit: "s", target: "(?:sandStream|sandTop|sandBottom|hgFlip)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "(?:sandStream|sandTop|sandBottom|hgFlip)" },
   },
 
   // ========== 空结果类 ==========
@@ -514,7 +514,7 @@ export const animationNamesByTitle = {
   频谱条形: ["barsScale"],
   骨架屏闪光: ["shimmer"],
   进度条流动: ["progressSlide"],
-  沙漏等待: ["sandDrain", "sandAccum", "hgFlip"],
+  沙漏等待: ["sandStream", "sandTop", "sandBottom", "hgFlip"],
   搜索无果: ["searchShake", "searchCrossPulse"],
   空档案夹: ["paperFloat"],
   "No Data 幽灵": ["ghostFloat", "ghostShadow", "ghostBlink"],

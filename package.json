@@ -8,13 +8,20 @@
     "build": "node node_modules/vite/bin/vite.js build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "test": "vitest run"
+    "test": "vitest run",
+    "demo:video": "node scripts/record-demo-video.mjs",
+    "demo:video:existing": "node scripts/record-demo-video.mjs --no-server --url http://localhost:5173/"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",
+    "@remotion/cli": "^4.0.431",
     "eslint": "^9.20.1",
     "globals": "^15.14.0",
     "happy-dom": "^20.7.0",
+    "playwright": "^1.58.2",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "remotion": "^4.0.431",
     "vite": "^5.0.0",
     "vitest": "^2.1.8"
   }
