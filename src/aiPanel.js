@@ -12,6 +12,8 @@ const CHAT_ICON = `<svg class="ai-fab-icon" width="30" height="30" viewBox="0 0 
   <path d="M3.5 14h1.5"/>
   <path d="M23 14h1.5"/>
 </svg>`;
+const FAB_MARGIN = 8;
+const FAB_DEFAULT_OFFSET = 24;
 
 export function initAiPanel() {
   document.body.classList.add("has-ai-fab");
@@ -358,11 +360,105 @@ export function initAiPanel() {
   fab.setAttribute("aria-label", "打开 AI 工坊");
   fab.innerHTML = CHAT_ICON;
 
+  const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
+  const getFabDefaultPosition = () => ({
+    x: window.innerWidth - FAB_DEFAULT_OFFSET - 56,
+    y: window.innerHeight - FAB_DEFAULT_OFFSET - 56,
+  });
+  const getClampedPosition = (x, y) => ({
+    x: clamp(x, FAB_MARGIN, window.innerWidth - FAB_MARGIN - 56),
+    y: clamp(y, FAB_MARGIN, window.innerHeight - FAB_MARGIN - 56),
+  });
+  const applyFabPosition = (position) => {
+    const next = getClampedPosition(position.x, position.y);
+    fab.style.left = `${next.x}px`;
+    fab.style.top = `${next.y}px`;
+    fab.style.right = "auto";
+    fab.style.bottom = "auto";
+    return next;
+  };
+  const placePanelNearFab = () => {
+    if (panel.hidden) return;
+    const fabRect = fab.getBoundingClientRect();
+    const panelRect = panel.getBoundingClientRect();
+
+    const centeredLeft = fabRect.left + (fabRect.width - panelRect.width) / 2;
+    const fallbackAbove = fabRect.top - panelRect.height - 12;
+    const fallbackBelow = fabRect.bottom + 12;
+
+    const left = clamp(centeredLeft, FAB_MARGIN, window.innerWidth - panelRect.width - FAB_MARGIN);
+    const topPreferred = fallbackAbove >= FAB_MARGIN ? fallbackAbove : fallbackBelow;
+    const top = clamp(topPreferred, FAB_MARGIN, window.innerHeight - panelRect.height - FAB_MARGIN);
+
+    panel.style.left = `${left}px`;
+    panel.style.top = `${top}px`;
+    panel.style.right = "auto";
+    panel.style.bottom = "auto";
+  };
+  let fabPosition = applyFabPosition(getFabDefaultPosition());
+
+  let dragging = false;
+  let didMove = false;
+  let suppressClick = false;
+  let dragPointerId = null;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let originX = fabPosition.x;
+  let originY = fabPosition.y;
+
+  const beginDrag = (event) => {
+    if (event.button !== undefined && event.button !== 0) return;
+    dragging = true;
+    didMove = false;
+    dragPointerId = event.pointerId;
+    dragStartX = event.clientX;
+    dragStartY = event.clientY;
+    originX = fabPosition.x;
+    originY = fabPosition.y;
+    fab.classList.add("is-dragging");
+    fab.setPointerCapture(event.pointerId);
+  };
+  const moveDrag = (event) => {
+    if (!dragging || event.pointerId !== dragPointerId) return;
+    const dx = event.clientX - dragStartX;
+    const dy = event.clientY - dragStartY;
+    if (!didMove && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
+      didMove = true;
+    }
+    if (!didMove) return;
+    event.preventDefault();
+    fabPosition = applyFabPosition({
+      x: originX + dx,
+      y: originY + dy,
+    });
+    placePanelNearFab();
+  };
+  const endDrag = (event) => {
+    if (!dragging || event.pointerId !== dragPointerId) return;
+    dragging = false;
+    dragPointerId = null;
+    fab.classList.remove("is-dragging");
+    fab.releasePointerCapture(event.pointerId);
+    if (didMove) {
+      suppressClick = true;
+      setTimeout(() => {
+        suppressClick = false;
+      }, 0);
+    }
+  };
+
+  fab.addEventListener("pointerdown", beginDrag);
+  fab.addEventListener("pointermove", moveDrag);
+  fab.addEventListener("pointerup", endDrag);
+  fab.addEventListener("pointercancel", endDrag);
+
   const togglePanel = () => {
+    if (suppressClick) return;
     const isOpen = !panel.hidden;
     panel.hidden = isOpen;
     fab.classList.toggle("is-open", !isOpen);
     if (!isOpen) {
+      placePanelNearFab();
       chatInput.focus();
     }
   };
@@ -372,6 +468,11 @@ export function initAiPanel() {
     panel.hidden = true;
     fab.classList.remove("is-open");
     fab.focus();
+  });
+
+  window.addEventListener("resize", () => {
+    fabPosition = applyFabPosition(fabPosition);
+    placePanelNearFab();
   });
 
   document.body.append(panel, fab);

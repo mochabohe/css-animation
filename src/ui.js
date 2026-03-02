@@ -109,6 +109,16 @@ export function createCardRenderer(cards, filterButtons, viewState) {
     });
 
     if (emptyStateEl) emptyStateEl.hidden = visibleCount > 0;
+    // 有关键词且未使用 AI 搜索时显示 AI 搜索按钮
+    const showAiSearchSuggestion = !!normalizedKeyword && !aiMatchTitles;
+    const emptyAiBtn = document.querySelector("#emptyAiSearchBtn");
+    if (emptyAiBtn) {
+      emptyAiBtn.hidden = visibleCount > 0 || !showAiSearchSuggestion;
+    }
+    const resultAiBtn = document.querySelector("#resultAiSearchBtn");
+    if (resultAiBtn) {
+      resultAiBtn.hidden = visibleCount === 0 || !showAiSearchSuggestion;
+    }
     if (resultCountEl) {
       resultCountEl.textContent =
         aiMatchTitles
@@ -139,12 +149,36 @@ export function bindFiltering({ filterButtons, searchInput, aiSearchBtn, viewSta
 
   if (!searchInput) return;
   let searchDebounceTimer = null;
+
+  // AI 搜索提示气泡
+  let aiSearchHint = null;
+  const showAiSearchHint = () => {
+    if (aiSearchHint || !aiSearchBtn) return;
+    aiSearchHint = document.createElement("div");
+    aiSearchHint.className = "ai-search-hint";
+    aiSearchHint.textContent = "点击 AI 按钮智能搜索";
+    aiSearchBtn.parentElement.style.position = "relative";
+    aiSearchBtn.parentElement.appendChild(aiSearchHint);
+  };
+  const hideAiSearchHint = () => {
+    if (aiSearchHint) {
+      aiSearchHint.remove();
+      aiSearchHint = null;
+    }
+  };
+
   searchInput.addEventListener("input", (event) => {
     clearTimeout(searchDebounceTimer);
     searchDebounceTimer = setTimeout(() => {
       // 普通输入时清除 AI 搜索状态
       if (viewState.aiMatches) viewState.aiMatches = null;
       viewState.keyword = event.target.value || "";
+      // 有内容且非 AI 搜索状态时显示提示
+      if (event.target.value.trim() && !viewState.aiMatches) {
+        showAiSearchHint();
+      } else {
+        hideAiSearchHint();
+      }
     }, 100);
   });
 
@@ -161,6 +195,11 @@ export function bindFiltering({ filterButtons, searchInput, aiSearchBtn, viewSta
       return;
     }
 
+    hideAiSearchHint();
+    const emptyAiBtn = document.querySelector("#emptyAiSearchBtn");
+    if (emptyAiBtn) emptyAiBtn.hidden = true;
+    const resultAiBtn = document.querySelector("#resultAiSearchBtn");
+    if (resultAiBtn) resultAiBtn.hidden = true;
     aiSearchBtn.disabled = true;
     aiSearchBtn.classList.add("is-loading");
 
@@ -205,6 +244,16 @@ export function bindFiltering({ filterButtons, searchInput, aiSearchBtn, viewSta
   };
 
   aiSearchBtn.addEventListener("click", doAiSearch);
+
+  // 空状态 + 结果栏的 AI 搜索按钮
+  const emptyAiSearchBtn = document.querySelector("#emptyAiSearchBtn");
+  if (emptyAiSearchBtn) {
+    emptyAiSearchBtn.addEventListener("click", doAiSearch);
+  }
+  const resultAiSearchBtn = document.querySelector("#resultAiSearchBtn");
+  if (resultAiSearchBtn) {
+    resultAiSearchBtn.addEventListener("click", doAiSearch);
+  }
 
   // Ctrl+Enter 快捷键触发 AI 搜索
   searchInput.addEventListener("keydown", (event) => {
