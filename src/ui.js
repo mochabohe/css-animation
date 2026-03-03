@@ -300,12 +300,9 @@ export function bindToggles({ motionToggle, colorModeToggle }) {
   }
 
   if (colorModeToggle) {
-    // 系统偏好检测
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-    // 读取 localStorage，未设置则跟随系统偏好
+    // 读取 localStorage，未设置则默认暗色
     const stored = localStorage.getItem("color-mode");
-    const initialMode = stored || (prefersDark.matches ? "dark" : "light");
+    const initialMode = stored || "dark";
     applyColorMode(initialMode, colorModeToggle);
 
     colorModeToggle.addEventListener("click", () => {
@@ -313,13 +310,6 @@ export function bindToggles({ motionToggle, colorModeToggle }) {
       const next = current === "dark" ? "light" : "dark";
       applyColorMode(next, colorModeToggle);
       localStorage.setItem("color-mode", next);
-    });
-
-    // 系统主题变化时，若用户未手动设置则跟随
-    prefersDark.addEventListener("change", (e) => {
-      if (!localStorage.getItem("color-mode")) {
-        applyColorMode(e.matches ? "dark" : "light", colorModeToggle);
-      }
     });
   }
 }
