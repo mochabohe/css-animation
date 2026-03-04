@@ -5310,6 +5310,333 @@
     blobRotate calc(var(--fx-duration, 4s) * 2) linear infinite;
 }
 
+/* ========== 棱镜旋环加载 ========== */
+.prism-ring-loader {
+  --ring-size: 78px;
+  width: var(--ring-size);
+  height: var(--ring-size);
+  position: relative;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(var(--accent-rgb), 0.26) 0 18px,
+      rgba(var(--accent-rgb), 0.08) 19px 24px,
+      transparent 25px
+    ),
+    conic-gradient(
+      from 0deg,
+      rgba(var(--accent-rgb), 0.08) 0deg,
+      rgba(var(--accent-rgb), 0.9) 48deg,
+      rgba(var(--accent-rgb), 0.2) 110deg,
+      rgba(var(--accent-rgb), 0.04) 180deg,
+      rgba(var(--accent-rgb), 0.72) 300deg,
+      rgba(var(--accent-rgb), 0.08) 360deg
+    );
+  box-shadow:
+    0 0 0 1px rgba(var(--accent-rgb), 0.1),
+    0 0 18px rgba(var(--accent-rgb), 0.2);
+  animation: prismRingSpin calc(var(--fx-duration) * 1.4 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+.prism-ring-loader::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--accent-rgb), 0.28);
+  box-shadow: inset 0 0 0 1px rgba(var(--accent-rgb), 0.12);
+  animation: prismRingPulse calc(var(--fx-duration) * 1.25 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.prism-ring-loader::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(var(--accent-rgb), 0.7) 36deg,
+    transparent 88deg,
+    transparent 360deg
+  );
+  filter: blur(0.5px);
+  opacity: 0.8;
+  animation: prismRingSweep calc(var(--fx-duration) * 1.1 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+/* ========== 液态玻璃按钮 2.0 ========== */
+.liquid-glass-btn-v2 {
+  position: relative;
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--accent-rgb), 0.34);
+  background:
+    linear-gradient(
+      130deg,
+      rgba(var(--accent-rgb), 0.16),
+      rgba(var(--accent-rgb), 0.04) 42%,
+      rgba(var(--accent-rgb), 0.2) 100%
+    );
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: var(--accent-soft);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  box-shadow:
+    0 6px 16px rgba(var(--accent-rgb), 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+  cursor: pointer;
+  animation: glassBtnBreath calc(var(--fx-duration) * 1.2 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.liquid-glass-btn-v2::before {
+  content: "";
+  position: absolute;
+  inset: -160% -40%;
+  background: linear-gradient(
+    115deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 58%
+  );
+  transform: rotate(8deg);
+  animation: glassBtnShine calc(var(--fx-duration) * 1.7 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+.liquid-glass-btn-v2::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      ellipse 65% 75% at 26% 28%,
+      rgba(255, 255, 255, 0.2),
+      transparent 65%
+    ),
+    conic-gradient(
+      from 0deg,
+      transparent,
+      rgba(var(--accent-rgb), 0.2),
+      transparent
+    );
+  opacity: 0.8;
+  pointer-events: none;
+  animation: glassBtnRefract calc(var(--fx-duration) * 1.45 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+/* ========== Aurora Mesh 背景幕布 ========== */
+.aurora-mesh-bg {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.14);
+  background:
+    radial-gradient(circle at 15% 20%, rgba(var(--accent-rgb), 0.34), transparent 44%),
+    radial-gradient(circle at 84% 18%, rgba(var(--accent-rgb), 0.18), transparent 50%),
+    radial-gradient(circle at 72% 84%, rgba(var(--accent-rgb), 0.24), transparent 45%),
+    linear-gradient(140deg, rgba(6, 14, 24, 0.9), rgba(10, 18, 34, 0.86));
+  animation: auroraMeshFlow calc(var(--fx-duration) * 2.7 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.aurora-mesh-bg::before,
+.aurora-mesh-bg::after {
+  content: "";
+  position: absolute;
+  width: 72%;
+  height: 140%;
+  top: -20%;
+  border-radius: 50%;
+  filter: blur(14px);
+  opacity: 0.56;
+  mix-blend-mode: screen;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.38), transparent 66%);
+  animation: auroraMeshDrift calc(var(--fx-duration) * 3.2 / var(--speed-multiplier, 1)) ease-in-out infinite;
+}
+
+.aurora-mesh-bg::before {
+  left: -18%;
+}
+
+.aurora-mesh-bg::after {
+  right: -24%;
+  animation-delay: calc(var(--fx-duration) * -0.9 / var(--speed-multiplier, 1));
+}
+
+/* ========== 胶片噪点呼吸背景 ========== */
+.film-noise-bg {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.12);
+  background: linear-gradient(
+    145deg,
+    rgba(7, 15, 25, 0.9),
+    rgba(12, 20, 34, 0.86)
+  );
+}
+
+.film-noise-bg::before {
+  content: "";
+  position: absolute;
+  inset: -38%;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(var(--accent-rgb), 0.22), transparent 42%),
+    radial-gradient(circle at 82% 28%, rgba(var(--accent-rgb), 0.16), transparent 44%),
+    radial-gradient(circle at 56% 82%, rgba(var(--accent-rgb), 0.18), transparent 45%);
+  filter: blur(12px);
+  animation: filmNoiseBreath calc(var(--fx-duration) * 2.4 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.film-noise-bg::after {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  background-image:
+    repeating-radial-gradient(
+      circle at 0 0,
+      rgba(255, 255, 255, 0.1) 0 1px,
+      transparent 1px 3px
+    );
+  background-size: 84px 84px;
+  opacity: 0.3;
+  mix-blend-mode: soft-light;
+  animation: filmNoiseShift calc(var(--fx-duration) * 0.46 / var(--speed-multiplier, 1)) steps(6, end) infinite;
+}
+
+/* ========== 滚动驱动进度轨道 ========== */
+.scroll-progress-demo {
+  width: 100%;
+  max-width: 188px;
+  display: grid;
+  gap: 10px;
+}
+
+.scroll-progress-viewport {
+  height: 56px;
+  overflow-y: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  background: linear-gradient(
+    180deg,
+    rgba(var(--accent-rgb), 0.08),
+    rgba(var(--accent-rgb), 0.03)
+  );
+  scrollbar-width: none;
+}
+
+.scroll-progress-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-progress-content {
+  height: 190px;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(var(--accent-rgb), 0.26) 0 2px,
+      transparent 2px 14px
+    ),
+    linear-gradient(
+      180deg,
+      rgba(var(--accent-rgb), 0.08),
+      rgba(var(--accent-rgb), 0.24)
+    );
+  animation: scrollProgressMock calc(var(--fx-duration) * 1.8 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+.scroll-progress-rail {
+  height: 8px;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  background: rgba(var(--accent-rgb), 0.08);
+}
+
+.scroll-progress-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left center;
+  background: linear-gradient(
+    90deg,
+    rgba(var(--accent-rgb), 0.2),
+    rgba(var(--accent-rgb), 0.95)
+  );
+  animation: scrollProgressRail calc(var(--fx-duration) * 1.8 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress-viewport {
+    scroll-timeline-name: --scrollProgress;
+    scroll-timeline-axis: block;
+  }
+
+  .scroll-progress-fill {
+    animation-name: scrollProgressRail;
+    animation-duration: calc(var(--fx-duration) * 1.8 / var(--speed-multiplier, 1));
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-fill-mode: none;
+    animation-timeline: auto;
+    animation-range: normal;
+  }
+
+  .scroll-progress-viewport:is(:hover, :focus-within, :active) + .scroll-progress-rail .scroll-progress-fill {
+    animation-duration: 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: both;
+    animation-timeline: --scrollProgress;
+    animation-range: 0% 100%;
+  }
+}
+
+/* ========== 遮罩扫描文字 ========== */
+.mask-scan-text {
+  margin: 0;
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(
+    100deg,
+    rgba(var(--accent-rgb), 0.1),
+    rgba(var(--accent-rgb), 0.95) 48%,
+    rgba(var(--accent-rgb), 0.1)
+  );
+  background-size: 220% 100%;
+  background-position: 120% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 20%,
+    #000 50%,
+    rgba(0, 0, 0, 0.9) 80%,
+    transparent 100%
+  );
+  -webkit-mask-size: 34% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.9) 20%,
+    #000 50%,
+    rgba(0, 0, 0, 0.9) 80%,
+    transparent 100%
+  );
+  mask-size: 34% 100%;
+  mask-repeat: no-repeat;
+  animation: maskScanSweep calc(var(--fx-duration) * 1.45 / var(--speed-multiplier, 1)) linear infinite;
+}
+
 /* ========== @keyframes：液态玻璃 ========== */
 @keyframes glassBreath {
   0%, 100% {
@@ -5381,10 +5708,180 @@
   100% { transform: rotate(360deg); }
 }
 
+@keyframes prismRingSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes prismRingPulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.72;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+@keyframes prismRingSweep {
+  0% {
+    transform: rotate(0deg) scale(0.96);
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.86;
+  }
+  100% {
+    transform: rotate(-360deg) scale(1.02);
+    opacity: 0.45;
+  }
+}
+
+@keyframes glassBtnBreath {
+  0%,
+  100% {
+    transform: translateY(0);
+    box-shadow:
+      0 6px 16px rgba(var(--accent-rgb), 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    transform: translateY(-1px);
+    box-shadow:
+      0 10px 24px rgba(var(--accent-rgb), 0.28),
+      0 0 14px rgba(var(--accent-rgb), 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+@keyframes glassBtnShine {
+  0% {
+    transform: translateX(-22%) rotate(8deg);
+  }
+  100% {
+    transform: translateX(22%) rotate(8deg);
+  }
+}
+
+@keyframes glassBtnRefract {
+  0%,
+  100% {
+    transform: rotate(0deg);
+    opacity: 0.62;
+  }
+  50% {
+    transform: rotate(20deg);
+    opacity: 0.95;
+  }
+}
+
+@keyframes auroraMeshFlow {
+  0%,
+  100% {
+    background-position:
+      0% 0%,
+      100% 0%,
+      100% 100%,
+      0% 0%;
+  }
+  50% {
+    background-position:
+      22% 14%,
+      78% 26%,
+      64% 78%,
+      100% 100%;
+  }
+}
+
+@keyframes auroraMeshDrift {
+  0%,
+  100% {
+    transform: translateX(0) translateY(0) scale(1);
+  }
+  50% {
+    transform: translateX(16%) translateY(6%) scale(1.08);
+  }
+}
+
+@keyframes filmNoiseBreath {
+  0%,
+  100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.05) translate(2%, -2%);
+    opacity: 0.78;
+  }
+}
+
+@keyframes filmNoiseShift {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.24;
+  }
+  25% {
+    transform: translate(-2%, 1%);
+    opacity: 0.34;
+  }
+  50% {
+    transform: translate(1%, -1%);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translate(2%, 2%);
+    opacity: 0.32;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.24;
+  }
+}
+
+@keyframes scrollProgressMock {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-56%);
+  }
+}
+
+@keyframes scrollProgressRail {
+  0% {
+    transform: scaleX(0.08);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes maskScanSweep {
+  0% {
+    -webkit-mask-position: -60% 0;
+    mask-position: -60% 0;
+    background-position: 120% 0;
+  }
+  100% {
+    -webkit-mask-position: 170% 0;
+    mask-position: 170% 0;
+    background-position: -40% 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cone-ring-loader,
   .cone-ring-loader::before,
   .cone-ring-loader::after,
+  .prism-ring-loader,
+  .prism-ring-loader::before,
+  .prism-ring-loader::after,
   .hamburger-morph,
   .hamburger-morph span,
   .funnel-flow::after,
@@ -5392,11 +5889,22 @@
   .funnel-stage span,
   .liquid-glass-card,
   .liquid-glass-card::before,
+  .liquid-glass-btn-v2,
+  .liquid-glass-btn-v2::before,
+  .liquid-glass-btn-v2::after,
   .jelly-btn,
   .holo-card::before,
   .holo-card::after,
   .scatter-char,
-  .liquid-blob {
+  .liquid-blob,
+  .aurora-mesh-bg,
+  .aurora-mesh-bg::before,
+  .aurora-mesh-bg::after,
+  .film-noise-bg::before,
+  .film-noise-bg::after,
+  .scroll-progress-content,
+  .scroll-progress-fill,
+  .mask-scan-text {
     animation: none !important;
   }
 }

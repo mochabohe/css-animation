@@ -2946,5 +2946,78 @@
   0% { --spot-x: -40px; }
   50% { --spot-x: calc(100% + 40px); }
   50.01%, 100% { --spot-x: -40px; }
+}`,
+  棱镜旋环加载: `.prism-ring-loader {
+  animation: prismRingSpin calc(var(--fx-duration) * 1.4 / var(--speed-multiplier, 1)) linear infinite;
+}
+.prism-ring-loader::before {
+  animation: prismRingPulse calc(var(--fx-duration) * 1.25 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.prism-ring-loader::after {
+  animation: prismRingSweep calc(var(--fx-duration) * 1.1 / var(--speed-multiplier, 1)) linear infinite;
+}
+@keyframes prismRingSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes prismRingPulse { 0%, 100% { transform: scale(0.92); } 50% { transform: scale(1.04); } }
+@keyframes prismRingSweep { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }`,
+  "液态玻璃按钮 2.0": `.liquid-glass-btn-v2 {
+  animation: glassBtnBreath calc(var(--fx-duration) * 1.2 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.liquid-glass-btn-v2::before {
+  animation: glassBtnShine calc(var(--fx-duration) * 1.7 / var(--speed-multiplier, 1)) linear infinite;
+}
+.liquid-glass-btn-v2::after {
+  animation: glassBtnRefract calc(var(--fx-duration) * 1.45 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+@keyframes glassBtnBreath { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-1px); } }
+@keyframes glassBtnShine { from { transform: translateX(-22%) rotate(8deg); } to { transform: translateX(22%) rotate(8deg); } }
+@keyframes glassBtnRefract { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(20deg); } }`,
+  "Aurora Mesh 背景幕布": `.aurora-mesh-bg {
+  animation: auroraMeshFlow calc(var(--fx-duration) * 2.7 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.aurora-mesh-bg::before {
+  animation: auroraMeshDrift calc(var(--fx-duration) * 3.2 / var(--speed-multiplier, 1)) ease-in-out infinite;
+}
+.aurora-mesh-bg::after {
+  animation: auroraMeshDrift calc(var(--fx-duration) * 3.2 / var(--speed-multiplier, 1)) ease-in-out infinite;
+}
+@keyframes auroraMeshFlow {
+  0%, 100% { background-position: 0% 0%, 100% 0%, 100% 100%, 0% 0%; }
+  50% { background-position: 22% 14%, 78% 26%, 64% 78%, 100% 100%; }
+}
+@keyframes auroraMeshDrift {
+  0%, 100% { transform: translateX(0) translateY(0) scale(1); }
+  50% { transform: translateX(16%) translateY(6%) scale(1.08); }
+}`,
+  胶片噪点呼吸背景: `.film-noise-bg::before {
+  animation: filmNoiseBreath calc(var(--fx-duration) * 2.4 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.film-noise-bg::after {
+  animation: filmNoiseShift calc(var(--fx-duration) * 0.46 / var(--speed-multiplier, 1)) steps(6, end) infinite;
+}
+@keyframes filmNoiseBreath {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.55; }
+  50% { transform: scale(1.05) translate(2%, -2%); opacity: 0.78; }
+}
+@keyframes filmNoiseShift {
+  0% { transform: translate(0, 0); opacity: 0.24; }
+  25% { transform: translate(-2%, 1%); opacity: 0.34; }
+  50% { transform: translate(1%, -1%); opacity: 0.2; }
+  75% { transform: translate(2%, 2%); opacity: 0.32; }
+  100% { transform: translate(0, 0); opacity: 0.24; }
+}`,
+  滚动驱动进度轨道: `.scroll-progress-content {
+  animation: scrollProgressMock calc(var(--fx-duration) * 1.8 / var(--speed-multiplier, 1)) linear infinite;
+}
+.scroll-progress-fill {
+  animation: scrollProgressRail calc(var(--fx-duration) * 1.8 / var(--speed-multiplier, 1)) linear infinite;
+}
+@keyframes scrollProgressMock { from { transform: translateY(0); } to { transform: translateY(-56%); } }
+@keyframes scrollProgressRail { from { transform: scaleX(0.08); } to { transform: scaleX(1); } }`,
+  遮罩扫描文字: `.mask-scan-text {
+  animation: maskScanSweep calc(var(--fx-duration) * 1.45 / var(--speed-multiplier, 1)) linear infinite;
+}
+@keyframes maskScanSweep {
+  0% { -webkit-mask-position: -60% 0; mask-position: -60% 0; background-position: 120% 0; }
+  100% { -webkit-mask-position: 170% 0; mask-position: 170% 0; background-position: -40% 0; }
 }`
 };

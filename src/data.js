@@ -102,6 +102,7 @@ export const animationSemanticIndex = {
   进度条流动: ["进度条", "loading", "流动", "进度提示", "百分比"],
   沙漏等待: ["沙漏", "等待", "计时", "倒计时", "loading"],
   光锥环形加载: ["光锥", "环形", "loading", "扫描", "旋转", "等待反馈", "异步请求"],
+  棱镜旋环加载: ["棱镜", "旋环", "loading", "环形", "流光", "等待反馈"],
   三点轨道: ["三点", "轨道", "loading", "等待", "圆形"],
   // 交互按钮
   边框流光: ["边框", "流光", "按钮", "悬停", "interactive", "发光"],
@@ -122,6 +123,7 @@ export const animationSemanticIndex = {
   磁吸悬停: ["磁吸", "悬停", "跟随", "鼠标", "interactive"],
   汉堡菜单变形: ["汉堡菜单", "导航", "menu", "形变", "移动端", "交互"],
   液态玻璃卡片: ["玻璃", "毛玻璃", "glassmorphism", "液态", "透明", "折射", "卡片", "apple"],
+  "液态玻璃按钮 2.0": ["液态玻璃", "按钮", "glass", "折射", "CTA", "交互"],
   果冻弹性按钮: ["果冻", "弹性", "jelly", "弹簧", "按钮", "Q弹", "形变"],
   全息投影卡片: ["全息", "投影", "holographic", "彩虹", "棱镜", "卡片", "闪光"],
   轨道卫星: ["轨道", "卫星", "旋转", "环绕", "装饰"],
@@ -140,6 +142,7 @@ export const animationSemanticIndex = {
   心跳脉冲: ["心跳", "脉冲", "heartbeat", "强调", "提示"],
   悬浮卡片: ["悬浮", "卡片", "float", "上下", "装饰"],
   弹性入场: ["弹性", "入场", "spring", "出现", "过渡"],
+  滚动驱动进度轨道: ["滚动", "进度", "轨道", "scroll", "timeline", "流程"],
   // 文字特效
   打字机: ["打字机", "typewriter", "逐字", "文字入场", "终端"],
   故障闪烁: ["故障", "闪烁", "glitch", "错位", "赛博"],
@@ -149,8 +152,11 @@ export const animationSemanticIndex = {
   文字揭幕: ["揭幕", "文字", "reveal", "入场", "展示"],
   数字增长: ["数字", "增长", "计数", "统计", "数值"],
   高亮扫光: ["高亮", "扫光", "文字", "强调", "标记"],
+  遮罩扫描文字: ["遮罩", "扫描", "文字", "mask", "扫光", "标题"],
   // 背景氛围
   极光流动: ["极光", "aurora", "背景", "流动", "渐变", "氛围"],
+  "Aurora Mesh 背景幕布": ["aurora", "mesh", "背景", "幕布", "渐变", "氛围"],
+  胶片噪点呼吸背景: ["胶片", "噪点", "背景", "呼吸", "质感", "grain"],
   星点闪烁: ["星点", "闪烁", "背景", "星空", "夜空"],
   雷达扫描: ["雷达", "扫描", "背景", "监控", "旋转"],
   网格扫光: ["网格", "扫光", "背景", "科技", "矩阵"],
@@ -290,6 +296,10 @@ export const animationParams = {
     duration: { label: "呼吸周期", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "glassBreath" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "glassBreath" },
   },
+  "液态玻璃按钮 2.0": {
+    duration: { label: "流动周期", type: "range", min: 1, max: 6, step: 0.5, default: 2.8, unit: "s", target: "(?:glassBtnBreath|glassBtnShine|glassBtnRefract)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "glassBtnBreath" },
+  },
   果冻弹性按钮: {
     duration: { label: "弹性周期", type: "range", min: 0.8, max: 4, step: 0.2, default: 1.8, unit: "s", target: "jellySquish" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "jellySquish" },
@@ -340,6 +350,10 @@ export const animationParams = {
   光锥环形加载: {
     duration: { label: "旋转时长", type: "range", min: 0.8, max: 4, step: 0.1, default: 1.8, unit: "s", target: "(?:coneSweep|coneCorePulse|coneHaloPulse)" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "coneSweep" },
+  },
+  棱镜旋环加载: {
+    duration: { label: "旋环时长", type: "range", min: 0.8, max: 4, step: 0.1, default: 1.8, unit: "s", target: "(?:prismRingSpin|prismRingPulse|prismRingSweep)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "prismRingSpin" },
   },
 
   // ========== 空结果类 ==========
@@ -393,6 +407,10 @@ export const animationParams = {
     duration: { label: "形变周期", type: "range", min: 2, max: 8, step: 0.5, default: 4, unit: "s", target: "blobMorphShape" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "blobMorphShape" },
   },
+  滚动驱动进度轨道: {
+    duration: { label: "轨道时长", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "(?:scrollProgressMock|scrollProgressRail)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "scrollProgressRail" },
+  },
 
   // ========== 文字特效类 ==========
   词语轮播: {
@@ -426,6 +444,10 @@ export const animationParams = {
     duration: { label: "扫光时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.8, unit: "s", target: "highlightSweep" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "highlightSweep" },
   },
+  遮罩扫描文字: {
+    duration: { label: "扫描时长", type: "range", min: 1, max: 6, step: 0.2, default: 3, unit: "s", target: "maskScanSweep" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "maskScanSweep" },
+  },
   文字拆散重组: {
     duration: { label: "动画周期", type: "range", min: 1.5, max: 5, step: 0.5, default: 2.5, unit: "s", target: "scatterReform" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.34, 1.56, 0.64, 1)"], default: "cubic-bezier(0.34, 1.56, 0.64, 1)", target: "scatterReform" },
@@ -434,6 +456,14 @@ export const animationParams = {
   极光流动: {
     duration: { label: "流动时长", type: "range", min: 3, max: 12, step: 0.5, default: 6, unit: "s", target: "auroraFlow" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "auroraFlow" },
+  },
+  "Aurora Mesh 背景幕布": {
+    duration: { label: "幕布时长", type: "range", min: 2, max: 10, step: 0.5, default: 5.4, unit: "s", target: "(?:auroraMeshFlow|auroraMeshDrift)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "auroraMeshFlow" },
+  },
+  胶片噪点呼吸背景: {
+    duration: { label: "呼吸时长", type: "range", min: 1, max: 8, step: 0.5, default: 3.6, unit: "s", target: "(?:filmNoiseBreath|filmNoiseShift)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "steps(6, end)"], default: "ease-in-out", target: "filmNoiseBreath" },
   },
   星点闪烁: {
     duration: { label: "闪烁时长", type: "range", min: 1, max: 4, step: 0.2, default: 1.8, unit: "s", target: "twinkle" },
@@ -611,6 +641,7 @@ export const animationNamesByTitle = {
   进度条流动: ["progressSlide"],
   沙漏等待: ["sandStream", "sandTop", "sandBottom", "hgFlip"],
   光锥环形加载: ["coneSweep", "coneCorePulse", "coneHaloPulse"],
+  棱镜旋环加载: ["prismRingSpin", "prismRingPulse", "prismRingSweep"],
   搜索无果: ["searchShake", "searchCrossPulse"],
   空档案夹: ["paperFloat"],
   "No Data 幽灵": ["ghostFloat", "ghostShadow", "ghostBlink"],
@@ -665,7 +696,10 @@ export const animationNamesByTitle = {
 
   粒子流动: ["particleFloat"],
   海浪起伏: ["waveMoveLeft", "waveMoveRight"],
+  "Aurora Mesh 背景幕布": ["auroraMeshFlow", "auroraMeshDrift"],
+  胶片噪点呼吸背景: ["filmNoiseBreath", "filmNoiseShift"],
   轨道卫星: ["orbitSpin"],
+  滚动驱动进度轨道: ["scrollProgressMock", "scrollProgressRail"],
 
   词语轮播: ["wordSlideIn"],
   菊花旋转: ["spinnerRotate"],
@@ -677,6 +711,7 @@ export const animationNamesByTitle = {
   弹性入场: ["springIn"],
   文字揭幕: ["textReveal"],
   高亮扫光: ["highlightSweep"],
+  遮罩扫描文字: ["maskScanSweep"],
   数字增长: ["countUp"],
   流星雨: ["meteorFall"],
   柱状图生长: ["barGrow"],
@@ -702,6 +737,7 @@ export const animationNamesByTitle = {
   时钟摆动: ["pendulumSwing"],
   聚光扫描: ["spotlightSweep"],
   液态玻璃卡片: ["glassBreath", "glassRefract"],
+  "液态玻璃按钮 2.0": ["glassBtnBreath", "glassBtnShine", "glassBtnRefract"],
   果冻弹性按钮: ["jellySquish"],
   全息投影卡片: ["holoShift", "holoFlare"],
   文字拆散重组: ["scatterReform"],
