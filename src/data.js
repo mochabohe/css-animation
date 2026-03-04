@@ -101,6 +101,7 @@ export const animationSemanticIndex = {
   列表骨架: ["骨架屏", "列表", "占位", "shimmer", "数据拉取"],
   进度条流动: ["进度条", "loading", "流动", "进度提示", "百分比"],
   沙漏等待: ["沙漏", "等待", "计时", "倒计时", "loading"],
+  光锥环形加载: ["光锥", "环形", "loading", "扫描", "旋转", "等待反馈", "异步请求"],
   三点轨道: ["三点", "轨道", "loading", "等待", "圆形"],
   // 交互按钮
   边框流光: ["边框", "流光", "按钮", "悬停", "interactive", "发光"],
@@ -119,6 +120,7 @@ export const animationSemanticIndex = {
   头像波纹: ["头像", "波纹", "在线状态", "用户", "脉冲"],
   下划线滑入: ["下划线", "滑入", "悬停", "导航", "链接"],
   磁吸悬停: ["磁吸", "悬停", "跟随", "鼠标", "interactive"],
+  汉堡菜单变形: ["汉堡菜单", "导航", "menu", "形变", "移动端", "交互"],
   轨道卫星: ["轨道", "卫星", "旋转", "环绕", "装饰"],
   呼吸光晕: ["呼吸", "光晕", "脉冲", "发光", "提示"],
   霓虹闪烁字: ["霓虹", "闪烁", "文字", "发光", "赛博朋克"],
@@ -171,6 +173,7 @@ export const animationSemanticIndex = {
   环形占比: ["环形图", "占比", "饼图", "数据", "比例"],
   数据表骨架: ["数据表", "骨架屏", "表格", "loading", "占位"],
   指标趋势折线: ["折线图", "趋势", "图表", "数据", "走势"],
+  漏斗转化流: ["漏斗", "转化", "漏损", "数据流", "运营分析", "大数据", "可视化"],
   // 新增实用动画
   角标跳动: ["角标", "徽章", "badge", "通知", "数字"],
   标签页指示器: ["标签页", "tab", "指示器", "导航", "切换"],
@@ -274,6 +277,10 @@ export const animationParams = {
     duration: { label: "公转周期", type: "range", min: 1, max: 8, step: 0.5, default: 3, unit: "s", target: "orbitSpin" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease-in", "ease-out"], default: "linear", target: "orbitSpin" },
   },
+  汉堡菜单变形: {
+    duration: { label: "切换时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.6, unit: "s", target: "(?:burgerMorphTop|burgerMorphMid|burgerMorphBottom|burgerGlow)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.4, 0, 0.2, 1)"], default: "cubic-bezier(0.4, 0, 0.2, 1)", target: "burgerMorphTop" },
+  },
 
   // ========== 加载反馈类 ==========
   加载脉冲: {
@@ -312,6 +319,10 @@ export const animationParams = {
   沙漏等待: {
     duration: { label: "流沙时长", type: "range", min: 1, max: 4, step: 0.2, default: 2, unit: "s", target: "(?:sandStream|sandTop|sandBottom|hgFlip)" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "(?:sandStream|sandTop|sandBottom|hgFlip)" },
+  },
+  光锥环形加载: {
+    duration: { label: "旋转时长", type: "range", min: 0.8, max: 4, step: 0.1, default: 1.8, unit: "s", target: "(?:coneSweep|coneCorePulse|coneHaloPulse)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "coneSweep" },
   },
 
   // ========== 空结果类 ==========
@@ -495,6 +506,10 @@ export const animationParams = {
     duration: { label: "绘制时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.5, unit: "s", target: "trendDraw" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "trendDraw" },
   },
+  漏斗转化流: {
+    duration: { label: "流动时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.8, unit: "s", target: "(?:funnelFlow|funnelPulse|funnelGlow)" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "funnelFlow" },
+  },
 
   // ========== 新增实用动画 ==========
   角标跳动: {
@@ -570,6 +585,7 @@ export const animationNamesByTitle = {
   骨架屏闪光: ["shimmer"],
   进度条流动: ["progressSlide"],
   沙漏等待: ["sandStream", "sandTop", "sandBottom", "hgFlip"],
+  光锥环形加载: ["coneSweep", "coneCorePulse", "coneHaloPulse"],
   搜索无果: ["searchShake", "searchCrossPulse"],
   空档案夹: ["paperFloat"],
   "No Data 幽灵": ["ghostFloat", "ghostShadow", "ghostBlink"],
@@ -587,6 +603,7 @@ export const animationNamesByTitle = {
   波纹点击: ["rippleWave"],
   按钮按压: ["pressPulse"],
   磁吸悬停: [],
+  汉堡菜单变形: ["burgerMorphTop", "burgerMorphMid", "burgerMorphBottom", "burgerGlow"],
   故障闪烁: ["glitchSkew"],
   打字机: ["typing", "caret"],
   波浪字符: ["waveLetter"],
@@ -641,6 +658,7 @@ export const animationNamesByTitle = {
   环形占比: ["donutGrow"],
   数据表骨架: ["skelShimmer"],
   指标趋势折线: ["trendDraw"],
+  漏斗转化流: ["funnelFlow", "funnelPulse", "funnelGlow"],
 
   标签页指示器: ["tabSlide"],
   消息气泡弹入: ["bubblePop"],

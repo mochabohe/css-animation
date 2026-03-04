@@ -143,8 +143,8 @@ function markButtonState(button, text, originalText) {
   }, 1200);
 }
 
-// duration 匹配模式：支持简单值 (1.4s) 和 calc(...) 表达式
-const DURATION_RE = "(?:\\d+\\.?\\d*s|calc\\([^)]+\\))";
+// duration 匹配模式：支持简单值 (1.4s) 和带嵌套括号的 calc(...) 表达式
+const DURATION_RE = "(?:\\d+\\.?\\d*s|calc\\((?:[^()]+|\\([^()]*\\))+\\))";
 // duration 和 timing 之间可能插有 infinite / both / 数字等 iteration-count 关键字
 const MID_GAP_RE = "\\s+(?:(?:infinite|both|forwards|backwards|\\d+)\\s+)?";
 

@@ -48,7 +48,7 @@ const TRANSITION_TARGETS = new Set([
 ]);
 
 // 与 modal.js 中一致的正则常量
-const DURATION_RE = "(?:\\d+\\.?\\d*s|calc\\([^)]+\\))";
+const DURATION_RE = "(?:\\d+\\.?\\d*s|calc\\((?:[^()]+|\\([^()]*\\))+\\))";
 const MID_GAP_RE = "\\s+(?:(?:infinite|both|forwards|backwards|\\d+)\\s+)?";
 const TIMING_PATTERN =
   "ease-in-out|ease-in|ease-out|ease|linear|step-start|step-end|cubic-bezier\\([^)]+\\)|steps\\([^)]+\\)";

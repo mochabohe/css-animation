@@ -2723,6 +2723,77 @@
   50% { transform: rotate(-30deg); }
   100% { transform: rotate(30deg); }
 }`,
+  光锥环形加载: `.cone-ring-loader {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(var(--accent-rgb), 0.22) 0 16px, transparent 17px),
+    conic-gradient(from 18deg, rgba(var(--accent-rgb), 0.05), rgba(var(--accent-rgb), 0.9), rgba(var(--accent-rgb), 0.05));
+  animation: coneSweep calc(var(--fx-duration) * 1.35 / var(--speed-multiplier, 1)) linear infinite;
+}
+.cone-ring-loader::before {
+  content: "";
+  animation: coneHaloPulse calc(var(--fx-duration) * 1.8 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.cone-ring-loader::after {
+  content: "";
+  animation: coneCorePulse calc(var(--fx-duration) * 1.2 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+@keyframes coneSweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes coneCorePulse { 0%, 100% { transform: scale(0.92); } 50% { transform: scale(1.15); } }
+@keyframes coneHaloPulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 0.82; } }`,
+  汉堡菜单变形: `.hamburger-morph {
+  animation: burgerGlow calc(var(--fx-duration) * 1.5 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.hamburger-morph span:nth-child(1) {
+  animation: burgerMorphTop calc(var(--fx-duration) * 1.5 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.hamburger-morph span:nth-child(2) {
+  animation: burgerMorphMid calc(var(--fx-duration) * 1.5 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.hamburger-morph span:nth-child(3) {
+  animation: burgerMorphBottom calc(var(--fx-duration) * 1.5 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+@keyframes burgerMorphTop {
+  0%, 16%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+  38%, 62% { transform: translateX(-50%) translateY(7px) rotate(45deg); }
+}
+@keyframes burgerMorphMid {
+  0%, 22%, 100% { opacity: 1; }
+  40%, 62% { opacity: 0; }
+}
+@keyframes burgerMorphBottom {
+  0%, 16%, 100% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+  38%, 62% { transform: translateX(-50%) translateY(-7px) rotate(-45deg); }
+}
+@keyframes burgerGlow {
+  0%, 100% { box-shadow: 0 10px 22px rgba(10, 16, 28, 0.35); }
+  50% { box-shadow: 0 12px 26px rgba(var(--accent-rgb), 0.24); }
+}`,
+  漏斗转化流: `.funnel-flow::after {
+  animation: funnelGlow calc(var(--fx-duration) * 1.4 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.funnel-stage {
+  animation: funnelPulse calc(var(--fx-duration) * 1.7 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+.funnel-stage span {
+  animation: funnelFlow calc(var(--fx-duration) * 1.2 / var(--speed-multiplier, 1)) linear infinite;
+}
+@keyframes funnelFlow {
+  0% { transform: translate(-10%, -50%); opacity: 0; }
+  25%, 75% { opacity: 1; }
+  100% { transform: translate(420%, -50%); opacity: 0; }
+}
+@keyframes funnelPulse {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+@keyframes funnelGlow {
+  0%, 100% { transform: scale(0.92); }
+  50% { transform: scale(1.1); }
+}`,
   聚光扫描: `.spotlight-panel {
   width: 100%;
   height: 80px;

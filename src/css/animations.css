@@ -56,6 +56,7 @@
 .card-front > .zero-chart,
 .card-front > .empty-question,
 .card-front > .progress-bar,
+.card-front > .cone-ring-loader,
 .card-front > .shake-error-wrap,
 .card-front > .flip-card-wrap,
 .card-front > .marquee-wrap,
@@ -63,9 +64,11 @@
 .card-front > .modal-pop-wrap,
 .card-front > .tooltip-demo-wrap,
 .card-front > .pulse-cta-wrap,
+.card-front > .hamburger-morph-wrap,
 .card-front > .danmaku-stage,
 .card-front > .stroke-text-wrap,
-.card-front > .pendulum-wrap {
+.card-front > .pendulum-wrap,
+.card-front > .funnel-flow {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -4797,4 +4800,350 @@
   syntax: "<length-percentage>";
   inherits: false;
   initial-value: -40px;
+}
+
+/* =====================================================
+   光锥环形加载
+   ===================================================== */
+.cone-ring-loader {
+  --cone-size: 78px;
+  width: var(--cone-size);
+  height: var(--cone-size);
+  position: relative;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--accent-rgb), 0.24);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(var(--accent-rgb), 0.22) 0 16px, transparent 17px),
+    conic-gradient(
+      from 18deg,
+      rgba(var(--accent-rgb), 0.05) 0deg,
+      rgba(var(--accent-rgb), 0.9) 68deg,
+      rgba(var(--accent-rgb), 0.2) 120deg,
+      rgba(var(--accent-rgb), 0.04) 240deg,
+      rgba(var(--accent-rgb), 0.05) 360deg
+    );
+  box-shadow:
+    0 0 0 1px rgba(var(--accent-rgb), 0.12),
+    0 0 20px rgba(var(--accent-rgb), 0.24);
+  animation: coneSweep calc(var(--fx-duration) * 1.35 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+.cone-ring-loader::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--accent-rgb), 0.24);
+  box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.24);
+  animation: coneHaloPulse calc(var(--fx-duration) * 1.8 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.cone-ring-loader::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 0 0 rgba(var(--accent-rgb), 0.45),
+    0 0 12px rgba(var(--accent-rgb), 0.4);
+  animation: coneCorePulse calc(var(--fx-duration) * 1.2 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+@keyframes coneSweep {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes coneCorePulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.92);
+    box-shadow:
+      0 0 0 0 rgba(var(--accent-rgb), 0.38),
+      0 0 10px rgba(var(--accent-rgb), 0.3);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.15);
+    box-shadow:
+      0 0 0 9px rgba(var(--accent-rgb), 0),
+      0 0 18px rgba(var(--accent-rgb), 0.55);
+  }
+}
+
+@keyframes coneHaloPulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+  50% {
+    opacity: 0.82;
+    transform: scale(1.03);
+  }
+}
+
+/* =====================================================
+   汉堡菜单变形
+   ===================================================== */
+.hamburger-morph-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.hamburger-morph {
+  width: 56px;
+  height: 56px;
+  position: relative;
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
+  border-radius: 14px;
+  background: linear-gradient(
+    145deg,
+    rgba(var(--accent-rgb), 0.15),
+    rgba(var(--accent-rgb), 0.08)
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 10px 22px rgba(10, 16, 28, 0.35);
+  cursor: pointer;
+  animation: burgerGlow calc(var(--fx-duration) * 1.5 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.hamburger-morph span {
+  position: absolute;
+  left: 50%;
+  width: 27px;
+  height: 3px;
+  border-radius: 999px;
+  transform-origin: center;
+  background: linear-gradient(90deg, #f3f8ff, #d7e6ff);
+}
+
+.hamburger-morph span:nth-child(1) {
+  top: 20px;
+  transform: translateX(-50%);
+  animation: burgerMorphTop calc(var(--fx-duration) * 1.5 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.hamburger-morph span:nth-child(2) {
+  top: 27px;
+  transform: translateX(-50%);
+  animation: burgerMorphMid calc(var(--fx-duration) * 1.5 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.hamburger-morph span:nth-child(3) {
+  top: 34px;
+  transform: translateX(-50%);
+  animation: burgerMorphBottom calc(var(--fx-duration) * 1.5 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+@keyframes burgerMorphTop {
+  0%,
+  16%,
+  100% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  38%,
+  62% {
+    transform: translateX(-50%) translateY(7px) rotate(45deg);
+  }
+}
+
+@keyframes burgerMorphMid {
+  0%,
+  22%,
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scaleX(1);
+  }
+  40%,
+  62% {
+    opacity: 0;
+    transform: translateX(-50%) scaleX(0.45);
+  }
+}
+
+@keyframes burgerMorphBottom {
+  0%,
+  16%,
+  100% {
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  38%,
+  62% {
+    transform: translateX(-50%) translateY(-7px) rotate(-45deg);
+  }
+}
+
+@keyframes burgerGlow {
+  0%,
+  100% {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 10px 22px rgba(10, 16, 28, 0.35);
+  }
+  50% {
+    box-shadow:
+      inset 0 0 0 1px rgba(var(--accent-rgb), 0.2),
+      0 12px 26px rgba(var(--accent-rgb), 0.24);
+  }
+}
+
+/* =====================================================
+   漏斗转化流
+   ===================================================== */
+.funnel-flow {
+  width: 100%;
+  max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.funnel-flow::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accent-soft), var(--accent-deep));
+  box-shadow:
+    0 0 0 0 rgba(var(--accent-rgb), 0.4),
+    0 0 16px rgba(var(--accent-rgb), 0.35);
+  animation: funnelGlow calc(var(--fx-duration) * 1.4 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.funnel-stage {
+  --funnel-width: 100%;
+  width: var(--funnel-width);
+  height: 12px;
+  position: relative;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--accent-rgb), 0.1),
+    rgba(var(--accent-rgb), 0.22),
+    rgba(var(--accent-rgb), 0.1)
+  );
+  animation: funnelPulse calc(var(--fx-duration) * 1.7 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
+}
+
+.funnel-stage span {
+  position: absolute;
+  left: -26%;
+  top: 50%;
+  width: 24%;
+  height: 56%;
+  border-radius: 999px;
+  transform: translateY(-50%);
+  background: linear-gradient(
+    90deg,
+    rgba(var(--accent-rgb), 0),
+    rgba(var(--accent-rgb), 0.92),
+    rgba(var(--accent-rgb), 0)
+  );
+  animation: funnelFlow calc(var(--fx-duration) * 1.2 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+.funnel-stage-1 {
+  --funnel-width: 100%;
+}
+
+.funnel-stage-2 {
+  --funnel-width: 82%;
+  animation-delay: calc(var(--fx-duration) * -0.08 / var(--speed-multiplier, 1));
+}
+
+.funnel-stage-3 {
+  --funnel-width: 64%;
+  animation-delay: calc(var(--fx-duration) * -0.16 / var(--speed-multiplier, 1));
+}
+
+.funnel-stage-4 {
+  --funnel-width: 46%;
+  animation-delay: calc(var(--fx-duration) * -0.24 / var(--speed-multiplier, 1));
+}
+
+.funnel-stage-2 span {
+  animation-delay: calc(var(--fx-duration) * -0.12 / var(--speed-multiplier, 1));
+}
+
+.funnel-stage-3 span {
+  animation-delay: calc(var(--fx-duration) * -0.24 / var(--speed-multiplier, 1));
+}
+
+.funnel-stage-4 span {
+  animation-delay: calc(var(--fx-duration) * -0.36 / var(--speed-multiplier, 1));
+}
+
+@keyframes funnelFlow {
+  0% {
+    transform: translate(-10%, -50%);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(420%, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes funnelPulse {
+  0%,
+  100% {
+    opacity: 0.75;
+    box-shadow: inset 0 0 0 0 rgba(var(--accent-rgb), 0.2);
+  }
+  50% {
+    opacity: 1;
+    box-shadow:
+      inset 0 0 0 1px rgba(var(--accent-rgb), 0.35),
+      0 0 12px rgba(var(--accent-rgb), 0.18);
+  }
+}
+
+@keyframes funnelGlow {
+  0%,
+  100% {
+    transform: scale(0.92);
+    box-shadow:
+      0 0 0 0 rgba(var(--accent-rgb), 0.38),
+      0 0 12px rgba(var(--accent-rgb), 0.25);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow:
+      0 0 0 10px rgba(var(--accent-rgb), 0),
+      0 0 18px rgba(var(--accent-rgb), 0.46);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cone-ring-loader,
+  .cone-ring-loader::before,
+  .cone-ring-loader::after,
+  .hamburger-morph,
+  .hamburger-morph span,
+  .funnel-flow::after,
+  .funnel-stage,
+  .funnel-stage span {
+    animation: none !important;
+  }
 }
