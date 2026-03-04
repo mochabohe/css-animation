@@ -68,7 +68,12 @@
 .card-front > .danmaku-stage,
 .card-front > .stroke-text-wrap,
 .card-front > .pendulum-wrap,
-.card-front > .funnel-flow {
+.card-front > .funnel-flow,
+.card-front > .liquid-glass-card,
+.card-front > .jelly-btn,
+.card-front > .holo-card,
+.card-front > .text-scatter-wrap,
+.card-front > .liquid-blob {
   margin-left: auto;
   margin-right: auto;
   margin-top: auto;
@@ -3826,6 +3831,19 @@
   );
 }
 
+/* 液态玻璃卡片：亮色适配 */
+[data-color-mode="light"] .liquid-glass-card {
+  background: rgba(var(--accent-rgb), 0.06);
+  border-color: rgba(var(--accent-rgb), 0.22);
+  color: var(--accent-deep, var(--accent));
+}
+/* 全息投影卡片：亮色适配 */
+[data-color-mode="light"] .holo-card {
+  background: rgba(240, 240, 255, 0.85);
+  color: #2a2a4a;
+  border-color: rgba(var(--accent-rgb), 0.2);
+}
+
 /* 霓虹闪烁字：亮色背景下降低发光强度，用深色调显示 */
 [data-color-mode="light"] .neon-flicker {
   color: var(--accent-deep);
@@ -5135,6 +5153,234 @@
   }
 }
 
+/* ========== 液态玻璃卡片 ========== */
+.liquid-glass-card {
+  position: relative;
+  width: 140px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(var(--accent-rgb), 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.06em;
+  overflow: hidden;
+  box-shadow:
+    0 0 20px rgba(var(--accent-rgb), 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  animation: glassBreath var(--fx-duration, 3s) var(--fx-easing, ease-in-out) infinite;
+}
+.liquid-glass-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(var(--accent-rgb), 0.25) 10%,
+    transparent 20%,
+    transparent 50%,
+    rgba(var(--accent-rgb), 0.2) 60%,
+    transparent 70%
+  );
+  animation: glassRefract var(--fx-duration, 3s) linear infinite;
+}
+.liquid-glass-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 16px;
+  background: radial-gradient(
+    ellipse 60% 50% at 30% 30%,
+    rgba(255, 255, 255, 0.15),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ========== 果冻弹性按钮 ========== */
+.jelly-btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  animation: jellySquish var(--fx-duration, 1.8s) var(--fx-easing, ease-in-out) infinite;
+}
+
+/* ========== 全息投影卡片 ========== */
+.holo-card {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(15, 15, 30, 0.7);
+  color: #f0f0ff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  overflow: hidden;
+  border: 1px solid rgba(var(--accent-rgb), 0.15);
+}
+.holo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 128, 0.15) 0%,
+    rgba(0, 255, 200, 0.15) 25%,
+    rgba(100, 100, 255, 0.15) 50%,
+    rgba(255, 200, 0, 0.15) 75%,
+    rgba(255, 0, 128, 0.15) 100%
+  );
+  background-size: 400% 400%;
+  animation: holoShift var(--fx-duration, 3s) var(--fx-easing, ease-in-out) infinite;
+  mix-blend-mode: screen;
+}
+.holo-card::after {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -50%;
+  width: 60%;
+  height: 300%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.18) 45%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.18) 55%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  animation: holoFlare var(--fx-duration, 3s) var(--fx-easing, ease-in-out) infinite;
+}
+
+/* ========== 文字拆散重组 ========== */
+.text-scatter-wrap {
+  display: flex;
+  gap: 2px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+.scatter-char {
+  display: inline-block;
+  animation: scatterReform var(--fx-duration, 2.5s) var(--fx-easing, cubic-bezier(0.34, 1.56, 0.64, 1)) infinite;
+}
+.scatter-char:nth-child(1) { --scatter-x: -18px; --scatter-y: -22px; --scatter-r: -35deg; animation-delay: 0s; }
+.scatter-char:nth-child(2) { --scatter-x: 12px; --scatter-y: -28px; --scatter-r: 25deg; animation-delay: 0.06s; }
+.scatter-char:nth-child(3) { --scatter-x: -25px; --scatter-y: 15px; --scatter-r: 40deg; animation-delay: 0.12s; }
+.scatter-char:nth-child(4) { --scatter-x: 20px; --scatter-y: 20px; --scatter-r: -30deg; animation-delay: 0.18s; }
+.scatter-char:nth-child(5) { --scatter-x: -10px; --scatter-y: -18px; --scatter-r: 50deg; animation-delay: 0.24s; }
+.scatter-char:nth-child(6) { --scatter-x: 22px; --scatter-y: -12px; --scatter-r: -45deg; animation-delay: 0.30s; }
+.scatter-char:nth-child(7) { --scatter-x: -15px; --scatter-y: 25px; --scatter-r: 30deg; animation-delay: 0.36s; }
+
+/* ========== 液态形变 Blob ========== */
+.liquid-blob {
+  width: 80px;
+  height: 80px;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep, var(--accent)));
+  opacity: 0.85;
+  filter: blur(0.5px);
+  animation:
+    blobMorphShape var(--fx-duration, 4s) var(--fx-easing, ease-in-out) infinite,
+    blobRotate calc(var(--fx-duration, 4s) * 2) linear infinite;
+}
+
+/* ========== @keyframes：液态玻璃 ========== */
+@keyframes glassBreath {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(var(--accent-rgb), 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(var(--accent-rgb), 0.22),
+      0 0 60px rgba(var(--accent-rgb), 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+}
+@keyframes glassRefract {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ========== @keyframes：果冻弹性 ========== */
+@keyframes jellySquish {
+  0%   { transform: scale(1, 1); }
+  15%  { transform: scale(1.15, 0.88); }
+  30%  { transform: scale(0.9, 1.12); }
+  45%  { transform: scale(1.06, 0.95); }
+  60%  { transform: scale(0.97, 1.04); }
+  75%  { transform: scale(1.02, 0.98); }
+  100% { transform: scale(1, 1); }
+}
+
+/* ========== @keyframes：全息投影 ========== */
+@keyframes holoShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes holoFlare {
+  0%   { left: -60%; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { left: 120%; opacity: 0; }
+}
+
+/* ========== @keyframes：文字拆散重组 ========== */
+@keyframes scatterReform {
+  0%, 5% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+  20%, 45% {
+    transform: translate(var(--scatter-x), var(--scatter-y)) rotate(var(--scatter-r));
+    opacity: 0.3;
+  }
+  70%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* ========== @keyframes：液态形变 ========== */
+@keyframes blobMorphShape {
+  0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50%  { border-radius: 50% 60% 40% 60% / 40% 50% 60% 50%; }
+  75%  { border-radius: 40% 50% 60% 50% / 60% 40% 50% 60%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+@keyframes blobRotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cone-ring-loader,
   .cone-ring-loader::before,
@@ -5143,7 +5389,14 @@
   .hamburger-morph span,
   .funnel-flow::after,
   .funnel-stage,
-  .funnel-stage span {
+  .funnel-stage span,
+  .liquid-glass-card,
+  .liquid-glass-card::before,
+  .jelly-btn,
+  .holo-card::before,
+  .holo-card::after,
+  .scatter-char,
+  .liquid-blob {
     animation: none !important;
   }
 }

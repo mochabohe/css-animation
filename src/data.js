@@ -121,6 +121,9 @@ export const animationSemanticIndex = {
   下划线滑入: ["下划线", "滑入", "悬停", "导航", "链接"],
   磁吸悬停: ["磁吸", "悬停", "跟随", "鼠标", "interactive"],
   汉堡菜单变形: ["汉堡菜单", "导航", "menu", "形变", "移动端", "交互"],
+  液态玻璃卡片: ["玻璃", "毛玻璃", "glassmorphism", "液态", "透明", "折射", "卡片", "apple"],
+  果冻弹性按钮: ["果冻", "弹性", "jelly", "弹簧", "按钮", "Q弹", "形变"],
+  全息投影卡片: ["全息", "投影", "holographic", "彩虹", "棱镜", "卡片", "闪光"],
   轨道卫星: ["轨道", "卫星", "旋转", "环绕", "装饰"],
   呼吸光晕: ["呼吸", "光晕", "脉冲", "发光", "提示"],
   霓虹闪烁字: ["霓虹", "闪烁", "文字", "发光", "赛博朋克"],
@@ -191,6 +194,8 @@ export const animationSemanticIndex = {
   文字描边绘制: ["描边", "绘制", "stroke", "SVG", "文字", "书写"],
   时钟摆动: ["钟摆", "摆动", "pendulum", "节拍", "摇摆"],
   聚光扫描: ["聚光", "扫描", "spotlight", "高亮", "搜索", "灯光"],
+  文字拆散重组: ["拆散", "重组", "scatter", "打散", "字符", "文字", "入场", "分裂"],
+  液态形变: ["液态", "形变", "blob", "变形", "有机", "流体", "morph"],
 };
 
 
@@ -280,6 +285,18 @@ export const animationParams = {
   汉堡菜单变形: {
     duration: { label: "切换时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.6, unit: "s", target: "(?:burgerMorphTop|burgerMorphMid|burgerMorphBottom|burgerGlow)" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.4, 0, 0.2, 1)"], default: "cubic-bezier(0.4, 0, 0.2, 1)", target: "burgerMorphTop" },
+  },
+  液态玻璃卡片: {
+    duration: { label: "呼吸周期", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "glassBreath" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "glassBreath" },
+  },
+  果冻弹性按钮: {
+    duration: { label: "弹性周期", type: "range", min: 0.8, max: 4, step: 0.2, default: 1.8, unit: "s", target: "jellySquish" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "jellySquish" },
+  },
+  全息投影卡片: {
+    duration: { label: "流光周期", type: "range", min: 1, max: 6, step: 0.5, default: 3, unit: "s", target: "holoShift" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "holoShift" },
   },
 
   // ========== 加载反馈类 ==========
@@ -372,6 +389,10 @@ export const animationParams = {
   弹性入场: {
     duration: { label: "弹入时长", type: "range", min: 1, max: 5, step: 0.2, default: 2.5, unit: "s", target: "springIn" },
   },
+  液态形变: {
+    duration: { label: "形变周期", type: "range", min: 2, max: 8, step: 0.5, default: 4, unit: "s", target: "blobMorphShape" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "blobMorphShape" },
+  },
 
   // ========== 文字特效类 ==========
   词语轮播: {
@@ -404,6 +425,10 @@ export const animationParams = {
   高亮扫光: {
     duration: { label: "扫光时长", type: "range", min: 1, max: 6, step: 0.2, default: 2.8, unit: "s", target: "highlightSweep" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "highlightSweep" },
+  },
+  文字拆散重组: {
+    duration: { label: "动画周期", type: "range", min: 1.5, max: 5, step: 0.5, default: 2.5, unit: "s", target: "scatterReform" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "cubic-bezier(0.34, 1.56, 0.64, 1)"], default: "cubic-bezier(0.34, 1.56, 0.64, 1)", target: "scatterReform" },
   },
   // ========== 背景氛围类 ==========
   极光流动: {
@@ -676,4 +701,9 @@ export const animationNamesByTitle = {
   文字描边绘制: ["strokeDraw"],
   时钟摆动: ["pendulumSwing"],
   聚光扫描: ["spotlightSweep"],
+  液态玻璃卡片: ["glassBreath", "glassRefract"],
+  果冻弹性按钮: ["jellySquish"],
+  全息投影卡片: ["holoShift", "holoFlare"],
+  文字拆散重组: ["scatterReform"],
+  液态形变: ["blobMorphShape", "blobRotate"],
 };

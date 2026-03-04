@@ -2794,6 +2794,138 @@
   0%, 100% { transform: scale(0.92); }
   50% { transform: scale(1.1); }
 }`,
+  液态玻璃卡片: `.liquid-glass-card {
+  position: relative;
+  width: 140px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(var(--accent-rgb), 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(var(--accent-rgb), 0.18);
+  overflow: hidden;
+  animation: glassBreath 3s ease-in-out infinite;
+}
+.liquid-glass-card::before {
+  content: "";
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(from 0deg, transparent 0%, rgba(var(--accent-rgb), 0.25) 10%, transparent 20%, transparent 50%, rgba(var(--accent-rgb), 0.2) 60%, transparent 70%);
+  animation: glassRefract 3s linear infinite;
+}
+@keyframes glassBreath {
+  0%, 100% { box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.1); }
+  50% { box-shadow: 0 0 30px rgba(var(--accent-rgb), 0.22), 0 0 60px rgba(var(--accent-rgb), 0.08); }
+}
+@keyframes glassRefract {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}`,
+
+  果冻弹性按钮: `.jelly-btn {
+  padding: 10px 28px;
+  border: none;
+  border-radius: 10px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  animation: jellySquish 1.8s ease-in-out infinite;
+}
+@keyframes jellySquish {
+  0%   { transform: scale(1, 1); }
+  15%  { transform: scale(1.15, 0.88); }
+  30%  { transform: scale(0.9, 1.12); }
+  45%  { transform: scale(1.06, 0.95); }
+  60%  { transform: scale(0.97, 1.04); }
+  75%  { transform: scale(1.02, 0.98); }
+  100% { transform: scale(1, 1); }
+}`,
+
+  全息投影卡片: `.holo-card {
+  position: relative;
+  width: 120px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(15, 15, 30, 0.7);
+  overflow: hidden;
+}
+.holo-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,0,128,.15), rgba(0,255,200,.15) 25%, rgba(100,100,255,.15) 50%, rgba(255,200,0,.15) 75%, rgba(255,0,128,.15));
+  background-size: 400% 400%;
+  animation: holoShift 3s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+.holo-card::after {
+  content: "";
+  position: absolute;
+  top: -100%; left: -50%;
+  width: 60%; height: 300%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.2) 50%, transparent);
+  transform: rotate(25deg);
+  animation: holoFlare 3s ease-in-out infinite;
+}
+@keyframes holoShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes holoFlare {
+  0% { left: -60%; opacity: 0; }
+  20% { opacity: 1; }
+  100% { left: 120%; opacity: 0; }
+}`,
+
+  文字拆散重组: `.text-scatter-wrap {
+  display: flex;
+  gap: 2px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.scatter-char {
+  display: inline-block;
+  animation: scatterReform 2.5s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+.scatter-char:nth-child(1) { --scatter-x: -18px; --scatter-y: -22px; --scatter-r: -35deg; animation-delay: 0s; }
+.scatter-char:nth-child(2) { --scatter-x: 12px; --scatter-y: -28px; --scatter-r: 25deg; animation-delay: 0.06s; }
+/* ... 更多字符 ... */
+@keyframes scatterReform {
+  0%, 5% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  20%, 45% { transform: translate(var(--scatter-x), var(--scatter-y)) rotate(var(--scatter-r)); opacity: 0.3; }
+  70%, 100% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+}`,
+
+  液态形变: `.liquid-blob {
+  width: 80px;
+  height: 80px;
+  border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  animation:
+    blobMorphShape 4s ease-in-out infinite,
+    blobRotate 8s linear infinite;
+}
+@keyframes blobMorphShape {
+  0%   { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%  { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50%  { border-radius: 50% 60% 40% 60% / 40% 50% 60% 50%; }
+  75%  { border-radius: 40% 50% 60% 50% / 60% 40% 50% 60%; }
+  100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+}
+@keyframes blobRotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}`,
+
   聚光扫描: `.spotlight-panel {
   width: 100%;
   height: 80px;
