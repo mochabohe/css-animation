@@ -1,5 +1,5 @@
 import { normalizeCssVariables, copyToClipboard, extractLightModeRulesForClasses } from "./utils.js";
-import { explainAnimation, convertToFramework, suggestParams } from "./ai.js";
+import { explainAnimation, convertToFramework } from "./ai.js";
 import animationsCss from "./css/animations.css?raw";
 
 // 轻量 Markdown 解析器（仅支持标题、加粗、代码块、列表）
@@ -18,71 +18,6 @@ function parseSimpleMarkdown(text) {
     .replace(/\n{2,}/g, "<br><br>")
     .replace(/\n/g, "<br>");
 }
-
-// 预设意图调参规则（无需 API 调用）
-const PARAM_INTENT_PRESETS = {
-  faster: {
-    label: "更快",
-    apply: (params, values) => {
-      const result = {};
-      for (const [key, config] of Object.entries(params)) {
-        if (config.type === "range") {
-          result[key] = Math.max(config.min, values[key] * 0.4);
-        }
-      }
-      return result;
-    },
-  },
-  slower: {
-    label: "更慢",
-    apply: (params, values) => {
-      const result = {};
-      for (const [key, config] of Object.entries(params)) {
-        if (config.type === "range") {
-          result[key] = Math.min(config.max, values[key] * 2.5);
-        }
-      }
-      return result;
-    },
-  },
-  bouncy: {
-    label: "更弹性",
-    apply: (params, values) => {
-      const result = {};
-      const bouncyPriority = [
-        "cubic-bezier(0.68, -0.55, 0.27, 1.55)",
-        "cubic-bezier(0.175, 0.885, 0.32, 1.275)",
-        "ease",
-        "ease-out",
-      ];
-      for (const [key, config] of Object.entries(params)) {
-        if (config.type === "select") {
-          const best = bouncyPriority.find((v) => config.options.includes(v));
-          if (best && best !== values[key]) result[key] = best;
-        }
-        if (config.type === "range") {
-          result[key] = Math.max(config.min, values[key] * 0.5);
-        }
-      }
-      return result;
-    },
-  },
-  softer: {
-    label: "更柔和",
-    apply: (params, values) => {
-      const result = {};
-      for (const [key, config] of Object.entries(params)) {
-        if (config.type === "select" && config.options.includes("ease-in-out")) {
-          result[key] = "ease-in-out";
-        }
-        if (config.type === "range") {
-          result[key] = Math.min(config.max, values[key] * 2);
-        }
-      }
-      return result;
-    },
-  },
-};
 
 const easingDescriptions = new Map([
   ["linear", "匀速：从开始到结束速度恒定。"],
@@ -118,6 +53,35 @@ function getEasingDescription(value) {
   }
 
   return "";
+}
+
+const PREVIEW_SCALE_MIN = 0.5;
+const PREVIEW_SCALE_MAX = 1.8;
+const PREVIEW_SCALE_STEP = 0.05;
+const PREVIEW_SCALE_DEFAULT = 1;
+const PREVIEW_SCALE_BLOCK_START = "/* CodeLab Preview Scale:start */";
+const PREVIEW_SCALE_BLOCK_END = "/* CodeLab Preview Scale:end */";
+
+function clampPreviewScale(value) {
+  return Math.min(PREVIEW_SCALE_MAX, Math.max(PREVIEW_SCALE_MIN, value));
+}
+
+function stripPreviewScaleBlock(cssText) {
+  const pattern = /\/\* CodeLab Preview Scale:start \*\/[\s\S]*?\/\* CodeLab Preview Scale:end \*\/\s*/g;
+  return String(cssText).replace(pattern, "").trimEnd();
+}
+
+function appendPreviewScaleBlock(cssText, scale) {
+  const clampedScale = clampPreviewScale(scale);
+  const normalizedScale = Number(clampedScale.toFixed(2));
+  const baseCss = stripPreviewScaleBlock(cssText);
+  const block = `${PREVIEW_SCALE_BLOCK_START}
+.code-lab-preview-scale {
+  transform: scale(${normalizedScale});
+  transform-origin: center center;
+}
+${PREVIEW_SCALE_BLOCK_END}`;
+  return `${block}\n\n${baseCss}\n`;
 }
 
 function updateEasingHelpForSelect(select) {
@@ -181,8 +145,8 @@ function extractActualValues(normalizedCss, currentParams) {
   return actual;
 }
 
-function buildParamPanel(currentParams, paramValues, onParamChange, normalizedCss) {
-  if (!currentParams) return null;
+function buildParamPanel(currentParams, paramValues, onParamChange, normalizedCss, previewScaleOptions = null) {
+  if (!currentParams && !previewScaleOptions) return null;
 
   const paramsPanel = document.createElement("div");
   paramsPanel.className = "modal-params-panel";
@@ -193,14 +157,54 @@ function buildParamPanel(currentParams, paramValues, onParamChange, normalizedCs
 
   const paramsContainer = document.createElement("div");
   paramsContainer.className = "params-container";
+  const currentParamsSafe = currentParams || {};
+
+  let setPreviewScale = null;
+  if (previewScaleOptions) {
+    const scaleRow = document.createElement("div");
+    scaleRow.className = "param-row";
+
+    const scaleLabel = document.createElement("label");
+    scaleLabel.className = "param-label";
+    scaleLabel.textContent = "整体大小";
+
+    const rangeWrapper = document.createElement("div");
+    rangeWrapper.className = "param-range-wrapper";
+
+    const input = document.createElement("input");
+    input.type = "range";
+    input.className = "param-range";
+    input.min = String(Math.round(PREVIEW_SCALE_MIN * 100));
+    input.max = String(Math.round(PREVIEW_SCALE_MAX * 100));
+    input.step = String(Math.round(PREVIEW_SCALE_STEP * 100));
+
+    const valueDisplay = document.createElement("span");
+    valueDisplay.className = "param-value";
+
+    setPreviewScale = (scale) => {
+      const clamped = clampPreviewScale(scale);
+      const percent = Math.round(clamped * 100);
+      input.value = String(percent);
+      valueDisplay.textContent = `${percent}%`;
+      previewScaleOptions.onChange(clamped);
+    };
+
+    input.addEventListener("input", (event) => {
+      const percent = Number.parseFloat(event.target.value);
+      const scale = Number.isFinite(percent) ? percent / 100 : PREVIEW_SCALE_DEFAULT;
+      setPreviewScale(scale);
+    });
+
+    setPreviewScale(previewScaleOptions.initialScale ?? PREVIEW_SCALE_DEFAULT);
+    rangeWrapper.append(input, valueDisplay);
+    scaleRow.append(scaleLabel, rangeWrapper);
+    paramsContainer.append(scaleRow);
+  }
 
   // 从 CSS 实际值提取初始参数（解决 data.js default 与 CSS 变量值不一致问题）
-  const actualValues = normalizedCss ? extractActualValues(normalizedCss, currentParams) : {};
+  const actualValues = normalizedCss && currentParams ? extractActualValues(normalizedCss, currentParams) : {};
 
-  // 收集所有控件引用，供意图调参同步更新 UI
-  const controlRefs = {};
-
-  Object.entries(currentParams).forEach(([key, config]) => {
+  Object.entries(currentParamsSafe).forEach(([key, config]) => {
     const paramRow = document.createElement("div");
     paramRow.className = "param-row";
 
@@ -235,7 +239,6 @@ function buildParamPanel(currentParams, paramValues, onParamChange, normalizedCs
         onParamChange();
       });
 
-      controlRefs[key] = { input, valueDisplay, config };
       rangeWrapper.append(input, valueDisplay);
       paramRow.append(paramLabel, rangeWrapper);
     }
@@ -278,98 +281,14 @@ function buildParamPanel(currentParams, paramValues, onParamChange, normalizedCs
         updateEasingHelpForSelect(select);
       }
 
-      controlRefs[key] = { input: select, config };
       paramRow.append(paramLabel, selectWrapper);
     }
 
     paramsContainer.append(paramRow);
   });
 
-  // 应用参数并同步 UI 控件
-  const applyParamValues = (newValues) => {
-    for (const [key, value] of Object.entries(newValues)) {
-      if (!(key in currentParams)) continue;
-      const ref = controlRefs[key];
-      if (!ref) continue;
-
-      const config = ref.config;
-      if (config.type === "range") {
-        const decimals = (String(config.step).split(".")[1] || "").length;
-        const clamped = parseFloat((Math.round(Math.max(config.min, Math.min(config.max, value)) / config.step) * config.step).toFixed(decimals));
-        paramValues[key] = clamped;
-        ref.input.value = clamped;
-        if (ref.valueDisplay) ref.valueDisplay.textContent = `${clamped}${config.unit}`;
-      } else if (config.type === "select") {
-        if (config.options.includes(value)) {
-          paramValues[key] = value;
-          ref.input.value = value;
-          updateEasingHelpForSelect(ref.input);
-        }
-      }
-    }
-    onParamChange();
-  };
-
-  // 意图调参快捷按钮行
-  const intentRow = document.createElement("div");
-  intentRow.className = "ai-intent-row";
-
-  Object.entries(PARAM_INTENT_PRESETS).forEach(([, preset]) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "ai-intent-btn";
-    btn.textContent = preset.label;
-    btn.addEventListener("click", () => {
-      intentRow.querySelectorAll(".ai-intent-btn").forEach((b) => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      const newValues = preset.apply(currentParams, paramValues);
-      applyParamValues(newValues);
-    });
-    intentRow.append(btn);
-  });
-
-  // AI 自定义调参输入
-  const aiParamRow = document.createElement("div");
-  aiParamRow.className = "ai-intent-custom";
-
-  const aiParamInput = document.createElement("input");
-  aiParamInput.type = "text";
-  aiParamInput.className = "ai-intent-input";
-  aiParamInput.placeholder = "描述调整意图…";
-
-  const aiParamBtn = document.createElement("button");
-  aiParamBtn.type = "button";
-  aiParamBtn.className = "ai-intent-btn ai-intent-btn--ai";
-  aiParamBtn.textContent = "AI 调参";
-
-  aiParamBtn.addEventListener("click", async () => {
-    const intent = aiParamInput.value.trim();
-    if (!intent) return;
-    aiParamBtn.disabled = true;
-    aiParamBtn.textContent = "分析中…";
-    try {
-      const newValues = await suggestParams(intent, currentParams, paramValues);
-      applyParamValues(newValues);
-      aiParamInput.value = "";
-    } catch {
-      // 静默处理
-    } finally {
-      aiParamBtn.disabled = false;
-      aiParamBtn.textContent = "AI 调参";
-    }
-  });
-
-  aiParamInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && !e.isComposing) {
-      e.preventDefault();
-      aiParamBtn.click();
-    }
-  });
-
-  aiParamRow.append(aiParamInput, aiParamBtn);
-
-  paramsContainer.append(intentRow, aiParamRow);
   paramsPanel.append(paramsLabel, paramsContainer);
+  paramsPanel.__setPreviewScale = setPreviewScale;
   return paramsPanel;
 }
 
@@ -546,9 +465,18 @@ export function createCodeModal({
   styleTag.textContent = cssTextarea.value;
 
   const shadowContainer = document.createElement("div");
-  shadowContainer.innerHTML = demoHtml;
   shadowContainer.style.cssText =
     "display:flex;align-items:center;justify-content:center;width:100%;height:100%;";
+  const previewScaleLayer = document.createElement("div");
+  previewScaleLayer.className = "code-lab-preview-scale";
+  previewScaleLayer.style.cssText =
+    "display:flex;align-items:center;justify-content:center;width:100%;height:100%;";
+  const previewDemoHost = document.createElement("div");
+  previewDemoHost.style.cssText =
+    "display:flex;align-items:center;justify-content:center;width:100%;height:100%;";
+  previewDemoHost.innerHTML = demoHtml;
+  previewScaleLayer.append(previewDemoHost);
+  shadowContainer.append(previewScaleLayer);
   shadowContainer.setAttribute(
     "data-color-mode",
     document.documentElement.getAttribute("data-color-mode") || "dark",
@@ -571,9 +499,21 @@ export function createCodeModal({
   shadowRoot.append(animationsStyle, demoWrapGuard, styleTag, shadowContainer);
   previewPanel.append(previewLabel, previewBox);
 
+  let previewScale = PREVIEW_SCALE_DEFAULT;
+  const syncPreviewScaleToCss = () => {
+    const scaledCss = appendPreviewScaleBlock(cssTextarea.value, previewScale);
+    cssTextarea.value = scaledCss;
+    styleTag.textContent = scaledCss;
+  };
+
+  const applyPreviewScale = (scale) => {
+    previewScale = clampPreviewScale(scale);
+    syncPreviewScaleToCss();
+  };
+
   const paramValues = {};
   const updatePreview = () => {
-    shadowContainer.innerHTML = htmlTextarea.value;
+    previewDemoHost.innerHTML = htmlTextarea.value;
     styleTag.textContent = cssTextarea.value;
   };
 
@@ -589,10 +529,10 @@ export function createCodeModal({
     exportParamsToCssEditor();
 
     // 2. 强制重启 Shadow DOM 中所有 CSS 动画
-    const animated = shadowContainer.querySelectorAll("*");
+    const animated = previewDemoHost.querySelectorAll("*");
     animated.forEach((el) => { el.style.animation = "none"; });
     // 触发 reflow，让浏览器识别动画已清除
-    void shadowContainer.offsetHeight;
+    void previewDemoHost.offsetHeight;
     animated.forEach((el) => { el.style.animation = ""; });
   };
 
@@ -661,12 +601,19 @@ export function createCodeModal({
       }
     }
 
-    cssTextarea.value = updatedCss;
-    styleTag.textContent = updatedCss;
+    const scaledCss = appendPreviewScaleBlock(updatedCss, previewScale);
+    cssTextarea.value = scaledCss;
+    styleTag.textContent = scaledCss;
   };
 
   const initialNormalizedCss = normalizeCssVariables(fullCss);
-  const paramsPanel = buildParamPanel(currentParams, paramValues, updatePreviewWithParams, initialNormalizedCss);
+  const paramsPanel = buildParamPanel(
+    currentParams,
+    paramValues,
+    updatePreviewWithParams,
+    initialNormalizedCss,
+    { initialScale: previewScale, onChange: applyPreviewScale },
+  );
 
   const leftColumn = document.createElement("div");
   leftColumn.className = "modal-left-column";
@@ -898,15 +845,15 @@ export function createCodeModal({
         }
       });
 
-      // 清除意图按钮高亮
-      paramsPanel.querySelectorAll(".ai-intent-btn").forEach((b) => b.classList.remove("is-active"));
     }
+
+    paramsPanel?.__setPreviewScale?.(PREVIEW_SCALE_DEFAULT);
 
     updatePreview();
     // 重置后强制重启动画，确保预览恢复
-    const animated = shadowContainer.querySelectorAll("*");
+    const animated = previewDemoHost.querySelectorAll("*");
     animated.forEach((el) => { el.style.animation = "none"; });
-    void shadowContainer.offsetHeight;
+    void previewDemoHost.offsetHeight;
     animated.forEach((el) => { el.style.animation = ""; });
     markButtonState(resetBtn, "✓ 已重置", "重置");
   });
