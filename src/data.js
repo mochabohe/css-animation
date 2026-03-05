@@ -62,6 +62,7 @@
   wave: {
     scenario: [
       "音频可视化 / 声波反馈",
+      "进行中状态 / 通话中提示",
       "节奏律动 / 音乐氛围",
       "波形提示 / 语音状态",
       "均衡器效果 / 频段表现",
@@ -87,6 +88,7 @@ export const animationScenarioOverrides = {
   "No Data 幽灵": "暂无数据 / 状态提示",
   "404 星球": "页面不存在 / 路径错误",
   迷失信号: "网络异常 / 连接失败",
+  声波脉动: "进行中状态 / 通话中提示",
 };
 
 // 动画语义索引：用于 AI 智能搜索，将动画标题映射到语义标签
@@ -168,6 +170,7 @@ export const animationSemanticIndex = {
   信号波纹: ["信号", "波纹", "扩散", "声波", "脉冲"],
   能量脉冲条: ["能量", "脉冲", "条形", "声波", "节奏"],
   数据波形: ["数据", "波形", "声波", "频率", "律动"],
+  声波脉动: ["声波", "脉动", "进行中", "通话中", "音频可视化", "语音", "录音", "播放中", "直播", "在线状态"],
   // 大数据可视化
   逐字加载: ["逐字", "token", "AI", "流式", "打字", "大模型"],
   向量检索命中: ["向量", "检索", "雷达", "搜索", "AI", "命中"],
@@ -543,6 +546,10 @@ export const animationParams = {
     duration: { label: "波动时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.2, unit: "s", target: "waveformBounce" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "waveformBounce" },
   },
+  声波脉动: {
+    duration: { label: "脉动时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.8, unit: "s", target: "soundPulse" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "soundPulse" },
+  },
 
   // ========== 大数据类 ==========
   柱状图生长: {
@@ -681,6 +688,7 @@ export const animationNamesByTitle = {
   信号波纹: ["rippleExpand"],
   能量脉冲条: ["energyPulse"],
   数据波形: ["waveformBounce"],
+  声波脉动: ["soundPulse"],
   点赞心跳: ["likeHeart"],
   开关切换: [],
 

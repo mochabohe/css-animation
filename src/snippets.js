@@ -737,6 +737,22 @@
 .data-waveform span:nth-child(8) { height: 28px; animation-delay: 0.7s; }
 .data-waveform span:nth-child(9) { height: 38px; animation-delay: 0.8s; }
 .data-waveform span:nth-child(10) { height: 22px; animation-delay: 0.9s; }`,
+  声波脉动: `.sound-pulse {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 50px;
+  justify-content: center;
+}
+.sound-pulse span {
+  width: 8px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
+  animation: soundPulse 0.8s ease-in-out infinite alternate;
+}
+.sound-pulse span:nth-child(1) { height: 24px; animation-delay: 0s; }
+.sound-pulse span:nth-child(2) { height: 40px; animation-delay: 0.2s; }
+.sound-pulse span:nth-child(3) { height: 16px; animation-delay: 0.4s; }`,
   边框流光: `.border-stream-btn {
   position: relative;
   padding: 12px 24px;
