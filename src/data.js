@@ -171,6 +171,7 @@ export const animationSemanticIndex = {
   能量脉冲条: ["能量", "脉冲", "条形", "声波", "节奏"],
   数据波形: ["数据", "波形", "声波", "频率", "律动"],
   声波脉动: ["声波", "脉动", "进行中", "通话中", "音频可视化", "语音", "录音", "播放中", "直播", "在线状态"],
+  节拍跳条: ["节拍", "跳动", "条形", "音频", "进行中", "脉冲", "竖条", "迷你频谱"],
   // 大数据可视化
   逐字加载: ["逐字", "token", "AI", "流式", "打字", "大模型"],
   向量检索命中: ["向量", "检索", "雷达", "搜索", "AI", "命中"],
@@ -550,6 +551,10 @@ export const animationParams = {
     duration: { label: "脉动时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.8, unit: "s", target: "soundPulse" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "soundPulse" },
   },
+  节拍跳条: {
+    duration: { label: "跳动时长", type: "range", min: 0.3, max: 2, step: 0.1, default: 0.8, unit: "s", target: "beatPulse" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "beatPulse" },
+  },
 
   // ========== 大数据类 ==========
   柱状图生长: {
@@ -689,6 +694,7 @@ export const animationNamesByTitle = {
   能量脉冲条: ["energyPulse"],
   数据波形: ["waveformBounce"],
   声波脉动: ["soundPulse"],
+  节拍跳条: ["beatPulse"],
   点赞心跳: ["likeHeart"],
   开关切换: [],
 
