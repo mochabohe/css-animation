@@ -1,4 +1,4 @@
-/* Animations */
+﻿/* Animations */
 .card-front > .loader,
 .card-front > .dots-loader,
 .card-front > .bars-loader,
@@ -58,6 +58,7 @@
 .card-front > .progress-bar,
 .card-front > .cone-ring-loader,
 .card-front > .prism-ring-loader,
+.card-front > .triangle-cycle-loader,
 .card-front > .shake-error-wrap,
 .card-front > .flip-card-wrap,
 .card-front > .marquee-wrap,
@@ -4455,7 +4456,7 @@
 @keyframes shakeHintFade {
   0%, 5% { opacity: 0; }
   15%, 55% { opacity: 1; }
-  70%, 100% { opacity: 0; }
+  62%, 100% { opacity: 0; }
 }
 
 /* =====================================================
@@ -5480,6 +5481,116 @@
   animation: prismRingSweep calc(var(--fx-duration) * 1.1 / var(--speed-multiplier, 1)) linear infinite;
 }
 
+/* =====================================================
+   三角轮转点
+   ===================================================== */
+.triangle-cycle-loader {
+  width: 76px;
+  height: 76px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.triangle-cycle-loader span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  animation: triangleCycleMotion calc(var(--motion-loading-duration) * 1.65 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+.triangle-cycle-loader span:nth-child(1) {
+  --p0x: -7.3px;
+  --p0y: -6.6px;
+  --p1x: 0px;
+  --p1y: 22px;
+  --p2x: -2.1px;
+  --p2y: 9.7px;
+  --p3x: 19px;
+  --p3y: -11px;
+  --p4x: 9.4px;
+  --p4y: -3.1px;
+  --p5x: -19px;
+  --p5y: -11px;
+  background: rgba(var(--accent-rgb), 0.38);
+}
+
+.triangle-cycle-loader span:nth-child(2) {
+  --p0x: 9.4px;
+  --p0y: -3.1px;
+  --p1x: -19px;
+  --p1y: -11px;
+  --p2x: -7.3px;
+  --p2y: -6.6px;
+  --p3x: 0px;
+  --p3y: 22px;
+  --p4x: -2.1px;
+  --p4y: 9.7px;
+  --p5x: 19px;
+  --p5y: -11px;
+  background: rgba(var(--accent-rgb), 0.62);
+}
+
+.triangle-cycle-loader span:nth-child(3) {
+  --p0x: -2.1px;
+  --p0y: 9.7px;
+  --p1x: 19px;
+  --p1y: -11px;
+  --p2x: 9.4px;
+  --p2y: -3.1px;
+  --p3x: -19px;
+  --p3y: -11px;
+  --p4x: -7.3px;
+  --p4y: -6.6px;
+  --p5x: 0px;
+  --p5y: 22px;
+  background: rgba(var(--accent-rgb), 0.92);
+}
+
+@keyframes triangleCycleMotion {
+  0%,
+  1.333% {
+    transform: translate(-50%, -50%) translate(var(--p0x), var(--p0y));
+  }
+  16.667% {
+    transform: translate(-50%, -50%) translate(var(--p1x), var(--p1y));
+  }
+  18.667% {
+    transform: translate(-50%, -50%) translate(var(--p1x), var(--p1y));
+  }
+  32%,
+  33.333% {
+    transform: translate(-50%, -50%) translate(var(--p2x), var(--p2y));
+  }
+  34.667% {
+    transform: translate(-50%, -50%) translate(var(--p2x), var(--p2y));
+  }
+  50% {
+    transform: translate(-50%, -50%) translate(var(--p3x), var(--p3y));
+  }
+  52% {
+    transform: translate(-50%, -50%) translate(var(--p3x), var(--p3y));
+  }
+  65.333%,
+  66.667% {
+    transform: translate(-50%, -50%) translate(var(--p4x), var(--p4y));
+  }
+  68% {
+    transform: translate(-50%, -50%) translate(var(--p4x), var(--p4y));
+  }
+  83.333% {
+    transform: translate(-50%, -50%) translate(var(--p5x), var(--p5y));
+  }
+  85.333% {
+    transform: translate(-50%, -50%) translate(var(--p5x), var(--p5y));
+  }
+  98.667%,
+  100% {
+    transform: translate(-50%, -50%) translate(var(--p0x), var(--p0y));
+  }
+}
 /* ========== 液态玻璃按钮 2.0 ========== */
 .liquid-glass-btn-v2 {
   position: relative;
@@ -5802,7 +5913,7 @@
     transform: translate(var(--scatter-x), var(--scatter-y)) rotate(var(--scatter-r));
     opacity: 0.3;
   }
-  70%, 100% {
+  62%, 100% {
     transform: translate(0, 0) rotate(0deg);
     opacity: 1;
   }
@@ -5995,6 +6106,8 @@
   .prism-ring-loader,
   .prism-ring-loader::before,
   .prism-ring-loader::after,
+  .triangle-cycle-loader,
+  .triangle-cycle-loader span,
   .hamburger-morph,
   .hamburger-morph span,
   .funnel-flow::after,
@@ -6021,3 +6134,7 @@
     animation: none !important;
   }
 }
+
+
+
+

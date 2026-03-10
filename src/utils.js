@@ -1,4 +1,4 @@
-// parseColor 缓存与复用 canvas（避免重复创建 DOM 元素）
+﻿// parseColor 缓存与复用 canvas（避免重复创建 DOM 元素）
 const _parseColorCache = new Map();
 const _parseColorCanvas = document.createElement("canvas");
 _parseColorCanvas.width = _parseColorCanvas.height = 1;
@@ -39,10 +39,10 @@ export function normalizeCssVariables(cssText) {
   }
 
   // 先替换 var(--name) 格式
-  let result = cssText.replace(/var\((--[a-z0-9-]+)(?:\s*,\s*([^)]+))?\)/gi, (_, name, fallback) => {
+  let result = cssText.replace(/var\((--[a-z0-9-]+)(?:\s*,\s*([^)]+))?\)/gi, (match, name, fallback) => {
     if (currentValues[name]) return currentValues[name];
     if (fallback) return fallback.trim();
-    return name;
+    return match;
   });
 
   // 再替换裸露的 --name 格式（例如在 rgba() 中直接使用的）
@@ -349,4 +349,5 @@ export function extractLightModeRulesForClasses(cssText, classNames) {
   }
   return result.join('\n\n');
 }
+
 

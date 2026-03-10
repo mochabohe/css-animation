@@ -1,5 +1,12 @@
-import { describe, expect, it } from "vitest";
-import { hexToRgb, rgbToHsl, hslToRgb, parseColor, generateColorVariants } from "./utils.js";
+﻿import { describe, expect, it } from "vitest";
+import {
+  generateColorVariants,
+  hexToRgb,
+  hslToRgb,
+  normalizeCssVariables,
+  parseColor,
+  rgbToHsl,
+} from "./utils.js";
 
 describe("hexToRgb", () => {
   it("解析六位十六进制颜色", () => {
@@ -119,6 +126,13 @@ describe("parseColor", () => {
   });
 });
 
+describe("normalizeCssVariables", () => {
+  it("保留未知的自定义 var() 表达式", () => {
+    const css = ".demo { transform: translate(var(--p0x), var(--p0y)); }";
+    expect(normalizeCssVariables(css)).toContain("translate(var(--p0x), var(--p0y))");
+  });
+});
+
 describe("generateColorVariants", () => {
   it("有效颜色返回包含所有变体属性的对象", () => {
     const result = generateColorVariants("#2cb9c5");
@@ -154,3 +168,5 @@ describe("generateColorVariants", () => {
     expect(generateColorVariants("")).toBeNull();
   });
 });
+
+

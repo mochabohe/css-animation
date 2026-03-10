@@ -106,6 +106,7 @@ export const animationSemanticIndex = {
   光锥环形加载: ["光锥", "环形", "loading", "扫描", "旋转", "等待反馈", "异步请求"],
   棱镜旋环加载: ["棱镜", "旋环", "loading", "环形", "流光", "等待反馈"],
   三点轨道: ["三点", "轨道", "loading", "等待", "圆形"],
+  三角轮转点: ["三角", "轮转", "圆点", "loading", "等待反馈", "三点", "节奏"],
   // 交互按钮
   边框流光: ["边框", "流光", "按钮", "悬停", "interactive", "发光"],
   霓虹流光: ["霓虹", "发光", "按钮", "渐变", "悬停引导"],
@@ -358,6 +359,10 @@ export const animationParams = {
   棱镜旋环加载: {
     duration: { label: "旋环时长", type: "range", min: 0.8, max: 4, step: 0.1, default: 1.8, unit: "s", target: "(?:prismRingSpin|prismRingPulse|prismRingSweep)" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "prismRingSpin" },
+  },
+  三角轮转点: {
+    duration: { label: "轮转时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.1, unit: "s", target: "triangleCycleMotion" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "triangleCycleMotion" },
   },
 
   // ========== 空结果类 ==========
@@ -687,6 +692,7 @@ export const animationNamesByTitle = {
   异常告警脉冲: ["anomalyPulse"],
   集群健康热力: ["clusterBlink"],
   三点轨道: ["dotOrbitStep"],
+  三角轮转点: ["triangleCycleMotion"],
   镜面扫光: ["textShimmer"],
   数据流线: ["dataFlow"],
 
@@ -757,3 +763,4 @@ export const animationNamesByTitle = {
   文字拆散重组: ["scatterReform"],
   液态形变: ["blobMorphShape", "blobRotate"],
 };
+

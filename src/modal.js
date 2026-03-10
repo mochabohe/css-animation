@@ -1,4 +1,4 @@
-import { normalizeCssVariables, copyToClipboard, extractLightModeRulesForClasses } from "./utils.js";
+﻿import { normalizeCssVariables, copyToClipboard, extractLightModeRulesForClasses } from "./utils.js";
 import { explainAnimation, convertToFramework } from "./ai.js";
 import animationsCss from "./css/animations.css?raw";
 
@@ -105,6 +105,38 @@ function markButtonState(button, text, originalText) {
     button.classList.remove("is-copied");
     button.textContent = originalText;
   }, 1200);
+}
+
+const CSS_RESIZE_GUIDANCE_COMMENT = `/* 调整大小建议：
+   请优先对外层容器或整个动画容器使用 transform: scale(...) 做整体缩放；
+   不建议直接修改局部元素尺寸、间距、定位值或关键帧坐标，否则可能破坏动画比例、轨迹与节奏。
+*/`;
+
+const FRAMEWORK_RESIZE_GUIDANCE_COMMENTS = {
+  react: CSS_RESIZE_GUIDANCE_COMMENT,
+  vue: `<!-- 调整大小建议：
+     请优先对外层容器或整个动画容器使用 transform: scale(...) 做整体缩放；
+     不建议直接修改局部元素尺寸、间距、定位值或关键帧坐标，否则可能破坏动画比例、轨迹与节奏。
+-->`,
+  tailwind: `<!-- 调整大小建议：
+     请优先对外层容器或整个动画容器使用 transform: scale(...) 做整体缩放；
+     不建议直接修改局部元素尺寸、间距、定位值或关键帧坐标，否则可能破坏动画比例、轨迹与节奏。
+-->`,
+};
+
+function buildCopyReadyCss(cssText) {
+  const cleanCss = stripPreviewScaleBlock(cssText).trim();
+  return `${CSS_RESIZE_GUIDANCE_COMMENT}\n\n${cleanCss}`;
+}
+
+function buildCopyReadyBundle(htmlText, cssText) {
+  return `<style>\n${buildCopyReadyCss(cssText)}\n</style>\n\n${htmlText}`;
+}
+
+function buildFrameworkExportCode(framework, codeText) {
+  const cleanCode = String(codeText || "").trim();
+  const note = FRAMEWORK_RESIZE_GUIDANCE_COMMENTS[framework] || CSS_RESIZE_GUIDANCE_COMMENT;
+  return cleanCode ? `${note}\n\n${cleanCode}` : note;
 }
 
 // duration 匹配模式：支持简单值 (1.4s) 和带嵌套括号的 calc(...) 表达式
@@ -783,7 +815,7 @@ export function createCodeModal({
 
   copyCssBtn.addEventListener("click", async () => {
     try {
-      await copyToClipboard(cssTextarea.value);
+      await copyToClipboard(buildCopyReadyCss(cssTextarea.value));
       markButtonState(copyCssBtn, "✓ 已复制", "复制CSS");
     } catch {
       copyCssBtn.textContent = "复制失败";
@@ -796,7 +828,7 @@ export function createCodeModal({
         onTrackCopy(title);
       }
 
-      const combined = `<style>\n${cssTextarea.value}\n</style>\n\n${htmlTextarea.value}`;
+      const combined = buildCopyReadyBundle(htmlTextarea.value, cssTextarea.value);
       await copyToClipboard(combined);
       markButtonState(copyBtn, "✓ 已复制", "复制HTML+CSS代码");
     } catch {
@@ -961,8 +993,9 @@ export function createCodeModal({
     });
 
     try {
-      await convertToFramework(htmlTextarea.value, cssTextarea.value, framework, (accumulated) => {
-        panelCode.value = accumulated;
+      const exportCss = stripPreviewScaleBlock(cssTextarea.value);
+      await convertToFramework(htmlTextarea.value, exportCss, framework, (accumulated) => {
+        panelCode.value = buildFrameworkExportCode(framework, accumulated);
       });
     } catch (err) {
       panelCode.value = `转换失败：${err.message}`;
@@ -981,3 +1014,4 @@ export function createCodeModal({
 
   return modal;
 }
+
