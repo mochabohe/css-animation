@@ -333,6 +333,7 @@ export function createCodeModal({
   onTrackCopy,
   onAiTransform,
   onSave,
+  cardEl,
 }) {
   const modal = document.createElement("div");
   modal.className = "code-modal";
@@ -462,13 +463,14 @@ export function createCodeModal({
 
   // 构建 CSS 编辑区内容：亮色模式下自动追加对应的亮色覆盖规则
   const buildInitialCss = () => {
-    const base = normalizeCssVariables(fullCss);
+    const el = cardEl || document.documentElement;
+    const base = normalizeCssVariables(fullCss, el);
     const colorMode = document.documentElement.getAttribute("data-color-mode") || "dark";
     if (colorMode !== "light") return base;
     // 提取当前动画片段里所有类名
     const classNames = [...new Set([...base.matchAll(/\.([a-zA-Z][a-zA-Z0-9-_]*)\b/g)].map((m) => m[1]))];
     const lightRules = extractLightModeRulesForClasses(animationsCss, classNames);
-    return lightRules ? `${base}\n\n/* 亮色模式补充样式 (已剥离限制，即插即用) */\n${normalizeCssVariables(lightRules)}` : base;
+    return lightRules ? `${base}\n\n/* 亮色模式补充样式 (已剥离限制，即插即用) */\n${normalizeCssVariables(lightRules, el)}` : base;
   };
 
   const cssTextarea = document.createElement("textarea");
@@ -577,7 +579,7 @@ export function createCodeModal({
    */
   const exportParamsToCssEditor = () => {
     if (!currentParams) return;
-    let updatedCss = normalizeCssVariables(baseCss);
+    let updatedCss = normalizeCssVariables(baseCss, cardEl || document.documentElement);
 
     // 按 target 分组参数（同一 target 的 duration 和 timing 一起替换）
     const byTarget = {};
@@ -638,7 +640,7 @@ export function createCodeModal({
     styleTag.textContent = scaledCss;
   };
 
-  const initialNormalizedCss = normalizeCssVariables(fullCss);
+  const initialNormalizedCss = normalizeCssVariables(fullCss, cardEl || document.documentElement);
   const paramsPanel = buildParamPanel(
     currentParams,
     paramValues,

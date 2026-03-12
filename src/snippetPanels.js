@@ -95,6 +95,7 @@ export function attachSnippetPanels(cards) {
         fullCss,
         currentParams: animationParams[title],
         previousActiveElement,
+        cardEl: card,
         onTrackCopy: (name) => {
           if (typeof _hmt !== "undefined") {
             _hmt.push(["_trackEvent", "动画复制", "copy", name]);

@@ -29,9 +29,9 @@ export const cssVarFallback = {
   "--fx-duration-fast": "1.1s",
 };
 
-export function normalizeCssVariables(cssText) {
-  // 从当前文档获取实际生效的 CSS 变量值（支持主题切换和自定义颜色）
-  const computedStyle = getComputedStyle(document.documentElement);
+export function normalizeCssVariables(cssText, element = document.documentElement) {
+  // 从指定元素获取实际生效的 CSS 变量值（支持分类覆盖、主题切换和自定义颜色）
+  const computedStyle = getComputedStyle(element);
   const currentValues = {};
   for (const [varName, defaultValue] of Object.entries(cssVarFallback)) {
     const computed = computedStyle.getPropertyValue(varName).trim();

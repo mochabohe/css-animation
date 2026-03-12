@@ -1785,13 +1785,13 @@
   position: relative;
   box-shadow:
     0 -22px 0 rgba(var(--accent-rgb), 1),
-    15px -15px 0 rgba(var(--accent-rgb), 0.85),
-    22px 0 0 rgba(var(--accent-rgb), 0.7),
-    15px 15px 0 rgba(var(--accent-rgb), 0.5),
+    -15px -15px 0 rgba(var(--accent-rgb), 0.85),
+    -22px 0 0 rgba(var(--accent-rgb), 0.7),
+    -15px 15px 0 rgba(var(--accent-rgb), 0.5),
     0 22px 0 rgba(var(--accent-rgb), 0.35),
-    -15px 15px 0 rgba(var(--accent-rgb), 0.2),
-    -22px 0 0 rgba(var(--accent-rgb), 0.1),
-    -15px -15px 0 rgba(var(--accent-rgb), 0.05);
+    15px 15px 0 rgba(var(--accent-rgb), 0.2),
+    22px 0 0 rgba(var(--accent-rgb), 0.1),
+    15px -15px 0 rgba(var(--accent-rgb), 0.05);
   animation: spinnerRotate var(--fx-duration, 1s) linear infinite;
 }
 @keyframes spinnerRotate {
