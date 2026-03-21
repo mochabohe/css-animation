@@ -2398,27 +2398,27 @@
 /* 迷失信号 */
 .lost-signal {
   position: relative;
-  width: 60px;
-  height: 54px;
+  width: 90px;
+  height: 80px;
   display: flex;
   flex-direction: column-reverse;
   align-items: center;
   justify-content: flex-start;
-  gap: 5px;
+  gap: 6px;
   margin: 0 auto;
 }
 
 .signal-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
-  background: rgba(var(--accent-rgb), 0.55);
+  background: rgba(var(--accent-rgb), 0.65);
   flex-shrink: 0;
 }
 
 .signal-arc {
   border-radius: 50%;
-  border: 2px solid rgba(var(--accent-rgb), 0.55);
+  border: 2.5px solid rgba(var(--accent-rgb), 0.6);
   border-bottom: none;
   border-left: none;
   border-right: none;
@@ -2426,13 +2426,13 @@
   animation: signalFade var(--fx-duration) ease-in-out infinite;
 }
 
-.signal-arc--1 { width: 14px; height: 9px; animation-delay: 0s; }
-.signal-arc--2 { width: 26px; height: 14px; animation-delay: calc(var(--fx-duration) * -0.2); }
-.signal-arc--3 { width: 40px; height: 20px; animation-delay: calc(var(--fx-duration) * -0.4); }
+.signal-arc--1 { width: 22px; height: 14px; animation-delay: 0s; }
+.signal-arc--2 { width: 40px; height: 22px; animation-delay: calc(var(--fx-duration) * -0.2); }
+.signal-arc--3 { width: 60px; height: 30px; animation-delay: calc(var(--fx-duration) * -0.4); }
 
 @keyframes signalFade {
-  0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.7; }
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.85; }
 }
 
 /* 亮色模式补偿 */

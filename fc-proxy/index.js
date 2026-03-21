@@ -1,41 +1,37 @@
 'use strict';
 
 /**
- * 阿里云函数计算 事件函数 — DeepSeek API 代理
+ * 阿里云函数计算 — 通用 AI API 代理
  *
  * 运行时：Node.js 18 / 20（内置 fetch，无需额外依赖）
  *
- * 环境变量（在函数计算控制台配置）：
- *   DEEPSEEK_API_KEY  — 你的 DeepSeek API Key（不要写在代码里）
+ * 两种模式：
+ *   1. 默认模式：转发到 DeepSeek（使用服务端 DEEPSEEK_API_KEY）
+ *   2. 透传模式：前端通过 X-Target-Url 指定目标，认证头由前端提供
+ *
+ * 环境变量：
+ *   DEEPSEEK_API_KEY — DeepSeek API Key（默认模式必需）
  */
 
-const TARGET = 'https://api.deepseek.com/chat/completions';
+const DEFAULT_TARGET = 'https://api.deepseek.com/chat/completions';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Api-Key, X-Target-Url, Anthropic-Version',
 };
 
-module.exports.handler = async (event, context) => {
-  // 事件函数的 event 是 Buffer，需要先解析
+module.exports.handler = async (event) => {
   const evt = JSON.parse(event.toString());
-  // FC 3.0 HTTP 触发器的 method 在 requestContext.http.method 中
   const method = evt.requestContext?.http?.method;
 
-  // CORS 预检请求
+  // CORS 预检
   if (method === 'OPTIONS') {
     return { statusCode: 200, headers: CORS_HEADERS, body: '' };
   }
 
-  // 仅允许 POST
   if (method !== 'POST') {
     return { statusCode: 405, headers: CORS_HEADERS, body: 'Method Not Allowed' };
-  }
-
-  const apiKey = process.env.DEEPSEEK_API_KEY;
-  if (!apiKey) {
-    return { statusCode: 500, headers: CORS_HEADERS, body: 'DEEPSEEK_API_KEY 未配置' };
   }
 
   let reqBody;
@@ -45,13 +41,41 @@ module.exports.handler = async (event, context) => {
     return { statusCode: 400, headers: CORS_HEADERS, body: '请求体必须为 JSON' };
   }
 
-  // 转发到 DeepSeek
-  const upstreamRes = await fetch(TARGET, {
+  // 解析前端传入的请求头
+  const inHeaders = evt.headers || {};
+  const targetUrl = inHeaders['x-target-url'];
+
+  let upstreamUrl;
+  const upstreamHeaders = { 'Content-Type': 'application/json' };
+
+  if (targetUrl) {
+    // 透传模式：前端指定目标 URL，认证头由前端提供
+    upstreamUrl = targetUrl;
+    // 转发 Authorization 头（OpenAI 兼容格式）
+    if (inHeaders['authorization']) {
+      upstreamHeaders['Authorization'] = inHeaders['authorization'];
+    }
+    // 转发 x-api-key 头（Claude 原生格式）
+    if (inHeaders['x-api-key']) {
+      upstreamHeaders['x-api-key'] = inHeaders['x-api-key'];
+    }
+    // 转发 anthropic-version 头
+    if (inHeaders['anthropic-version']) {
+      upstreamHeaders['anthropic-version'] = inHeaders['anthropic-version'];
+    }
+  } else {
+    // 默认模式：转发到 DeepSeek
+    upstreamUrl = DEFAULT_TARGET;
+    const apiKey = process.env.DEEPSEEK_API_KEY;
+    if (!apiKey) {
+      return { statusCode: 500, headers: CORS_HEADERS, body: 'DEEPSEEK_API_KEY 未配置' };
+    }
+    upstreamHeaders['Authorization'] = `Bearer ${apiKey}`;
+  }
+
+  const upstreamRes = await fetch(upstreamUrl, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
+    headers: upstreamHeaders,
     body: JSON.stringify(reqBody),
   });
 

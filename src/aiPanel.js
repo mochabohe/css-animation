@@ -299,6 +299,9 @@ export function initAiPanel() {
         throw new Error("返回格式异常，未包含 html 或 css 字段");
       }
 
+      // 使用 AI 返回的简短标题，回退到截取用户输入
+      const animTitle = result.title || text.slice(0, 30);
+
       // 隐藏思考过程，显示成功消息和预览按钮
       thinkingBox.hidden = true;
       const successText = document.createElement("div");
@@ -310,13 +313,13 @@ export function initAiPanel() {
       previewBtn.className = "ai-msg-preview-btn";
       previewBtn.textContent = "打开预览";
       previewBtn.addEventListener("click", () => {
-        openModal(text.slice(0, 30), result.html, result.css, previewBtn);
+        openModal(animTitle, result.html, result.css, previewBtn);
       });
 
       bubble.append(successText, previewBtn);
 
       // 自动打开预览
-      openModal(text.slice(0, 30), result.html, result.css, sendBtn);
+      openModal(animTitle, result.html, result.css, sendBtn);
     } catch (err) {
       thinkingBox.hidden = true;
       const errMsg = document.createElement("div");

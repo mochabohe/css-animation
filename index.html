@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CSS Animation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- 百度统计 -->
     <script>
@@ -19,6 +22,18 @@
   <body>
     <div class="layout-wrapper">
       <aside class="sidebar" aria-label="控制面板">
+        <div class="sidebar-brand">
+          <div class="sidebar-logo">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="white" stroke="none"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sidebar-brand-name">CSS Motion</div>
+            <div class="sidebar-brand-tag">动效组件库</div>
+          </div>
+        </div>
+
         <div class="sidebar-section">
           <h3 class="sidebar-title">分类</h3>
           <div class="filter-bar" role="toolbar" aria-label="动画分类筛选">
@@ -249,10 +264,18 @@
             </div>
           </div>
         </div>
+
+        <div class="sidebar-section">
+          <h3 class="sidebar-title">AI 接口</h3>
+          <div class="sidebar-toggle-item">
+            <span id="apiConfigStatus" class="api-config-value">默认 DeepSeek</span>
+            <button id="apiConfigToggle" type="button" class="toggle-btn">设置</button>
+          </div>
+        </div>
       </aside>
 
       <main class="page">
-        <div class="result-bar">
+<div class="result-bar">
           <div
             id="resultCount"
             class="result-count"
@@ -425,11 +448,13 @@
             <div class="cone-ring-loader" aria-label="光锥环形加载动画"></div>
           </article>
 
+          <!-- 暂时隐藏：棱镜旋环加载
           <article class="card" data-category="loading">
             <span class="card-tag">加载反馈</span>
             <h2>棱镜旋环加载</h2>
             <div class="prism-ring-loader" aria-label="棱镜旋环加载动画"></div>
           </article>
+          -->
 
           <!-- 交互按钮类 -->
           <article class="card" data-category="interactive">

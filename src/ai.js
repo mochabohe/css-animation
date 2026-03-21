@@ -11,8 +11,63 @@ export function saveApiKey(key) {
   localStorage.setItem("deepseek-api-key", key);
 }
 
+// 自定义接口管理（支持 OpenAI 兼容和 Claude 原生两种格式）
+// format: "openai" (默认，大部分转发代理) | "claude" (Claude 原生 API)
+export function getCustomApi() {
+  return {
+    url: localStorage.getItem("custom-api-url") || "",
+    key: localStorage.getItem("custom-api-key") || "",
+    model: localStorage.getItem("custom-api-model") || "",
+    format: localStorage.getItem("custom-api-format") || "openai",
+  };
+}
+
+export function saveCustomApi(url, key, model, format) {
+  localStorage.setItem("custom-api-url", url);
+  localStorage.setItem("custom-api-key", key);
+  localStorage.setItem("custom-api-model", model);
+  localStorage.setItem("custom-api-format", format || "openai");
+}
+
+export function clearCustomApi() {
+  localStorage.removeItem("custom-api-url");
+  localStorage.removeItem("custom-api-key");
+  localStorage.removeItem("custom-api-model");
+  localStorage.removeItem("custom-api-format");
+}
+
+// 判断是否启用自定义接口
+function useCustomApi() {
+  const { url, key } = getCustomApi();
+  return Boolean(url && key);
+}
+
+// 判断是否为 Claude 原生格式
+function isClaudeMode() {
+  return useCustomApi() && getCustomApi().format === "claude";
+}
+
 // 构建请求 URL 和 Headers
+// 自定义接口通过 PROXY_URL 代理转发（避免 CORS），用 X-Target-Url 指定真实目标
 function buildRequest() {
+  if (useCustomApi()) {
+    const { url, key, format } = getCustomApi();
+    // 相对路径（如 /claude-api/...）走 Vite 本地代理，直连即可
+    const isLocalProxy = url.startsWith("/");
+    const proxyUrl = isLocalProxy ? url : (PROXY_URL || url);
+    const headers = { "Content-Type": "application/json" };
+    if (!isLocalProxy && PROXY_URL) {
+      headers["X-Target-Url"] = url; // 告诉 FC 代理真实目标
+    }
+    if (format === "claude") {
+      headers["x-api-key"] = key;
+      headers["anthropic-version"] = "2023-06-01";
+    } else {
+      headers.Authorization = `Bearer ${key}`;
+    }
+    return { url: proxyUrl, headers };
+  }
+  // 回退到默认 DeepSeek 代理/直连（OpenAI 格式）
   const url = PROXY_URL || "https://api.deepseek.com/chat/completions";
   const headers = { "Content-Type": "application/json" };
   if (!PROXY_URL) {
@@ -23,9 +78,18 @@ function buildRequest() {
   return { url, headers };
 }
 
+// 获取当前使用的模型名称
+function getModelName() {
+  if (useCustomApi()) {
+    return getCustomApi().model || "claude-sonnet-4-20250514";
+  }
+  return "deepseek-chat";
+}
+
+
 const SYSTEM_PROMPT = `你是 CSS 动画专家，专门为 CSS 动画展示工具生成代码片段。
 规则：
-- 返回 JSON 格式：{"html": "演示元素HTML", "css": "CSS规则和@keyframes"}
+- 返回 JSON 格式：{"title": "简短动画名称(2-6字)", "html": "演示元素HTML", "css": "CSS规则和@keyframes"}
 - HTML 必须用一个 <div class="demo-wrap"> 包裹所有内容，不含 html/body/head 标签
 - CSS 必须包含 .demo-wrap { width:100%; min-height:180px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
 - .demo-wrap 不得设置 background 或 background-color（预览容器已提供背景，避免遮挡主题色）
@@ -142,7 +206,35 @@ async function callAIWithColorFallback({ userInstruction, buildUserContent, onCh
   );
 }
 
-// SSE 流式读取公共逻辑（parseJson: false 时返回纯文本，用于解释、导出等场景）
+// 从 SSE data 行中提取文本增量（自动兼容 OpenAI 和 Claude 格式）
+function extractDelta(parsed) {
+  // OpenAI 格式: { choices: [{ delta: { content: "..." } }] }
+  const openaiDelta = parsed.choices?.[0]?.delta?.content;
+  if (openaiDelta) return openaiDelta;
+  // Claude 格式: { type: "content_block_delta", delta: { text: "..." } }
+  if (parsed.type === "content_block_delta") return parsed.delta?.text || "";
+  return "";
+}
+
+// 从 AI 返回文本中健壮提取 JSON（兼容直接 JSON、markdown 代码块包裹、前后有说明文字）
+function extractJson(text) {
+  // 1. 先尝试直接解析
+  try { return JSON.parse(text); } catch { /* continue */ }
+  // 2. 提取 ```json ... ``` 代码块中的内容
+  const fenced = text.match(/```(?:json)?\s*\n?([\s\S]*?)\n?```/i);
+  if (fenced) {
+    try { return JSON.parse(fenced[1]); } catch { /* continue */ }
+  }
+  // 3. 找到第一个 { 和最后一个 } 之间的内容
+  const first = text.indexOf("{");
+  const last = text.lastIndexOf("}");
+  if (first !== -1 && last > first) {
+    try { return JSON.parse(text.slice(first, last + 1)); } catch { /* continue */ }
+  }
+  throw new Error("无法从 AI 返回中提取有效 JSON");
+}
+
+// SSE 流式读取公共逻辑（自动兼容 OpenAI 和 Claude SSE 格式）
 async function streamSSE(res, onChunk, { parseJson = true } = {}) {
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
@@ -158,7 +250,8 @@ async function streamSSE(res, onChunk, { parseJson = true } = {}) {
       const data = line.slice(6).trim();
       if (data === "[DONE]") continue;
       try {
-        const delta = JSON.parse(data).choices[0]?.delta?.content || "";
+        const parsed = JSON.parse(data);
+        const delta = extractDelta(parsed);
         if (delta) {
           fullContent += delta;
           onChunk?.(fullContent);
@@ -170,23 +263,42 @@ async function streamSSE(res, onChunk, { parseJson = true } = {}) {
   }
 
   if (!parseJson) return fullContent;
-  return JSON.parse(fullContent);
+  // 从 AI 返回中提取 JSON（兼容直接 JSON、```json 包裹、前后有说明文字等情况）
+  return extractJson(fullContent);
 }
 
-// 调用 DeepSeek（流式，代理和直连均支持）
+// 构建请求体（自动适配 Claude / OpenAI 格式）
+function buildRequestBody(messages, { jsonMode = false } = {}) {
+  const model = getModelName();
+
+  if (isClaudeMode()) {
+    // Claude Messages API 格式：system 单独提取，不放在 messages 里
+    const systemMsg = messages.find((m) => m.role === "system");
+    const userMessages = messages.filter((m) => m.role !== "system");
+    const body = {
+      model,
+      max_tokens: 4096,
+      stream: true,
+      messages: userMessages,
+    };
+    if (systemMsg) body.system = systemMsg.content;
+    return body;
+  }
+
+  // OpenAI / DeepSeek 格式
+  const body = { model, messages, temperature: 0.7, stream: true };
+  if (jsonMode) body.response_format = { type: "json_object" };
+  return body;
+}
+
+// 流式调用（JSON 返回，用于动画生成等场景）
 async function callAI(messages, onChunk) {
   const { url, headers } = buildRequest();
 
   const res = await fetch(url, {
     method: "POST",
     headers,
-    body: JSON.stringify({
-      model: "deepseek-chat",
-      messages,
-      response_format: { type: "json_object" },
-      temperature: 0.7,
-      stream: true,
-    }),
+    body: JSON.stringify(buildRequestBody(messages, { jsonMode: true })),
   });
 
   if (!res.ok) {
@@ -204,12 +316,7 @@ async function callAIText(messages, onChunk) {
   const res = await fetch(url, {
     method: "POST",
     headers,
-    body: JSON.stringify({
-      model: "deepseek-chat",
-      messages,
-      temperature: 0.7,
-      stream: true,
-    }),
+    body: JSON.stringify(buildRequestBody(messages)),
   });
 
   if (!res.ok) {
