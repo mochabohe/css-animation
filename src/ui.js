@@ -435,12 +435,18 @@ export function bindThemeControls({ themeButtons, customColorInput, customColorW
 }
 
 export function bindLikeButtons(buttons) {
-  buttons.forEach((button) => {
-    let isLiked = false;
-    button.setAttribute("aria-pressed", "false");
+  buttons.forEach((button, i) => {
+    const key = `like-btn-${i}`;
+    let isLiked = localStorage.getItem(key) === "1";
+
+    // 恢复持久化状态
+    button.setAttribute("aria-pressed", String(isLiked));
+    if (isLiked) button.classList.add("liked");
+
     button.addEventListener("click", () => {
       isLiked = !isLiked;
       button.setAttribute("aria-pressed", String(isLiked));
+      localStorage.setItem(key, isLiked ? "1" : "0");
 
       if (isLiked) {
         button.classList.add("liked", "animating");

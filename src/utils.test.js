@@ -1,10 +1,11 @@
-﻿import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
   generateColorVariants,
   hexToRgb,
   hslToRgb,
   normalizeCssVariables,
   parseColor,
+  parseDurationValue,
   rgbToHsl,
 } from "./utils.js";
 
@@ -166,6 +167,21 @@ describe("generateColorVariants", () => {
   it("无效颜色返回 null", () => {
     expect(generateColorVariants("notacolor")).toBeNull();
     expect(generateColorVariants("")).toBeNull();
+  });
+});
+
+describe("parseDurationValue", () => {
+  it("单层 calc 乘除（玫瑰旋转）", () => {
+    expect(parseDurationValue("calc(1.4s * 6.5 / 1)")).toBeCloseTo(9.1, 5);
+    expect(parseDurationValue("calc(1.4s * 2 / 1)")).toBeCloseTo(2.8, 5);
+  });
+
+  it("嵌套 calc 不回落到单独的 1.4s", () => {
+    expect(parseDurationValue("calc(calc(1.4s / 1) * 6.5 / 1)")).toBeCloseTo(9.1, 5);
+  });
+
+  it("纯秒数", () => {
+    expect(parseDurationValue("3.5s")).toBeCloseTo(3.5, 5);
   });
 });
 

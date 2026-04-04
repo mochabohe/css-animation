@@ -1,4 +1,4 @@
-﻿export const categoryInsights = {
+export const categoryInsights = {
   interactive: {
     scenario: [
       "按钮反馈 / 主行动作",
@@ -94,6 +94,7 @@ export const animationScenarioOverrides = {
 // 动画语义索引：用于 AI 智能搜索，将动画标题映射到语义标签
 export const animationSemanticIndex = {
   // 加载反馈
+  原始思维: ["玫瑰曲线", "loading", "等待", "流光", "数学", "拖尾", "旋转", "参数方程", "花瓣", "SVG", "算法艺术", "思考"],
   加载脉冲: ["旋转", "脉冲", "loading", "spinner", "异步请求", "等待反馈", "首屏加载"],
   跳动圆点: ["弹跳", "圆点", "loading", "等待", "数据拉取", "进度提示"],
   频谱条形: ["条形", "律动", "频谱", "loading", "音频", "均衡器"],
@@ -315,6 +316,17 @@ export const animationParams = {
   },
 
   // ========== 加载反馈类 ==========
+  原始思维: {
+    rotateDuration: { label: "整图旋转周期", type: "range", min: 3, max: 22, step: 0.5, default: 9.1, unit: "s", target: "roseRotate" },
+    flowDuration: { label: "流光周期", type: "range", min: 0.8, max: 10, step: 0.2, default: 2.8, unit: "s", target: "roseFlow" },
+    timing: {
+      label: "缓动函数",
+      type: "select",
+      options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"],
+      default: "linear",
+      target: "(?:roseRotate|roseFlow)",
+    },
+  },
   加载脉冲: {
     duration: { label: "旋转时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1, unit: "s", target: "spin" },
     pulseDuration: { label: "脉冲时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.4, unit: "s", target: "pulse" },
@@ -651,6 +663,7 @@ export const animationParams = {
 };
 
 export const animationNamesByTitle = {
+  原始思维: ["roseRotate", "roseFlow"],
   加载脉冲: ["spin", "pulse"],
   跳动圆点: ["dotsBounce"],
   频谱条形: ["barsScale"],

@@ -1,4 +1,4 @@
-﻿/* Animations */
+/* Animations */
 .card-front > .loader,
 .card-front > .dots-loader,
 .card-front > .bars-loader,
@@ -6099,6 +6099,67 @@
   }
 }
 
+/* ========== 原始思维 — 玫瑰曲线流光描边 ========== */
+.rose-curve-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.rose-curve-svg {
+  width: min(72%, 120px);
+  height: min(72%, 120px);
+  overflow: visible;
+  animation: roseRotate calc(var(--fx-duration) * 6.5 / var(--speed-multiplier, 1)) linear infinite;
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+}
+
+/* 底层轮廓（完整路径，低不透明度） */
+.rose-trail {
+  stroke: var(--accent-soft);
+  stroke-width: 3.25;
+  opacity: 0.15;
+  fill: none;
+}
+
+/* 流光拖尾（短描边沿路径流动） */
+.rose-stream {
+  stroke: var(--accent);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-dasharray: 50 355;
+  stroke-dashoffset: 0;
+  fill: none;
+  opacity: 0.75;
+  animation: roseFlow calc(var(--fx-duration) * 2 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+/* 发光头部（更短更亮） */
+.rose-head {
+  stroke: var(--accent-soft);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 8 397;
+  stroke-dashoffset: 0;
+  fill: none;
+  opacity: 0.9;
+  filter: blur(0.8px);
+  animation: roseFlow calc(var(--fx-duration) * 2 / var(--speed-multiplier, 1)) linear infinite;
+}
+
+@keyframes roseRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes roseFlow {
+  from { stroke-dashoffset: 405; }
+  to   { stroke-dashoffset: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .cone-ring-loader,
   .cone-ring-loader::before,
@@ -6130,7 +6191,10 @@
   .film-noise-bg::after,
   .scroll-progress-content,
   .scroll-progress-fill,
-  .mask-scan-text {
+  .mask-scan-text,
+  .rose-curve-svg,
+  .rose-stream,
+  .rose-head {
     animation: none !important;
   }
 }

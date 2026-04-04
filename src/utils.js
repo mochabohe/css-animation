@@ -1,4 +1,4 @@
-﻿// parseColor 缓存与复用 canvas（避免重复创建 DOM 元素）
+// parseColor 缓存与复用 canvas（避免重复创建 DOM 元素）
 const _parseColorCache = new Map();
 const _parseColorCanvas = document.createElement("canvas");
 _parseColorCanvas.width = _parseColorCanvas.height = 1;
@@ -52,6 +52,36 @@ export function normalizeCssVariables(cssText, element = document.documentElemen
   });
 
   return result;
+}
+
+/**
+ * 从 animation duration 片段解析秒数。支持 1.4s、calc(1.4s * 6.5 / 1)、嵌套 calc(calc(1.4s / 1) * 6.5 / 1) 等，
+ * 避免只取到第一个 1.4s（--fx-duration）导致代码实验室滑块初值错误。
+ */
+export function parseDurationValue(raw) {
+  let s = String(raw).trim();
+  for (let i = 0; i < 12; i++) {
+    const next = s.replace(
+      /calc\(\s*(\d+\.?\d*)s\s*\/\s*(\d+\.?\d*)\s*\)/gi,
+      (_, a, b) => `${Number.parseFloat(a) / Number.parseFloat(b)}s`,
+    );
+    if (next === s) break;
+    s = next;
+  }
+  let t = s.replace(/\s+/g, "");
+  while (t.startsWith("calc(") && t.endsWith(")")) {
+    t = t.slice(5, -1);
+  }
+  const mulDiv = t.match(/^(\d+\.?\d*)s\*(\d+\.?\d*)(?:\/(\d+\.?\d*))?$/);
+  if (mulDiv) {
+    let v = Number.parseFloat(mulDiv[1]) * Number.parseFloat(mulDiv[2]);
+    if (mulDiv[3]) v /= Number.parseFloat(mulDiv[3]);
+    return v;
+  }
+  const plain = t.match(/^(\d+\.?\d*)s$/);
+  if (plain) return Number.parseFloat(plain[1]);
+  const m = t.match(/(\d+\.?\d*)s/);
+  return m ? Number.parseFloat(m[1]) : Number.NaN;
 }
 
 export function extractKeyframesMap() {

@@ -1,4 +1,4 @@
-﻿export const snippetsByTitle = {
+export const snippetsByTitle = {
   加载脉冲: `.loader {
   width: 54px;
   aspect-ratio: 1;
@@ -3140,6 +3140,46 @@
 }
 @keyframes scrollProgressMock { from { transform: translateY(0); } to { transform: translateY(-56%); } }
 @keyframes scrollProgressRail { from { transform: scaleX(0.08); } to { transform: scaleX(1); } }`,
+  原始思维: `/* 玫瑰曲线流光 — 纯 CSS + 预计算 SVG 路径 */
+/* 路径公式: x=(7cosT-3·0.75·cos7T)×3.9+50, y=(7sinT-3·0.75·sin7T)×3.9+50 */
+.rose-curve-svg {
+  animation: roseRotate calc(var(--fx-duration) * 6.5 / var(--speed-multiplier, 1)) linear infinite;
+  transform-origin: 50% 50%;
+  transform-box: fill-box;
+}
+.rose-trail {
+  stroke: var(--accent-soft);
+  stroke-width: 3.25;
+  opacity: 0.15;
+  fill: none;
+}
+.rose-stream {
+  stroke: var(--accent);
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-dasharray: 50 355;
+  fill: none;
+  opacity: 0.75;
+  animation: roseFlow calc(var(--fx-duration) * 2 / var(--speed-multiplier, 1)) linear infinite;
+}
+.rose-head {
+  stroke: var(--accent-soft);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 8 397;
+  fill: none;
+  opacity: 0.9;
+  filter: blur(0.8px);
+  animation: roseFlow calc(var(--fx-duration) * 2 / var(--speed-multiplier, 1)) linear infinite;
+}
+@keyframes roseRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+@keyframes roseFlow {
+  from { stroke-dashoffset: 405; }
+  to   { stroke-dashoffset: 0; }
+}`,
   遮罩扫描文字: `.mask-scan-text {
   animation: maskScanSweep calc(var(--fx-duration) * 1.45 / var(--speed-multiplier, 1)) linear infinite;
 }

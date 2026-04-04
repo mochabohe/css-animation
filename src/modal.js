@@ -1,4 +1,9 @@
-﻿import { normalizeCssVariables, copyToClipboard, extractLightModeRulesForClasses } from "./utils.js";
+import {
+  normalizeCssVariables,
+  copyToClipboard,
+  extractLightModeRulesForClasses,
+  parseDurationValue,
+} from "./utils.js";
 import { explainAnimation, convertToFramework } from "./ai.js";
 import animationsCss from "./css/animations.css?raw";
 
@@ -143,12 +148,6 @@ function buildFrameworkExportCode(framework, codeText) {
 const DURATION_RE = "(?:\\d+\\.?\\d*s|calc\\((?:[^()]+|\\([^()]*\\))+\\))";
 // duration 和 timing 之间可能插有 infinite / both / 数字等 iteration-count 关键字
 const MID_GAP_RE = "\\s+(?:(?:infinite|both|forwards|backwards|\\d+)\\s+)?";
-
-// 从 duration 字符串中提取数值（如 "1.4s" → 1.4, "calc(1.4s / 1)" → 1.4）
-function parseDurationValue(raw) {
-  const m = raw.match(/(\d+\.?\d*)\s*s/);
-  return m ? Number.parseFloat(m[1]) : Number.NaN;
-}
 
 // 从标准化后的 CSS 中提取动画实际的 duration 和 timing 初始值
 function extractActualValues(normalizedCss, currentParams) {
