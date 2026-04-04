@@ -269,12 +269,13 @@ function showClearButton(viewState, searchInput) {
   const existing = document.querySelector(".ai-search-clear");
   if (existing) return;
 
-  const resultCountEl = document.querySelector("#resultCount");
-  if (!resultCountEl) return;
+  const targetEl = document.querySelector("#animationGrid");
+  if (!targetEl) return;
 
   const clearBtn = document.createElement("button");
   clearBtn.type = "button";
   clearBtn.className = "ai-search-clear";
+  clearBtn.style.marginBottom = "16px";
   clearBtn.textContent = "✕ 清除 AI 搜索";
   clearBtn.addEventListener("click", () => {
     viewState.aiMatches = null;
@@ -282,7 +283,7 @@ function showClearButton(viewState, searchInput) {
     searchInput.focus();
   });
 
-  resultCountEl.after(clearBtn);
+  targetEl.before(clearBtn);
 }
 
 export function bindToggles({ motionToggle, colorModeToggle }) {
