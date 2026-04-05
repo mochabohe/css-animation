@@ -210,6 +210,33 @@ export const animationSemanticIndex = {
   液态形变: ["液态", "形变", "blob", "变形", "有机", "流体", "morph"],
 };
 
+// 动画提示词描述：用于"复制提示词"功能，AI 生成 + 人工校对
+// description 面向 AI 阅读，精确描述视觉效果和技术实现要点
+// tags 可选，缺省时 promptBuilder 从 animationSemanticIndex 回退
+export const animationPromptDescriptions = {
+  加载脉冲: {
+    description:
+      "圆形 spinner 加载动画。外圈是半透明描边环，顶部有一段高亮色弧段（用 border-top-color 区分）。同时运行旋转（spin）和脉冲缩放（pulse）两个动画，旋转为 linear 匀速，脉冲带 ease-in-out 缓入缓出，营造'正在处理中'的视觉节奏。",
+  },
+  跳动圆点: {
+    description:
+      "3 个等距排列的小圆点，依次做纵向弹跳动画（translateY）。通过 animation-delay 逐个错开 0.15s，形成波浪式跳动的加载提示。缓动函数 ease-in-out 制造弹性感，无限循环。",
+  },
+  弹跳小球: {
+    description:
+      "一个小球在水平面上做抛物线弹跳，着地时下方有椭圆投影随弹跳同步缩放，模拟真实物理弹性。使用 cubic-bezier 自定义弹性曲线控制反弹节奏。",
+  },
+  边框流光: {
+    description:
+      "按钮边框有一道高亮光线沿矩形轮廓持续流转。使用 conic-gradient 配合旋转动画实现光线环绕效果。悬停时光线加速并增强发光强度，适合 CTA 按钮的注意力引导。",
+  },
+  极光流动: {
+    description:
+      "全屏背景上多层半透明渐变色块做缓慢位移与形变动画，模拟北极光的飘逸流动感。使用多个 radial-gradient 叠加，配合 animation 做位置偏移，营造沉浸式背景氛围。",
+  },
+  // 其余动画的描述后续由 AI 批量生成 + 人工校对
+};
+
 
 // 动画参数配置（支持实时调整）
 export const animationParams = {

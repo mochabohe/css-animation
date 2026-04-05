@@ -350,9 +350,11 @@
 
 .meta-row {
   display: none;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
   gap: 6px;
   margin-top: auto;
+  min-width: 0;
 }
 
 .show-meta .meta-row {
@@ -366,6 +368,11 @@
   color: var(--muted);
   background: rgba(var(--accent-rgb), 0.08);
   border: 1px solid var(--border);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
 }
 
 .snippet-toggle {
@@ -381,6 +388,26 @@
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+}
+
+/* 复制提示词按钮 — 场景信息行内右侧 */
+.prompt-copy-btn {
+  position: static;
+  flex-shrink: 0;
+  background: rgba(var(--accent-rgb), 0.08);
+  border-color: rgba(var(--accent-rgb), 0.3);
+  color: var(--accent);
+}
+
+.prompt-copy-btn:hover {
+  background: rgba(var(--accent-rgb), 0.2);
+  border-color: var(--accent);
+}
+
+.prompt-copy-btn.is-copied {
+  border-color: transparent;
+  background: linear-gradient(125deg, var(--accent), var(--accent-deep, var(--accent)));
+  color: #fff;
 }
 
 .snippet-toggle-inline {
@@ -607,6 +634,74 @@
 .css-panel {
   flex: 0 0 60%;
   min-height: 0;
+}
+
+/* 右侧面板容器 — 包含 Tab 栏 + CSS/提示词面板 */
+.modal-right-column {
+  flex: 0 0 60%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.modal-right-column .css-panel,
+.modal-right-column .prompt-panel {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Tab 切换栏 */
+.modal-tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border-muted);
+  flex-shrink: 0;
+}
+
+.modal-tab {
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--text-muted-strong);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.modal-tab:hover {
+  color: var(--text);
+}
+
+.modal-tab.is-active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* 提示词面板 */
+.prompt-panel[hidden],
+.css-panel[hidden] {
+  display: none !important;
+}
+
+.prompt-editor {
+  cursor: default;
+  opacity: 0.9;
+}
+
+/* 弹窗"复制提示词"按钮 */
+.prompt-btn {
+  background: rgba(var(--accent-rgb), 0.08);
+  border-color: rgba(var(--accent-rgb), 0.3);
+  color: var(--accent);
+}
+
+.prompt-btn:hover {
+  background: rgba(var(--accent-rgb), 0.2);
+  border-color: var(--accent);
 }
 
 .modal-preview-panel {
@@ -888,6 +983,11 @@
   }
 
   .modal-code-panel.css-panel {
+    flex: 1 1 auto;
+    min-height: 250px;
+  }
+
+  .modal-right-column {
     flex: 1 1 auto;
     min-height: 250px;
   }

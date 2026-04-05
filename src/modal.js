@@ -5,6 +5,7 @@ import {
   parseDurationValue,
 } from "./utils.js";
 import { explainAnimation, convertToFramework } from "./ai.js";
+import { buildAnimationPrompt } from "./promptBuilder.js";
 import animationsCss from "./css/animations.css?raw";
 
 // 轻量 Markdown 解析器（仅支持标题、加粗、代码块、列表）
@@ -375,6 +376,11 @@ export function createCodeModal({
   shareBtn.type = "button";
   shareBtn.textContent = "分享链接";
 
+  const copyPromptBtn = document.createElement("button");
+  copyPromptBtn.className = "modal-btn prompt-btn";
+  copyPromptBtn.type = "button";
+  copyPromptBtn.textContent = "复制提示词";
+
   const resetBtn = document.createElement("button");
   resetBtn.className = "modal-btn";
   resetBtn.type = "button";
@@ -430,9 +436,9 @@ export function createCodeModal({
       onSave(title, htmlTextarea.value, cssTextarea.value);
       markButtonState(saveBtn, "✓ 已保存", "💾 保存");
     });
-    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, explainBtn, exportWrap, saveBtn, closeModalBtn);
+    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, copyPromptBtn, shareBtn, resetBtn, explainBtn, exportWrap, saveBtn, closeModalBtn);
   } else {
-    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, shareBtn, resetBtn, explainBtn, exportWrap, closeModalBtn);
+    modalActions.append(copyHtmlBtn, copyCssBtn, copyBtn, copyPromptBtn, shareBtn, resetBtn, explainBtn, exportWrap, closeModalBtn);
   }
   modalHeader.append(modalTitle, modalActions);
 
@@ -478,6 +484,64 @@ export function createCodeModal({
   cssTextarea.spellcheck = false;
 
   cssPanel.append(cssLabel, cssTextarea);
+
+  // 提示词面板
+  const promptPanel = document.createElement("div");
+  promptPanel.className = "modal-code-panel prompt-panel";
+  promptPanel.hidden = true;
+
+  const promptLabel = document.createElement("div");
+  promptLabel.className = "modal-editor-label";
+  promptLabel.textContent = "📋 AI 提示词";
+
+  const promptTextarea = document.createElement("textarea");
+  promptTextarea.className = "modal-code-editor prompt-editor";
+  promptTextarea.readOnly = true;
+  promptTextarea.spellcheck = false;
+  promptTextarea.value = buildAnimationPrompt(title, demoHtml, fullCss);
+
+  promptPanel.append(promptLabel, promptTextarea);
+
+  // 右侧 Tab 栏
+  const tabBar = document.createElement("div");
+  tabBar.className = "modal-tab-bar";
+
+  const tabCss = document.createElement("button");
+  tabCss.type = "button";
+  tabCss.className = "modal-tab is-active";
+  tabCss.textContent = "🎨 CSS 样式";
+
+  const tabPrompt = document.createElement("button");
+  tabPrompt.type = "button";
+  tabPrompt.className = "modal-tab";
+  tabPrompt.textContent = "📋 提示词";
+
+  tabBar.append(tabCss, tabPrompt);
+
+  const refreshPromptContent = () => {
+    const realTimeCss = stripPreviewScaleBlock(cssTextarea.value);
+    promptTextarea.value = buildAnimationPrompt(title, htmlTextarea.value, realTimeCss);
+  };
+
+  tabCss.addEventListener("click", () => {
+    tabCss.classList.add("is-active");
+    tabPrompt.classList.remove("is-active");
+    cssPanel.hidden = false;
+    promptPanel.hidden = true;
+  });
+
+  tabPrompt.addEventListener("click", () => {
+    tabPrompt.classList.add("is-active");
+    tabCss.classList.remove("is-active");
+    promptPanel.hidden = false;
+    cssPanel.hidden = true;
+    refreshPromptContent();
+  });
+
+  // 右侧容器
+  const rightColumn = document.createElement("div");
+  rightColumn.className = "modal-right-column";
+  rightColumn.append(tabBar, cssPanel, promptPanel);
 
   const previewPanel = document.createElement("div");
   previewPanel.className = "modal-preview-panel";
@@ -567,6 +631,11 @@ export function createCodeModal({
     // 触发 reflow，让浏览器识别动画已清除
     void previewDemoHost.offsetHeight;
     animated.forEach((el) => { el.style.animation = ""; });
+
+    // 如果提示词 Tab 当前可见，实时更新内容
+    if (!promptPanel.hidden) {
+      refreshPromptContent();
+    }
   };
 
   // AI 改造后更新此基准，使意图按钮基于改造后的 CSS 而非原始 CSS
@@ -656,7 +725,7 @@ export function createCodeModal({
     leftColumn.append(previewPanel, htmlPanel);
   }
 
-  editorContainer.append(leftColumn, cssPanel);
+  editorContainer.append(leftColumn, rightColumn);
 
   if (onAiTransform) {
     const aiBar = document.createElement("div");
@@ -849,6 +918,20 @@ export function createCodeModal({
     }
   });
 
+  copyPromptBtn.addEventListener("click", async () => {
+    try {
+      const realTimeCss = stripPreviewScaleBlock(cssTextarea.value);
+      const promptText = buildAnimationPrompt(title, htmlTextarea.value, realTimeCss);
+      await copyToClipboard(promptText);
+      markButtonState(copyPromptBtn, "✓ 已复制", "复制提示词");
+      if (typeof onTrackCopy === "function") {
+        onTrackCopy(`${title}-prompt`);
+      }
+    } catch {
+      copyPromptBtn.textContent = "复制失败";
+    }
+  });
+
   resetBtn.addEventListener("click", () => {
     htmlTextarea.value = demoHtml;
     cssTextarea.value = buildInitialCss();
@@ -889,6 +972,11 @@ export function createCodeModal({
     void previewDemoHost.offsetHeight;
     animated.forEach((el) => { el.style.animation = ""; });
     markButtonState(resetBtn, "✓ 已重置", "重置");
+
+    // 重置后更新提示词面板
+    if (!promptPanel.hidden) {
+      refreshPromptContent();
+    }
   });
 
   // ===== AI 解读功能 =====

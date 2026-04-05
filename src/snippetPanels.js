@@ -5,8 +5,9 @@ import {
   categoryInsights,
 } from "./data.js";
 import { snippetsByTitle } from "./snippets.js";
-import { extractKeyframesMap, collectDemoHtml } from "./utils.js";
+import { extractKeyframesMap, collectDemoHtml, copyToClipboard, normalizeCssVariables } from "./utils.js";
 import { createCodeModal } from "./modal.js";
+import { buildAnimationPrompt } from "./promptBuilder.js";
 import { transformAnimation } from "./ai.js";
 
 function hashString(value) {
@@ -79,13 +80,20 @@ export function attachSnippetPanels(cards) {
     const overrideScenario = animationScenarioOverrides?.[title];
     const scenarioText = pickScenario(overrideScenario ?? insight.scenario, title);
     sceneBadge.textContent = scenarioText ? `场景: ${scenarioText}` : "场景: 未定义";
-    metaRow.append(sceneBadge);
 
     const openBtn = document.createElement("button");
     openBtn.className = "snippet-toggle";
     openBtn.type = "button";
     openBtn.setAttribute("aria-label", `打开 ${title} 代码实验室`);
     openBtn.textContent = "代码实验室";
+
+    const promptBtn = document.createElement("button");
+    promptBtn.className = "snippet-toggle prompt-copy-btn";
+    promptBtn.type = "button";
+    promptBtn.setAttribute("aria-label", `复制 ${title} 的 AI 提示词`);
+    promptBtn.textContent = "复制提示词";
+
+    metaRow.append(sceneBadge, promptBtn);
 
     const openModal = () => {
       const previousActiveElement = document.activeElement;
@@ -121,6 +129,25 @@ export function attachSnippetPanels(cards) {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
         openModal();
+      }
+    });
+
+    promptBtn.addEventListener("click", async () => {
+      const resolvedCss = normalizeCssVariables(fullCss, card);
+      const promptText = buildAnimationPrompt(title, demoHtml, resolvedCss);
+      try {
+        await copyToClipboard(promptText);
+        promptBtn.textContent = "✓ 已复制";
+        promptBtn.classList.add("is-copied");
+        setTimeout(() => {
+          promptBtn.classList.remove("is-copied");
+          promptBtn.textContent = "复制提示词";
+        }, 1200);
+      } catch {
+        promptBtn.textContent = "复制失败";
+        setTimeout(() => {
+          promptBtn.textContent = "复制提示词";
+        }, 1200);
       }
     });
 
