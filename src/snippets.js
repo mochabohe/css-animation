@@ -1442,33 +1442,6 @@ export const snippetsByTitle = {
   80%  { opacity: 0.4; }
   100% { transform: rotate(18deg) translateY(200px);  opacity: 0; }
 }`,
-  柱状图生长: `.bd-bar-chart {
-  width: 100%;
-  height: 70px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-}
-.bd-bar-chart span {
-  flex: 1;
-  max-width: 22px;
-  border-radius: 4px 4px 0 0;
-  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
-  transform-origin: bottom;
-  animation: barGrow 2s ease-in-out infinite;
-}
-.bd-bar-chart span:nth-child(1) { height: 45%; }
-.bd-bar-chart span:nth-child(2) { height: 75%; animation-delay: 0.1s; }
-.bd-bar-chart span:nth-child(3) { height: 55%; animation-delay: 0.2s; }
-.bd-bar-chart span:nth-child(4) { height: 90%; animation-delay: 0.3s; }
-.bd-bar-chart span:nth-child(5) { height: 65%; animation-delay: 0.4s; }
-@keyframes barGrow {
-  0% { transform: scaleY(0); opacity: 0.3; }
-  40% { transform: scaleY(1); opacity: 1; }
-  80% { transform: scaleY(1); opacity: 1; }
-  100% { transform: scaleY(0); opacity: 0.3; }
-}`,
   环形占比: `.bd-donut {
   width: 80px;
   height: 80px;
@@ -2557,84 +2530,6 @@ export const snippetsByTitle = {
   25%, 75% { transform: scaleX(1); }
   90%, 100% { transform: scaleX(0); }
 }`,
-  弹窗缩放: `.modal-pop-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modal-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.25);
-  border-radius: 8px;
-  opacity: 0;
-  animation: backdropFade 3s ease-out infinite;
-}
-.modal-box {
-  position: relative;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(var(--accent-rgb), 0.25);
-  text-align: center;
-  opacity: 0;
-  transform: scale(0.7);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-  animation: modalPop 3s ease-out infinite;
-}
-@keyframes modalPop {
-  0%, 10% { opacity: 0; transform: scale(0.7); }
-  22% { opacity: 1; transform: scale(1.04); }
-  30%, 68% { opacity: 1; transform: scale(1); }
-  82% { opacity: 0; transform: scale(0.92); }
-  100% { opacity: 0; transform: scale(0.7); }
-}
-@keyframes backdropFade {
-  0%, 10% { opacity: 0; }
-  22%, 68% { opacity: 1; }
-  82%, 100% { opacity: 0; }
-}`,
-  工具提示: `.tooltip-demo-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.tooltip-trigger {
-  padding: 6px 18px;
-  border-radius: 8px;
-  border: 1.5px solid rgba(var(--accent-rgb), 0.3);
-  font-size: 12px;
-}
-.tooltip-bubble {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  padding: 5px 10px;
-  border-radius: 6px;
-  background: var(--accent);
-  color: #fff;
-  font-size: 10px;
-  white-space: nowrap;
-  opacity: 0;
-  animation: tooltipPop 3s ease-out infinite;
-}
-.tooltip-bubble::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 4px solid transparent;
-  border-top-color: var(--accent);
-}
-@keyframes tooltipPop {
-  0%, 15% { opacity: 0; transform: translateX(-50%) translateY(4px); }
-  28% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  68% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  82%, 100% { opacity: 0; transform: translateX(-50%) translateY(4px); }
-}`,
   脉冲按钮: `.pulse-cta {
   position: relative;
   padding: 8px 28px;
@@ -3114,23 +3009,6 @@ export const snippetsByTitle = {
 @keyframes auroraMeshDrift {
   0%, 100% { transform: translateX(0) translateY(0) scale(1); }
   50% { transform: translateX(16%) translateY(6%) scale(1.08); }
-}`,
-  胶片噪点呼吸背景: `.film-noise-bg::before {
-  animation: filmNoiseBreath calc(var(--fx-duration) * 2.4 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
-}
-.film-noise-bg::after {
-  animation: filmNoiseShift calc(var(--fx-duration) * 0.46 / var(--speed-multiplier, 1)) steps(6, end) infinite;
-}
-@keyframes filmNoiseBreath {
-  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.55; }
-  50% { transform: scale(1.05) translate(2%, -2%); opacity: 0.78; }
-}
-@keyframes filmNoiseShift {
-  0% { transform: translate(0, 0); opacity: 0.24; }
-  25% { transform: translate(-2%, 1%); opacity: 0.34; }
-  50% { transform: translate(1%, -1%); opacity: 0.2; }
-  75% { transform: translate(2%, 2%); opacity: 0.32; }
-  100% { transform: translate(0, 0); opacity: 0.24; }
 }`,
   滚动驱动进度轨道: `.scroll-progress-content {
   animation: scrollProgressMock calc(var(--fx-duration) * 1.8 / var(--speed-multiplier, 1)) linear infinite;

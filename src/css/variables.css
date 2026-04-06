@@ -66,6 +66,19 @@
   --bg-panel: rgba(16, 24, 45, 0.75);
   --bg-code: rgba(14, 22, 42, 0.65);
   --bg-modal: rgba(26, 38, 65, 0.98);
+
+  /* ===== 液态玻璃（暗色） ===== */
+  --glass-bg: rgba(20, 32, 65, 0.28);
+  --glass-bg-alt: rgba(10, 18, 40, 0.22);
+  --glass-blur: 24px;
+  --glass-border-top: rgba(145, 177, 240, 0.38);
+  --glass-border-left: rgba(145, 177, 240, 0.22);
+  --glass-border-bottom: rgba(8, 16, 45, 0.7);
+  --glass-border-right: rgba(8, 16, 45, 0.55);
+  --glass-shine: rgba(145, 177, 240, 0.1);
+  --glass-shine-strong: rgba(200, 220, 255, 0.22);
+  --glass-inner-shadow: rgba(100, 150, 240, 0.08);
+  --glass-depth-shadow: rgba(0, 0, 0, 0.6);
   --text: #edf3ff;
   --text-heading: #e4eeff;
   --text-muted-strong: #c4d4f0;
@@ -96,6 +109,20 @@
     --bg-panel: rgba(245, 249, 255, 0.9);
     --bg-code: rgba(235, 242, 255, 0.8);
     --bg-modal: rgba(250, 253, 255, 0.99);
+
+    /* ===== 液态玻璃（亮色） ===== */
+    --glass-bg: rgba(255, 255, 255, 0.52);
+    --glass-bg-alt: rgba(240, 248, 255, 0.42);
+    --glass-blur: 20px;
+    --glass-border-top: rgba(255, 255, 255, 0.88);
+    --glass-border-left: rgba(255, 255, 255, 0.65);
+    --glass-border-bottom: rgba(100, 140, 220, 0.2);
+    --glass-border-right: rgba(100, 140, 220, 0.15);
+    --glass-shine: rgba(255, 255, 255, 0.55);
+    --glass-shine-strong: rgba(255, 255, 255, 0.75);
+    --glass-inner-shadow: rgba(80, 120, 200, 0.07);
+    --glass-depth-shadow: rgba(30, 60, 120, 0.16);
+
     --text: #1a2740;
     --text-heading: #1a2a48;
     --text-muted-strong: #3a5480;
@@ -125,6 +152,20 @@
   --bg-panel: rgba(245, 249, 255, 0.9);
   --bg-code: rgba(235, 242, 255, 0.8);
   --bg-modal: rgba(250, 253, 255, 0.99);
+
+  /* ===== 液态玻璃（亮色） ===== */
+  --glass-bg: rgba(255, 255, 255, 0.52);
+  --glass-bg-alt: rgba(240, 248, 255, 0.42);
+  --glass-blur: 20px;
+  --glass-border-top: rgba(255, 255, 255, 0.88);
+  --glass-border-left: rgba(255, 255, 255, 0.65);
+  --glass-border-bottom: rgba(100, 140, 220, 0.2);
+  --glass-border-right: rgba(100, 140, 220, 0.15);
+  --glass-shine: rgba(255, 255, 255, 0.55);
+  --glass-shine-strong: rgba(255, 255, 255, 0.75);
+  --glass-inner-shadow: rgba(80, 120, 200, 0.07);
+  --glass-depth-shadow: rgba(30, 60, 120, 0.16);
+
   --text: #1a2740;
   --text-heading: #1a2a48;
   --text-muted-strong: #3a5480;

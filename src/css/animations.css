@@ -37,7 +37,6 @@
 .card-front > .spinner-dots,
 .card-front > .float-card-stage,
 .card-front > .breath-orb,
-.card-front > .bd-bar-chart,
 .card-front > .bd-donut,
 .card-front > .bd-table-skeleton,
 .card-front > .bd-trend-line,
@@ -63,8 +62,6 @@
 .card-front > .flip-card-wrap,
 .card-front > .marquee-wrap,
 .card-front > .step-progress-wrap,
-.card-front > .modal-pop-wrap,
-.card-front > .tooltip-demo-wrap,
 .card-front > .pulse-cta-wrap,
 .card-front > .hamburger-morph-wrap,
 .card-front > .danmaku-stage,
@@ -2453,7 +2450,7 @@
   display: inline-block;
   padding: 6px 10px;
   border-radius: 8px;
-  color: #f5f8ff;
+  color: var(--text);
   font-size: 20px;
   font-weight: 600;
   background: linear-gradient(
@@ -3232,67 +3229,6 @@
 
 /* ========== 大数据类 ========== */
 
-/* 柱状图生?*/
-.bd-bar-chart {
-  width: 100%;
-  height: 70px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 10px;
-  padding: 0 12px;
-  box-sizing: border-box;
-}
-
-.bd-bar-chart span {
-  flex: 1;
-  max-width: 22px;
-  border-radius: 4px 4px 0 0;
-  background: linear-gradient(180deg, var(--accent-soft), var(--accent));
-  transform-origin: bottom;
-  animation: barGrow 2s ease-in-out infinite;
-}
-
-.bd-bar-chart span:nth-child(1) {
-  height: 45%;
-  animation-delay: 0s;
-}
-.bd-bar-chart span:nth-child(2) {
-  height: 75%;
-  animation-delay: 0.1s;
-}
-.bd-bar-chart span:nth-child(3) {
-  height: 55%;
-  animation-delay: 0.2s;
-}
-.bd-bar-chart span:nth-child(4) {
-  height: 90%;
-  animation-delay: 0.3s;
-}
-.bd-bar-chart span:nth-child(5) {
-  height: 65%;
-  animation-delay: 0.4s;
-}
-
-@keyframes barGrow {
-  0% {
-    transform: scaleY(0);
-    opacity: 0.3;
-  }
-  40% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-  80% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scaleY(0);
-    opacity: 0.3;
-  }
-}
-
 /* 环形占比 */
 .bd-donut {
   width: 80px;
@@ -3921,29 +3857,6 @@
   mix-blend-mode: normal;
 }
 
-/* 胶片噪点呼吸背景：亮色适配 */
-[data-color-mode="light"] .film-noise-bg {
-  border-color: rgba(80, 120, 200, 0.2);
-  background: linear-gradient(145deg, #edf5ff 0%, #e7f0ff 50%, #e1ecff 100%);
-  box-shadow: none;
-}
-[data-color-mode="light"] .film-noise-bg::before {
-  background:
-    radial-gradient(circle at 20% 24%, rgba(var(--accent-rgb), 0.2), transparent 42%),
-    radial-gradient(circle at 78% 26%, rgba(var(--accent-rgb), 0.13), transparent 45%),
-    radial-gradient(circle at 58% 82%, rgba(var(--accent-rgb), 0.16), transparent 44%);
-  opacity: 0.62;
-}
-[data-color-mode="light"] .film-noise-bg::after {
-  background-image:
-    repeating-radial-gradient(
-      circle at 0 0,
-      rgba(var(--accent-rgb), 0.24) 0 1px,
-      transparent 1px 3px
-    );
-  opacity: 0.14;
-  mix-blend-mode: multiply;
-}
 
 /* 液态玻璃卡片：亮色适配 */
 [data-color-mode="light"] .liquid-glass-card {
@@ -3956,6 +3869,27 @@
   background: rgba(240, 240, 255, 0.85);
   color: #2a2a4a;
   border-color: rgba(var(--accent-rgb), 0.2);
+}
+[data-color-mode="light"] .holo-card::before {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 0, 100, 0.28) 0%,
+    rgba(0, 200, 150, 0.28) 25%,
+    rgba(80, 80, 255, 0.28) 50%,
+    rgba(220, 160, 0, 0.28) 75%,
+    rgba(255, 0, 100, 0.28) 100%
+  );
+  mix-blend-mode: multiply;
+}
+[data-color-mode="light"] .holo-card::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.52) 45%,
+    rgba(255, 255, 255, 0.72) 50%,
+    rgba(255, 255, 255, 0.52) 55%,
+    transparent 100%
+  );
 }
 
 /* 霓虹闪烁字：亮色背景下降低发光强度，用深色调显示 */
@@ -4623,121 +4557,6 @@
 }
 
 /* =====================================================
-   弹窗缩放
-   ===================================================== */
-.modal-pop-wrap {
-  width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.modal-backdrop {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.25);
-  opacity: 0;
-  animation: backdropFade 3s ease-out infinite;
-}
-
-.modal-box {
-  position: relative;
-  width: 110px;
-  padding: 12px;
-  border-radius: 10px;
-  background: var(--card-bg, rgba(var(--accent-rgb), 0.12));
-  border: 1px solid rgba(var(--accent-rgb), 0.25);
-  text-align: center;
-  font-size: 11px;
-  color: var(--text);
-  opacity: 0;
-  transform: scale(0.7);
-  animation: modalPop 3s ease-out infinite;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-}
-
-.modal-box-title {
-  font-weight: 600;
-  font-size: 12px;
-  margin-bottom: 4px;
-}
-
-.modal-box-desc {
-  opacity: 0.7;
-  font-size: 10px;
-}
-
-@keyframes modalPop {
-  0%, 10% { opacity: 0; transform: scale(0.7); }
-  22% { opacity: 1; transform: scale(1.04); }
-  30%, 68% { opacity: 1; transform: scale(1); }
-  82% { opacity: 0; transform: scale(0.92); }
-  100% { opacity: 0; transform: scale(0.7); }
-}
-
-@keyframes backdropFade {
-  0%, 10% { opacity: 0; }
-  22%, 68% { opacity: 1; }
-  82%, 100% { opacity: 0; }
-}
-
-/* =====================================================
-   工具提示浮现
-   ===================================================== */
-.tooltip-demo-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-}
-
-.tooltip-trigger {
-  padding: 6px 18px;
-  border-radius: 8px;
-  border: 1.5px solid rgba(var(--accent-rgb), 0.3);
-  background: rgba(var(--accent-rgb), 0.08);
-  color: var(--text);
-  font-size: 12px;
-  cursor: default;
-}
-
-.tooltip-bubble {
-  position: absolute;
-  bottom: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%) translateY(4px);
-  padding: 5px 10px;
-  border-radius: 6px;
-  background: var(--accent);
-  color: #fff;
-  font-size: 10px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  animation: tooltipPop 3s ease-out infinite;
-}
-
-.tooltip-bubble::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border: 4px solid transparent;
-  border-top-color: var(--accent);
-}
-
-@keyframes tooltipPop {
-  0%, 15% { opacity: 0; transform: translateX(-50%) translateY(4px); }
-  28% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  68% { opacity: 1; transform: translateX(-50%) translateY(0); }
-  82%, 100% { opacity: 0; transform: translateX(-50%) translateY(4px); }
-}
-
-/* =====================================================
    脉冲按钮
    ===================================================== */
 .pulse-cta-wrap {
@@ -5057,7 +4876,7 @@
   height: 3px;
   border-radius: 999px;
   transform-origin: center;
-  background: linear-gradient(90deg, #f3f8ff, #d7e6ff);
+  background: linear-gradient(90deg, var(--accent-soft), var(--accent));
 }
 
 .hamburger-morph span:nth-child(1) {
@@ -5691,46 +5510,6 @@
   animation-delay: calc(var(--fx-duration) * -0.9 / var(--speed-multiplier, 1));
 }
 
-/* ========== 胶片噪点呼吸背景 ========== */
-.film-noise-bg {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(var(--accent-rgb), 0.12);
-  background: linear-gradient(
-    145deg,
-    rgba(7, 15, 25, 0.9),
-    rgba(12, 20, 34, 0.86)
-  );
-}
-
-.film-noise-bg::before {
-  content: "";
-  position: absolute;
-  inset: -38%;
-  background:
-    radial-gradient(circle at 18% 22%, rgba(var(--accent-rgb), 0.22), transparent 42%),
-    radial-gradient(circle at 82% 28%, rgba(var(--accent-rgb), 0.16), transparent 44%),
-    radial-gradient(circle at 56% 82%, rgba(var(--accent-rgb), 0.18), transparent 45%);
-  filter: blur(12px);
-  animation: filmNoiseBreath calc(var(--fx-duration) * 2.4 / var(--speed-multiplier, 1)) var(--fx-easing) infinite;
-}
-
-.film-noise-bg::after {
-  content: "";
-  position: absolute;
-  inset: -8%;
-  background-image:
-    repeating-radial-gradient(
-      circle at 0 0,
-      rgba(255, 255, 255, 0.1) 0 1px,
-      transparent 1px 3px
-    );
-  background-size: 84px 84px;
-  opacity: 0.3;
-  mix-blend-mode: soft-light;
-  animation: filmNoiseShift calc(var(--fx-duration) * 0.46 / var(--speed-multiplier, 1)) steps(6, end) infinite;
-}
-
 /* ========== 滚动驱动进度轨道 ========== */
 .scroll-progress-demo {
   width: 100%;
@@ -6033,40 +5812,6 @@
   }
 }
 
-@keyframes filmNoiseBreath {
-  0%,
-  100% {
-    transform: scale(1) translate(0, 0);
-    opacity: 0.55;
-  }
-  50% {
-    transform: scale(1.05) translate(2%, -2%);
-    opacity: 0.78;
-  }
-}
-
-@keyframes filmNoiseShift {
-  0% {
-    transform: translate(0, 0);
-    opacity: 0.24;
-  }
-  25% {
-    transform: translate(-2%, 1%);
-    opacity: 0.34;
-  }
-  50% {
-    transform: translate(1%, -1%);
-    opacity: 0.2;
-  }
-  75% {
-    transform: translate(2%, 2%);
-    opacity: 0.32;
-  }
-  100% {
-    transform: translate(0, 0);
-    opacity: 0.24;
-  }
-}
 
 @keyframes scrollProgressMock {
   0% {
@@ -6150,6 +5895,18 @@
   animation: roseFlow calc(var(--fx-duration) * 2 / var(--speed-multiplier, 1)) linear infinite;
 }
 
+[data-color-mode="light"] .rose-trail {
+  opacity: 0.4;
+  stroke: var(--accent);
+}
+[data-color-mode="light"] .rose-stream {
+  stroke: var(--accent-deep);
+  opacity: 1;
+}
+[data-color-mode="light"] .rose-head {
+  stroke: var(--accent-deep);
+  opacity: 1;
+}
 @keyframes roseRotate {
   from { transform: rotate(0deg); }
   to   { transform: rotate(-360deg); }
@@ -6187,8 +5944,6 @@
   .aurora-mesh-bg,
   .aurora-mesh-bg::before,
   .aurora-mesh-bg::after,
-  .film-noise-bg::before,
-  .film-noise-bg::after,
   .scroll-progress-content,
   .scroll-progress-fill,
   .mask-scan-text,

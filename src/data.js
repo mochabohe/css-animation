@@ -160,7 +160,6 @@ export const animationSemanticIndex = {
   // 背景氛围
   极光流动: ["极光", "aurora", "背景", "流动", "渐变", "氛围"],
   "Aurora Mesh 背景幕布": ["aurora", "mesh", "背景", "幕布", "渐变", "氛围"],
-  胶片噪点呼吸背景: ["胶片", "噪点", "背景", "呼吸", "质感", "grain"],
   星点闪烁: ["星点", "闪烁", "背景", "星空", "夜空"],
   雷达扫描: ["雷达", "扫描", "背景", "监控", "旋转"],
   网格扫光: ["网格", "扫光", "背景", "科技", "矩阵"],
@@ -184,7 +183,6 @@ export const animationSemanticIndex = {
   镜面扫光: ["镜面", "扫光", "文字", "光泽", "反射"],
   数据流线: ["数据", "流线", "传输", "网络", "流动"],
   // 大数据
-  柱状图生长: ["柱状图", "图表", "生长", "数据", "统计"],
   环形占比: ["环形图", "占比", "饼图", "数据", "比例"],
   数据表骨架: ["数据表", "骨架屏", "表格", "loading", "占位"],
   指标趋势折线: ["折线图", "趋势", "图表", "数据", "走势"],
@@ -199,8 +197,6 @@ export const animationSemanticIndex = {
   翻转卡片: ["翻转", "卡片", "flip", "3D", "正反面", "悬停"],
   跑马灯滚动: ["跑马灯", "滚动", "marquee", "公告", "文字滚动"],
   步骤进度: ["步骤", "进度", "step", "流程", "分步", "向导"],
-  弹窗缩放: ["弹窗", "缩放", "modal", "对话框", "弹出"],
-  工具提示: ["工具提示", "tooltip", "气泡", "悬停", "提示"],
   脉冲按钮: ["脉冲", "按钮", "CTA", "吸引", "点击", "行动号召"],
   弹幕飘过: ["弹幕", "飘过", "滚动", "直播", "评论", "互动"],
   文字描边绘制: ["描边", "绘制", "stroke", "SVG", "文字", "书写"],
@@ -509,10 +505,6 @@ export const animationParams = {
     duration: { label: "幕布时长", type: "range", min: 2, max: 10, step: 0.5, default: 5.4, unit: "s", target: "(?:auroraMeshFlow|auroraMeshDrift)" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "auroraMeshFlow" },
   },
-  胶片噪点呼吸背景: {
-    duration: { label: "呼吸时长", type: "range", min: 1, max: 8, step: 0.5, default: 3.6, unit: "s", target: "(?:filmNoiseBreath|filmNoiseShift)" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out", "steps(6, end)"], default: "ease-in-out", target: "filmNoiseBreath" },
-  },
   星点闪烁: {
     duration: { label: "闪烁时长", type: "range", min: 1, max: 4, step: 0.2, default: 1.8, unit: "s", target: "twinkle" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "twinkle" },
@@ -601,10 +593,6 @@ export const animationParams = {
   },
 
   // ========== 大数据类 ==========
-  柱状图生长: {
-    duration: { label: "生长时长", type: "range", min: 1, max: 5, step: 0.2, default: 2, unit: "s", target: "barGrow" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "barGrow" },
-  },
   环形占比: {
     duration: { label: "填充时长", type: "range", min: 1, max: 5, step: 0.2, default: 2, unit: "s", target: "donutGrow" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "donutGrow" },
@@ -658,14 +646,6 @@ export const animationParams = {
   步骤进度: {
     duration: { label: "流程时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "stepFill" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "stepFill" },
-  },
-  弹窗缩放: {
-    duration: { label: "弹出时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "modalPop" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "modalPop" },
-  },
-  工具提示: {
-    duration: { label: "浮现时长", type: "range", min: 1.5, max: 6, step: 0.5, default: 3, unit: "s", target: "tooltipPop" },
-    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-out", target: "tooltipPop" },
   },
   脉冲按钮: {
     duration: { label: "脉冲周期", type: "range", min: 1, max: 5, step: 0.5, default: 2.5, unit: "s", target: "ctaPulseRing" },
@@ -757,7 +737,6 @@ export const animationNamesByTitle = {
   粒子流动: ["particleFloat"],
   海浪起伏: ["waveMoveLeft", "waveMoveRight"],
   "Aurora Mesh 背景幕布": ["auroraMeshFlow", "auroraMeshDrift"],
-  胶片噪点呼吸背景: ["filmNoiseBreath", "filmNoiseShift"],
   轨道卫星: ["orbitSpin"],
   滚动驱动进度轨道: ["scrollProgressMock", "scrollProgressRail"],
 
@@ -774,7 +753,6 @@ export const animationNamesByTitle = {
   遮罩扫描文字: ["maskScanSweep"],
   数字增长: ["countUp"],
   流星雨: ["meteorFall"],
-  柱状图生长: ["barGrow"],
   环形占比: ["donutGrow"],
   数据表骨架: ["skelShimmer"],
   指标趋势折线: ["trendDraw"],
@@ -789,8 +767,6 @@ export const animationNamesByTitle = {
   翻转卡片: ["flipAuto"],
   跑马灯滚动: ["marqueeScroll"],
   步骤进度: ["stepFill", "stepDot", "stepLine"],
-  弹窗缩放: ["modalPop", "backdropFade"],
-  工具提示: ["tooltipPop"],
   脉冲按钮: ["ctaPulseRing"],
   弹幕飘过: ["danmakuFly"],
   文字描边绘制: ["strokeDraw"],
