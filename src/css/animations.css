@@ -6,6 +6,7 @@
 .card-front > .ball-stage,
 .card-front > .float-stage,
 .card-front > .wave-track,
+.card-front > .wave-fade-dots,
 .card-front > .orbit,
 .card-front > .heart,
 .card-front > .cta,
@@ -257,6 +258,31 @@
 }
 
 .wave-track span:nth-child(3) {
+  animation-delay: 0.36s;
+}
+
+.wave-fade-dots {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.wave-fade-dots span {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2cb9c5;
+  animation: waveFadePulse 1.2s ease-in-out infinite;
+}
+
+.wave-fade-dots span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+
+.wave-fade-dots span:nth-child(3) {
   animation-delay: 0.36s;
 }
 
@@ -1360,6 +1386,16 @@
   }
   50% {
     transform: translateX(14px);
+    opacity: 1;
+  }
+}
+
+@keyframes waveFadePulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
     opacity: 1;
   }
 }
@@ -5924,6 +5960,7 @@
   .prism-ring-loader,
   .prism-ring-loader::before,
   .prism-ring-loader::after,
+  .wave-fade-dots span,
   .triangle-cycle-loader,
   .triangle-cycle-loader span,
   .hamburger-morph,

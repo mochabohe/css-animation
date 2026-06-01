@@ -101,6 +101,27 @@ export const snippetsByTitle = {
 .wave-track span:nth-child(3) {
   animation-delay: 0.36s;
 }`,
+  波浪淡入点: `.wave-fade-dots {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.wave-fade-dots span {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #2cb9c5;
+  animation: waveFadePulse 1.2s ease-in-out infinite;
+}
+.wave-fade-dots span:nth-child(2) {
+  animation-delay: 0.18s;
+}
+.wave-fade-dots span:nth-child(3) {
+  animation-delay: 0.36s;
+}`,
   心跳脉冲: `.heart {
   width: 40px;
   height: 40px;

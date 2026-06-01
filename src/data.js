@@ -108,6 +108,7 @@ export const animationSemanticIndex = {
   棱镜旋环加载: ["棱镜", "旋环", "loading", "环形", "流光", "等待反馈"],
   三点轨道: ["三点", "轨道", "loading", "等待", "圆形"],
   三角轮转点: ["三角", "轮转", "圆点", "loading", "等待反馈", "三点", "节奏"],
+  波浪淡入点: ["波浪", "淡入", "透明度", "三点", "loading", "等待反馈", "节奏"],
   // 交互按钮
   边框流光: ["边框", "流光", "按钮", "悬停", "interactive", "发光"],
   霓虹流光: ["霓虹", "发光", "按钮", "渐变", "悬停引导"],
@@ -217,6 +218,14 @@ export const animationPromptDescriptions = {
   跳动圆点: {
     description:
       "3 个等距排列的小圆点，依次做纵向弹跳动画（translateY）。通过 animation-delay 逐个错开 0.15s，形成波浪式跳动的加载提示。缓动函数 ease-in-out 制造弹性感，无限循环。",
+  },
+  波浪位移: {
+    description:
+      "3 个等距排列的小圆点，依次做横向位移并同步改变透明度。通过 animation-delay 错开节奏，让圆点在 translateX 与 opacity 之间形成连续波浪式加载反馈。",
+  },
+  波浪淡入点: {
+    description:
+      "3 个等距排列的小圆点保持固定位置，依次做透明度波浪变化。通过 animation-delay 分别错开 0.18s，让 opacity 从 0.4 到 1 循环过渡，形成轻量的加载节奏。",
   },
   弹跳小球: {
     description:
@@ -398,6 +407,10 @@ export const animationParams = {
   三角轮转点: {
     duration: { label: "轮转时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.1, unit: "s", target: "triangleCycleMotion" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "triangleCycleMotion" },
+  },
+  波浪淡入点: {
+    duration: { label: "淡入时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1.2, unit: "s", target: "waveFadePulse" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "waveFadePulse" },
   },
 
   // ========== 空结果类 ==========
@@ -713,6 +726,7 @@ export const animationNamesByTitle = {
   集群健康热力: ["clusterBlink"],
   三点轨道: ["dotOrbitStep"],
   三角轮转点: ["triangleCycleMotion"],
+  波浪淡入点: ["waveFadePulse"],
   镜面扫光: ["textShimmer"],
   数据流线: ["dataFlow"],
 
