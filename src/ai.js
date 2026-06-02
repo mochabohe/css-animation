@@ -83,7 +83,7 @@ function getModelName() {
   if (useCustomApi()) {
     return getCustomApi().model || "claude-sonnet-4-20250514";
   }
-  return "deepseek-chat";
+  return "deepseek-v4-pro";
 }
 
 
@@ -239,26 +239,43 @@ async function streamSSE(res, onChunk, { parseJson = true } = {}) {
   const reader = res.body.getReader();
   const decoder = new TextDecoder();
   let fullContent = "";
+  let pending = "";
+
+  const processLine = (line) => {
+    const normalized = line.trim();
+    if (!normalized.startsWith("data:")) return;
+    const data = normalized.slice(5).trim();
+    if (data === "[DONE]") return;
+    try {
+      const parsed = JSON.parse(data);
+      const delta = extractDelta(parsed);
+      if (delta) {
+        fullContent += delta;
+        onChunk?.(fullContent);
+      }
+    } catch {
+      // 不完整的 SSE 行会保留在 pending 中；这里仅跳过无法解析的完整非 JSON 行。
+    }
+  };
 
   while (true) {
     const { done, value } = await reader.read();
     if (done) break;
 
-    const chunk = decoder.decode(value, { stream: true });
-    for (const line of chunk.split("\n")) {
-      if (!line.startsWith("data: ")) continue;
-      const data = line.slice(6).trim();
-      if (data === "[DONE]") continue;
-      try {
-        const parsed = JSON.parse(data);
-        const delta = extractDelta(parsed);
-        if (delta) {
-          fullContent += delta;
-          onChunk?.(fullContent);
-        }
-      } catch {
-        // 跳过不完整的 SSE 块
-      }
+    pending += decoder.decode(value, { stream: true });
+    const lines = pending.split(/\r?\n/);
+    pending = lines.pop() || "";
+
+    for (const line of lines) {
+      processLine(line);
+    }
+  }
+
+  pending += decoder.decode();
+  if (pending.trim()) {
+    const lines = pending.split(/\r?\n/);
+    for (const line of lines) {
+      processLine(line);
     }
   }
 

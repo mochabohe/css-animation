@@ -1628,6 +1628,64 @@ body.has-ai-fab .page-footer .footer-content {
   font-size: 10px;
 }
 
+.ai-msg-ai .ai-thinking.is-waiting {
+  min-width: 64px;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-thinking-loader {
+  width: 44px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 999px;
+}
+
+.ai-thinking-loader span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.5);
+  opacity: 0.35;
+  transform: translateY(3px) scale(0.72);
+  animation: aiThinkingDot 0.9s ease-in-out infinite;
+}
+
+.ai-thinking-loader span:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.ai-thinking-loader span:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+@keyframes aiThinkingDot {
+  0%,
+  75%,
+  100% {
+    opacity: 0.35;
+    transform: translateY(3px) scale(0.72);
+  }
+
+  35% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-thinking-loader span {
+    animation: none;
+    opacity: 0.75;
+    transform: none;
+  }
+}
+
 .ai-msg-preview-btn {
   display: inline-block;
   margin-top: 4px;

@@ -252,16 +252,20 @@ export function initAiPanel() {
     bubble.className = "ai-msg ai-msg-ai";
 
     const thinkingBox = document.createElement("div");
-    thinkingBox.className = "ai-thinking";
+    thinkingBox.className = "ai-thinking is-waiting";
+    const loader = document.createElement("div");
+    loader.className = "ai-thinking-loader";
+    loader.setAttribute("aria-hidden", "true");
+    loader.innerHTML = "<span></span><span></span><span></span>";
     const thinkingPre = document.createElement("pre");
     thinkingPre.className = "ai-thinking-content";
-    thinkingBox.append(thinkingPre);
+    thinkingBox.append(loader, thinkingPre);
     bubble.append(thinkingBox);
 
     chatMessages.append(bubble);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
-    return { bubble, thinkingPre, thinkingBox };
+    return { bubble, thinkingPre, thinkingBox, loader };
   };
 
   // 确保会话存在
@@ -286,10 +290,12 @@ export function initAiPanel() {
 
     addUserBubble(text);
     const convId = ensureConversation();
-    const { bubble, thinkingPre, thinkingBox } = addAiBubble();
+    const { bubble, thinkingPre, thinkingBox, loader } = addAiBubble();
 
     try {
       const result = await chatAnimation(text, convId, (accumulated) => {
+        loader.hidden = true;
+        thinkingBox.classList.remove("is-waiting");
         thinkingPre.textContent = accumulated;
         thinkingBox.scrollTop = thinkingBox.scrollHeight;
         chatMessages.scrollTop = chatMessages.scrollHeight;
