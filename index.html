@@ -280,6 +280,32 @@
           <!-- 加载反馈类 -->
           <article class="card" data-category="loading">
             <span class="card-tag">加载反馈</span>
+            <h2>水滴融合点</h2>
+            <div class="droplet-loader" aria-label="正在生成水滴融合点加载动画">
+              <span class="droplet-orbit">
+                <span class="droplet-dot"></span>
+                <span class="droplet-dot"></span>
+              </span>
+              <span class="droplet-text">正在生成...</span>
+              <!-- gooey 融合滤镜定义（不可见，仅供 .droplet-orbit 引用） -->
+              <svg class="droplet-goo-defs" width="0" height="0" aria-hidden="true">
+                <defs>
+                  <filter id="droplet-goo" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="blur" />
+                    <feColorMatrix
+                      in="blur"
+                      mode="matrix"
+                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
+                      result="goo"
+                    />
+                    <feBlend in="SourceGraphic" in2="goo" />
+                  </filter>
+                </defs>
+              </svg>
+            </div>
+          </article>
+          <article class="card" data-category="loading">
+            <span class="card-tag">加载反馈</span>
             <h2>原始思维</h2>
             <div class="rose-curve-wrap" aria-hidden="true">
               <svg class="rose-curve-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -456,33 +482,6 @@
             <span class="card-tag">加载反馈</span>
             <h2>光锥环形加载</h2>
             <div class="cone-ring-loader" aria-label="光锥环形加载动画"></div>
-          </article>
-
-          <article class="card" data-category="loading">
-            <span class="card-tag">加载反馈</span>
-            <h2>水滴融合点</h2>
-            <div class="droplet-loader" aria-label="正在生成水滴融合点加载动画">
-              <span class="droplet-orbit">
-                <span class="droplet-dot"></span>
-                <span class="droplet-dot"></span>
-              </span>
-              <span class="droplet-text">正在生成...</span>
-              <!-- gooey 融合滤镜定义（不可见，仅供 .droplet-orbit 引用） -->
-              <svg class="droplet-goo-defs" width="0" height="0" aria-hidden="true">
-                <defs>
-                  <filter id="droplet-goo" x="-50%" y="-50%" width="200%" height="200%">
-                    <feGaussianBlur in="SourceGraphic" stdDeviation="2.6" result="blur" />
-                    <feColorMatrix
-                      in="blur"
-                      mode="matrix"
-                      values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8"
-                      result="goo"
-                    />
-                    <feBlend in="SourceGraphic" in2="goo" />
-                  </filter>
-                </defs>
-              </svg>
-            </div>
           </article>
 
           
