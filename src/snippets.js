@@ -674,8 +674,8 @@ export const snippetsByTitle = {
 }
 .droplet-orbit {
   position: relative;
-  width: 34px;
-  height: 22px;
+  width: 36px;
+  height: 20px;
   /* gooey 滤镜让两点靠近时融合成水滴；需配合 HTML 中的 SVG filter #droplet-goo */
   filter: url(#droplet-goo);
 }
@@ -683,9 +683,9 @@ export const snippetsByTitle = {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 13px;
-  height: 13px;
-  margin: -6.5px 0 0 -6.5px;
+  width: 10.5px;
+  height: 10.5px;
+  margin: -5.25px 0 0 -5.25px;
   border-radius: 50%;
   background-color: var(--accent);
   animation: dropletOrbit 1.6s linear infinite;
@@ -695,7 +695,7 @@ export const snippetsByTitle = {
   font-size: 15px;
   font-weight: 500;
   white-space: nowrap;
-  background: linear-gradient(100deg, var(--text-dim) 0%, var(--text-dim) 30%, var(--text) 50%, var(--text-dim) 70%, var(--text-dim) 100%);
+  background: linear-gradient(100deg, var(--text) 0%, var(--text) 30%, var(--text-dim) 50%, var(--text) 70%, var(--text) 100%);
   background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;

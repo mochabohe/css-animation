@@ -1692,8 +1692,8 @@
 
 .droplet-orbit {
   position: relative;
-  width: 34px;
-  height: 22px;
+  width: 36px;
+  height: 20px;
   filter: url(#droplet-goo);
 }
 
@@ -1701,9 +1701,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 13px;
-  height: 13px;
-  margin: -6.5px 0 0 -6.5px;
+  width: 10.5px;
+  height: 10.5px;
+  margin: -5.25px 0 0 -5.25px;
   border-radius: 50%;
   background-color: var(--accent);
   animation: dropletOrbit var(--fx-duration) linear infinite;
@@ -1718,14 +1718,14 @@
   font-size: 15px;
   font-weight: 500;
   white-space: nowrap;
-  /* 暗淡底色 + 一道更清晰的光带扫过（"正在生成"语义） */
+  /* 文字正常色打底 + 一道更淡的高光扫过（与原效果一致：实色底 → 扫到变淡） */
   background: linear-gradient(
     100deg,
-    var(--text-dim) 0%,
-    var(--text-dim) 30%,
-    var(--text) 50%,
-    var(--text-dim) 70%,
-    var(--text-dim) 100%
+    var(--text) 0%,
+    var(--text) 30%,
+    var(--text-dim) 50%,
+    var(--text) 70%,
+    var(--text) 100%
   );
   background-size: 220% 100%;
   -webkit-background-clip: text;
@@ -1735,21 +1735,22 @@
   animation: dropletTextShine var(--fx-duration-fast) linear infinite;
 }
 
-/* 右点：rotateY 匀速投影 translateX=11·cos(θ)、scale=1+0.2·sin(θ)，每 30° 采一帧 linear 插值 */
+/* 右点：rotateY 匀速投影 translateX=8·cos(θ)、scale=1+0.3·sin(θ)，每 30° 采一帧 linear 插值；
+   振幅 0.3 → 交汇时一前(1.3)一后(0.7)，大小差更明显 */
 @keyframes dropletOrbit {
-  0% { transform: translateX(11px) scale(1); }
-  8.333% { transform: translateX(9.5px) scale(1.1); }
-  16.667% { transform: translateX(5.6px) scale(1.17); }
-  25% { transform: translateX(0) scale(1.2); }
-  33.333% { transform: translateX(-5.6px) scale(1.17); }
-  41.667% { transform: translateX(-9.5px) scale(1.1); }
-  50% { transform: translateX(-11px) scale(1); }
-  58.333% { transform: translateX(-9.5px) scale(0.9); }
-  66.667% { transform: translateX(-5.6px) scale(0.83); }
-  75% { transform: translateX(0) scale(0.8); }
-  83.333% { transform: translateX(5.6px) scale(0.83); }
-  91.667% { transform: translateX(9.5px) scale(0.9); }
-  100% { transform: translateX(11px) scale(1); }
+  0% { transform: translateX(10px) scale(1); }
+  8.333% { transform: translateX(8.7px) scale(1.15); }
+  16.667% { transform: translateX(5px) scale(1.26); }
+  25% { transform: translateX(0) scale(1.3); }
+  33.333% { transform: translateX(-5px) scale(1.26); }
+  41.667% { transform: translateX(-8.7px) scale(1.15); }
+  50% { transform: translateX(-10px) scale(1); }
+  58.333% { transform: translateX(-8.7px) scale(0.85); }
+  66.667% { transform: translateX(-5px) scale(0.74); }
+  75% { transform: translateX(0) scale(0.7); }
+  83.333% { transform: translateX(5px) scale(0.74); }
+  91.667% { transform: translateX(8.7px) scale(0.85); }
+  100% { transform: translateX(10px) scale(1); }
 }
 
 @keyframes dropletTextShine {
