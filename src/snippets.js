@@ -667,6 +667,42 @@ export const snippetsByTitle = {
 }
 .ai-dot:nth-child(2) { animation-delay: -0.5s; }
 .ai-dot:nth-child(3) { animation-delay: -1s; }`,
+  水滴融合点: `.droplet-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.droplet-orbit {
+  position: relative;
+  width: 34px;
+  height: 22px;
+  /* gooey 滤镜让两点靠近时融合成水滴；需配合 HTML 中的 SVG filter #droplet-goo */
+  filter: url(#droplet-goo);
+}
+.droplet-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  animation: dropletOrbit 1.6s linear infinite;
+}
+.droplet-dot:nth-child(2) { animation-delay: -0.8s; }
+.droplet-text {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  background: linear-gradient(100deg, var(--text-dim) 0%, var(--text-dim) 30%, var(--text) 50%, var(--text-dim) 70%, var(--text-dim) 100%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: dropletTextShine 1.2s linear infinite;
+}`,
   镜面扫光: `.thinking-shimmer {
   background: linear-gradient(90deg, var(--accent-deep) 0%, var(--accent) 25%, var(--accent-soft) 50%, var(--accent) 75%, var(--accent-deep) 100%);
   background-size: 200% auto;

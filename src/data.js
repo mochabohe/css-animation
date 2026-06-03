@@ -109,6 +109,7 @@ export const animationSemanticIndex = {
   三点轨道: ["三点", "轨道", "loading", "等待", "圆形"],
   三角轮转点: ["三角", "轮转", "圆点", "loading", "等待反馈", "三点", "节奏"],
   波浪淡入点: ["波浪", "淡入", "透明度", "三点", "loading", "等待反馈", "节奏"],
+  水滴融合点: ["水滴", "融合", "公转", "正在生成", "生成中", "AI", "loading", "等待反馈", "gooey", "两点", "旋转"],
   // 交互按钮
   边框流光: ["边框", "流光", "按钮", "悬停", "interactive", "发光"],
   霓虹流光: ["霓虹", "发光", "按钮", "渐变", "悬停引导"],
@@ -575,6 +576,10 @@ export const animationParams = {
     duration: { label: "轨道时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.5, unit: "s", target: "dotOrbitStep" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "ease-in-out", target: "dotOrbitStep" },
   },
+  水滴融合点: {
+    duration: { label: "公转时长", type: "range", min: 0.8, max: 3, step: 0.1, default: 1.6, unit: "s", target: "dropletOrbit" },
+    timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "dropletOrbit" },
+  },
   镜面扫光: {
     duration: { label: "扫光时长", type: "range", min: 0.5, max: 3, step: 0.1, default: 1, unit: "s", target: "textShimmer" },
     timing: { label: "缓动函数", type: "select", options: ["linear", "ease", "ease-in", "ease-out", "ease-in-out"], default: "linear", target: "textShimmer" },
@@ -725,6 +730,7 @@ export const animationNamesByTitle = {
   异常告警脉冲: ["anomalyPulse"],
   集群健康热力: ["clusterBlink"],
   三点轨道: ["dotOrbitStep"],
+  水滴融合点: ["dropletOrbit", "dropletTextShine"],
   三角轮转点: ["triangleCycleMotion"],
   波浪淡入点: ["waveFadePulse"],
   镜面扫光: ["textShimmer"],
