@@ -292,7 +292,7 @@ import("./snippetPanels.js").then(({ attachSnippetPanels }) => {
       return title === initialOpen;
     });
     if (targetCard) {
-      const toggleBtn = targetCard.querySelector(".snippet-toggle");
+      const toggleBtn = targetCard.querySelector(".snippet-toggle:not(.prompt-copy-btn)");
       if (toggleBtn) {
         // 延迟一帧让UI稳定后自动触发
         requestAnimationFrame(() => {
